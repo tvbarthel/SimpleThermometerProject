@@ -4,7 +4,7 @@
     <string name="action_text_color">Changer la couleur du text</string>
     <string name="action_icon_color">Changer la couleur des icons</string>
     <string name="action_temperature_unit">Changer l\'unité</string>
-    <string name="action_manual_refresh">Mettre à jour</string>
+    <string name="action_manual_refresh">Forcer la mise à jour</string>
     <string name="action_about">A Propos</string>
 
     <string name="message_loading_progress">Mise à jour\n(%1$d%%)</string>
