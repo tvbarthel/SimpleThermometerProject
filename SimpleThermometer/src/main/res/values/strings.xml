@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SimpleThermometer</string>
+    <string name="action_background_color">Set Background Color</string>
+    <string name="action_text_color">Set Text Color</string>
+    <string name="action_icon_color">Set Icon Color</string>
+    <string name="action_manual_refresh">Manual Refresh</string>
+    <string name="action_about">About</string>
+
+    <string name="color_name_holo_blue">Holo Blue</string>
+    <string name="color_name_holo_blue_deep">Holo Deep Blue</string>
+    <string name="color_name_holo_purple">Holo Purple</string>
+    <string name="color_name_holo_purple_deep">Holo Deep Purple</string>
+    <string name="color_name_holo_green">Holo Green</string>
+    <string name="color_name_holo_green_deep">Holo Deep Green</string>
+    <string name="color_name_holo_orange">Holo Orange</string>
+    <string name="color_name_holo_orange_deep">Holo Deep Orange</string>
+    <string name="color_name_holo_red">Holo Red</string>
+    <string name="color_name_holo_red_deep">Holo Deep Red</string>
+    <string name="color_name_black">Black</string>
+    <string name="color_name_white">White</string>
+
+    <string name="content_description_fair_icon">Fair Icon</string>
+    <string name="content_description_change_icon">Change Icon</string>
+    <string name="content_description_rain_icon">Rain Icon</string>
+    <string name="content_description_storm_icon">Storm Icon</string>
+
+    <string name="message_loading_progress">Updating\n(%1$d%%)</string>
+    <string name="default_temperature_in_celcius">20°C</string>
+    <string name="temperature_in_celcius">%1$s°C</string>
+
+    <string name="error_message_network_not_connected">No connection</string>
+    <string name="error_message_server_not_available">Server not available, try again later</string>
+    <string name="error_message_malformed_url">Malformed Url</string>
+    <string name="error_message_io_exception">IO Exception</string>
+    <string name="error_message_xml_pull_parser_exception">XmlPullParserException</string>
+    <string name="error_message_no_location_found">No location found</string>
+
+    <string name="about_title">About</string>
+    <string name="about_description">SimpleThermometer is an open source application made by two students:
+        \nThomas \"Tbarthel\" Barthélémy
+        \nVincent \"Vbarthel\" Barthélémy
+        \n\nSource code available at \nhttps://github.com/tvbarthel/ChaseWhisplyProject
+        \n\nThis application uses \nhttp://openweathermap.org/
+    </string>
+
+    <string name="shared_preference_color_picker_dialog_fragment_title">Chose a Color</string>
+    <string name="alert_dialog_cancel_button">Cancel</string>
+    <string name="alert_dialog_ok_button">Ok</string>
+
+    <string name="url_open_weather_api">http://api.openweathermap.org/data/2.5/weather?lat=%1$f&amp;lon=%2$f&amp;mode=xml&amp;units=metric&amp;APPID=c756ce72a59777bd32a5762e12e74057</string>
+</resources>

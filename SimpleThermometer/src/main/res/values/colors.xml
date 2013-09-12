@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="holo_blue">#33B5E5</color>
+    <color name="holo_purple">#AA66CC</color>
+    <color name="holo_green">#99CC00</color>
+    <color name="holo_orange">#FFBB33</color>
+    <color name="holo_red">#FF4444</color>
+
+    <color name="holo_blue_deep">#0099CC</color>
+    <color name="holo_purple_deep">#9933CC</color>
+    <color name="holo_green_deep">#669900</color>
+    <color name="holo_orange_deep">#FF8800</color>
+    <color name="holo_red_deep">#CC0000</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+</resources>

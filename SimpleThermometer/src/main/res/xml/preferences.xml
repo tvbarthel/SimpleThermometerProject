@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:key="pref_black_icon"
+        android:title="Black Icon"
+        android:summary="Use the black icons"
+        android:defaultValue="false" />
+
+    <ListPreference
+        android:key="pref_background_color"
+        android:title="Background Color"
+        android:summary="Change the background Color"
+        android:dialogTitle="Chose a color"
+        android:entries="@array/pref_color_list_names"
+        android:entryValues="@array/pref_color_list_names"
+        android:defaultValue="@string/color_name_holo_blue" />
+</PreferenceScreen>
