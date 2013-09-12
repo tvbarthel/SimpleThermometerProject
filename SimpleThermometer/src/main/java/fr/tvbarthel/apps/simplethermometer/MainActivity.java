@@ -16,7 +16,6 @@ import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -217,7 +216,7 @@ public class MainActivity extends FragmentActivity implements SharedPreferences.
 				final String provider = locationManager.getBestProvider(criteria, true);
 				final Location location  = locationManager.getLastKnownLocation(provider);
 				if(location == null) {
-					makeTextToast(R.string.error_message_no_location_found);
+					makeTextToast(R.string.error_message_location_not_found);
 				}else {
 					final double latitude = location.getLatitude();
 					final double longitude = location.getLongitude();

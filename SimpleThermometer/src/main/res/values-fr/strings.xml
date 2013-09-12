@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_background_color">Changer la couleur du fond</string>
+    <string name="action_text_color">Changer la couleur du text</string>
+    <string name="action_icon_color">Changer la couleur des icons</string>
+    <string name="action_manual_refresh">Mettre à jour</string>
+    <string name="action_about">A Propos</string>
+
+    <string name="message_loading_progress">Mise à jour\n(%1$d%%)</string>
+    <string name="default_temperature_in_celcius">20°C</string>
+    <string name="temperature_in_celcius">%1$s°C</string>
+
+    <string name="error_message_network_not_connected">Pas de connexion</string>
+    <string name="error_message_server_not_available">Server non disponible, essayez plus tard</string>
+    <string name="error_message_malformed_url">Url malformée</string>
+    <string name="error_message_io_exception">IO Exception</string>
+    <string name="error_message_xml_pull_parser_exception">XmlPullParserException</string>
+    <string name="error_message_location_not_found">Position non trouvée</string>
+
+    <string name="about_title">A Propos</string>
+    <string name="about_description">SimpleThermometer est une application open source développée par deux étudiants:
+        \nThomas \"Tbarthel\" Barthélémy
+        \nVincent \"Vbarthel\" Barthélémy
+        \n\nCode Source\nhttps://github.com/tvbarthel/ChaseWhisplyProject
+        \n\nCette Application utilise\nhttp://openweathermap.org/
+    </string>
+
+    <string name="shared_preference_color_picker_dialog_fragment_title">Choisissez une Couleur</string>
+    <string name="alert_dialog_cancel_button">Annuler</string>
+    <string name="alert_dialog_ok_button">Ok</string>
+
+    <string name="url_open_weather_api">http://api.openweathermap.org/data/2.5/weather?lat=%1$f&amp;lon=%2$f&amp;mode=xml&amp;units=metric&amp;APPID=c756ce72a59777bd32a5762e12e74057&amp;lang=fr</string>
+</resources>
