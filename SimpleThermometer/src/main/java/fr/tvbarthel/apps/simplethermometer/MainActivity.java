@@ -10,7 +10,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import java.text.DecimalFormat;
 
-public class MainActivity extends FragmentActivity implements SharedPreferences.OnSharedPreferenceChangeListener,
+public class MainActivity extends ActionBarActivity implements SharedPreferences.OnSharedPreferenceChangeListener,
 		OpenWeatherMapParserAsyncTask.Listener {
 
 	public static final String PREF_KEY_BACKGROUND_COLOR = "PrefKeyBackgroundColor";
@@ -230,6 +230,7 @@ public class MainActivity extends FragmentActivity implements SharedPreferences.
 				final Criteria criteria = new Criteria();
 				criteria.setAccuracy(Criteria.ACCURACY_COARSE);
 				final String provider = locationManager.getBestProvider(criteria, true);
+				if (provider == null) return;
 				final Location location = locationManager.getLastKnownLocation(provider);
 				if (location == null) {
 					makeTextToast(R.string.error_message_location_not_found);
