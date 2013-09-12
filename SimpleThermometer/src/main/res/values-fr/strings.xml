@@ -3,12 +3,11 @@
     <string name="action_background_color">Changer la couleur du fond</string>
     <string name="action_text_color">Changer la couleur du text</string>
     <string name="action_icon_color">Changer la couleur des icons</string>
+    <string name="action_temperature_unit">Changer l\'unité</string>
     <string name="action_manual_refresh">Mettre à jour</string>
     <string name="action_about">A Propos</string>
 
     <string name="message_loading_progress">Mise à jour\n(%1$d%%)</string>
-    <string name="default_temperature_in_celcius">20°C</string>
-    <string name="temperature_in_celcius">%1$s°C</string>
 
     <string name="error_message_network_not_connected">Pas de connexion</string>
     <string name="error_message_server_not_available">Server non disponible, essayez plus tard</string>
@@ -26,6 +25,7 @@
     </string>
 
     <string name="shared_preference_color_picker_dialog_fragment_title">Choisissez une Couleur</string>
+    <string name="temperature_unit_picker_dialog_fragment_title">Choisissez une Unité</string>
     <string name="alert_dialog_cancel_button">Annuler</string>
     <string name="alert_dialog_ok_button">Ok</string>
 

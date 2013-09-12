@@ -14,13 +14,18 @@
         android:orderInCategory="102"
         android:showAsAction="never" />
 
+    <item android:id="@+id/menu_item_action_temperature_unit"
+        android:title="@string/action_temperature_unit"
+        android:orderInCategory="103"
+        android:showAsAction="never" />
+
     <item android:id="@+id/menu_item_action_manual_refresh"
         android:title="@string/action_manual_refresh"
-        android:orderInCategory="103"
+        android:orderInCategory="104"
         android:showAsAction="never" />
 
     <item android:id="@+id/menu_item_action_about"
         android:title="@string/action_about"
-        android:orderInCategory="104"
+        android:orderInCategory="105"
         android:showAsAction="never" />
 </menu>

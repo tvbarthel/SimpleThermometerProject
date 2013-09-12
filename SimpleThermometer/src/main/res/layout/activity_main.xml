@@ -62,7 +62,6 @@
         android:textSize="@dimen/text_size_temperature"
         android:textColor="@color/white"
         android:textStyle="bold"
-        android:text="@string/default_temperature_in_celcius"
         android:id="@+id/textViewTemperature"
         android:layout_centerInParent="true"
         android:gravity="center" />

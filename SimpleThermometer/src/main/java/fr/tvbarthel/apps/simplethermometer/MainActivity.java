@@ -31,6 +31,7 @@ public class MainActivity extends FragmentActivity implements SharedPreferences.
 	public static final String PREF_KEY_ICON_COLOR = "PrefKeyIconColor";
 	public static final String PREF_KEY_LAST_TEMPERATURE_IN_CELCIUS = "PrefKeylastTemperatureInCelcius";
 	public static final String PREF_KEY_LAST_UPDATE_TIME = "PrefKeyLastUpdateTime";
+	public static final String PREF_KEY_TEMPERATURE_UNIT_STRING = "PrefKeyTemperatureUnitString";
 
 	public static final long UPDATE_INTERVAL_IN_MILLIS = 30 * 60 * 1000;
 	public static final long UPDATE_INTERVAL_IN_MILLIS_MANUAL = 10 * 60 * 1000;
@@ -70,9 +71,7 @@ public class MainActivity extends FragmentActivity implements SharedPreferences.
 		setTextColor();
 		setIconColor();
 		displayTemperature();
-
 		refreshTemperature();
-
 	}
 
 	@Override
@@ -104,6 +103,9 @@ public class MainActivity extends FragmentActivity implements SharedPreferences.
 			case R.id.menu_item_action_icon_color:
 				pickSharedPreferenceColor(PREF_KEY_ICON_COLOR);
 				return true;
+			case R.id.menu_item_action_temperature_unit:
+				pickTemperatureUnit();
+				return true;
 			case R.id.menu_item_action_manual_refresh:
 				refreshTemperature(true);
 				return true;
@@ -123,13 +125,22 @@ public class MainActivity extends FragmentActivity implements SharedPreferences.
 			setTextColor(sharedPreferences);
 		} else if (key.equals(PREF_KEY_ICON_COLOR)) {
 			setIconColor(sharedPreferences);
+		} else if (key.equals(PREF_KEY_TEMPERATURE_UNIT_STRING)) {
+			displayTemperature();
 		}
 	}
 
 	private void displayTemperature() {
-		final String tempStr = new DecimalFormat("#.#").format(
-				mDefaultSharedPreferences.getFloat(PREF_KEY_LAST_TEMPERATURE_IN_CELCIUS, 20));
-		mTextViewTemperature.setText(String.format(getString(R.string.temperature_in_celcius), tempStr));
+		String temperatureUnit = mDefaultSharedPreferences.getString(PREF_KEY_TEMPERATURE_UNIT_STRING,
+				getString(R.string.temperature_unit_celsius_symbol));
+		Float temperatureFlt = mDefaultSharedPreferences.getFloat(PREF_KEY_LAST_TEMPERATURE_IN_CELCIUS, 20);
+		if (temperatureUnit.equals(getString(R.string.temperature_unit_fahrenheit_symbol))) {
+			temperatureFlt += 32f;
+		} else if (temperatureUnit.equals(getString(R.string.temperature_unit_kelvin_symbol))) {
+			temperatureFlt += 273.15f;
+		}
+		final String temperatureStr = new DecimalFormat("#.#").format(temperatureFlt);
+		mTextViewTemperature.setText(temperatureStr + temperatureUnit);
 	}
 
 	private void setIconColor() {
@@ -162,6 +173,11 @@ public class MainActivity extends FragmentActivity implements SharedPreferences.
 	private void setBackgroundColor(SharedPreferences sharedPreferences) {
 		mRelativeLayoutBackground.setBackgroundColor(sharedPreferences.getInt(PREF_KEY_BACKGROUND_COLOR,
 				getResources().getColor(R.color.holo_blue)));
+	}
+
+	private void pickTemperatureUnit() {
+		TemperatureUnitPickerDialogFragment.newInstance(getResources().getStringArray(R.array.pref_temperature_name),
+				getResources().getStringArray(R.array.pref_temperature_unit_symbols)).show(getSupportFragmentManager(), null);
 	}
 
 	private void pickSharedPreferenceColor(String preferenceKey) {
@@ -204,20 +220,20 @@ public class MainActivity extends FragmentActivity implements SharedPreferences.
 		final long now = System.currentTimeMillis();
 		final long lastUpdate = mDefaultSharedPreferences.getLong(PREF_KEY_LAST_UPDATE_TIME, 0);
 		long updateInterval = UPDATE_INTERVAL_IN_MILLIS;
-		if(manualRefresh) updateInterval = UPDATE_INTERVAL_IN_MILLIS_MANUAL;
+		if (manualRefresh) updateInterval = UPDATE_INTERVAL_IN_MILLIS_MANUAL;
 
 		if (now - lastUpdate > updateInterval) {
 			if (!isNetworkConnected()) {
 				makeTextToast(R.string.error_message_network_not_connected);
-			} else if (mOpenWeatherMapResultLoader == null){
+			} else if (mOpenWeatherMapResultLoader == null) {
 				final LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 				final Criteria criteria = new Criteria();
 				criteria.setAccuracy(Criteria.ACCURACY_COARSE);
 				final String provider = locationManager.getBestProvider(criteria, true);
-				final Location location  = locationManager.getLastKnownLocation(provider);
-				if(location == null) {
+				final Location location = locationManager.getLastKnownLocation(provider);
+				if (location == null) {
 					makeTextToast(R.string.error_message_location_not_found);
-				}else {
+				} else {
 					final double latitude = location.getLatitude();
 					final double longitude = location.getLongitude();
 					mOpenWeatherMapResultLoader = new OpenWeatherMapParserAsyncTask(this);
@@ -228,7 +244,7 @@ public class MainActivity extends FragmentActivity implements SharedPreferences.
 	}
 
 	public void resetOpenWeatherMapLoader() {
-		if(mOpenWeatherMapResultLoader != null) {
+		if (mOpenWeatherMapResultLoader != null) {
 			mOpenWeatherMapResultLoader.cancel(true);
 			mOpenWeatherMapResultLoader.setListener(null);
 			mOpenWeatherMapResultLoader = null;
@@ -245,7 +261,7 @@ public class MainActivity extends FragmentActivity implements SharedPreferences.
 		description.setMovementMethod(LinkMovementMethod.getInstance());
 		final int paddingInPixelSize = getResources().getDimensionPixelSize(R.dimen.default_padding);
 		description.setPadding(paddingInPixelSize, paddingInPixelSize, paddingInPixelSize, paddingInPixelSize);
-		final SpannableString s =new SpannableString(getString(R.string.about_description));
+		final SpannableString s = new SpannableString(getString(R.string.about_description));
 		Linkify.addLinks(s, Linkify.WEB_URLS);
 		description.setText(s);
 		builder.setView(description);

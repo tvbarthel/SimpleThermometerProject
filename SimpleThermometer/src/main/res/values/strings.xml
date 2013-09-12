@@ -4,6 +4,7 @@
     <string name="action_background_color">Set Background Color</string>
     <string name="action_text_color">Set Text Color</string>
     <string name="action_icon_color">Set Icon Color</string>
+    <string name="action_temperature_unit">Set Unit</string>
     <string name="action_manual_refresh">Manual Refresh</string>
     <string name="action_about">About</string>
 
@@ -26,8 +27,14 @@
     <string name="content_description_storm_icon">Storm Icon</string>
 
     <string name="message_loading_progress">Updating\n(%1$d%%)</string>
-    <string name="default_temperature_in_celcius">20°C</string>
-    <string name="temperature_in_celcius">%1$s°C</string>
+    <string name="temperature_unit_celsius">Celsius</string>
+    <string name="temperature_unit_celsius_symbol">°C</string>
+    <string name="temperature_unit_kelvin">Kelvin</string>
+    <string name="temperature_unit_kelvin_symbol">K</string>
+    <string name="temperature_unit_fahrenheit">Fahrenheit</string>
+    <string name="temperature_unit_fahrenheit_symbol">°F</string>
+
+
 
     <string name="error_message_network_not_connected">No connection</string>
     <string name="error_message_server_not_available">Server not available, try again later</string>
@@ -45,6 +52,7 @@
     </string>
 
     <string name="shared_preference_color_picker_dialog_fragment_title">Chose a Color</string>
+    <string name="temperature_unit_picker_dialog_fragment_title">Chose a Unit</string>
     <string name="alert_dialog_cancel_button">Cancel</string>
     <string name="alert_dialog_ok_button">Ok</string>
 
