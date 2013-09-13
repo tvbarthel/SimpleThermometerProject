@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SimpleThermometer</string>
-    <string name="action_background_color">Set Background Color</string>
-    <string name="action_text_color">Set Text Color</string>
-    <string name="action_icon_color">Set Icon Color</string>
+    <string name="action_change_colors">Set Colors</string>
     <string name="action_temperature_unit">Set Unit</string>
     <string name="action_manual_refresh">Manual Refresh</string>
     <string name="action_about">About</string>
+
+    <string name="change_color_fragment_background">Background Color</string>
+    <string name="change_color_fragment_text">Text Color</string>
+    <string name="change_color_fragment_icon">Icon Color</string>
 
     <string name="color_name_holo_blue">Holo Blue</string>
     <string name="color_name_holo_blue_deep">Holo Deep Blue</string>

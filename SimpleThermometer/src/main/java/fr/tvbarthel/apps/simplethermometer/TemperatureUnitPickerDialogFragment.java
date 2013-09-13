@@ -15,9 +15,6 @@ public class TemperatureUnitPickerDialogFragment extends DialogFragment {
 	private static final String BUNDLE_TEMPERATURE_UNIT_NAMES = "BundleTemperatureUnitNames";
 	private static final String BUNDLE_TEMPERATURE_UNIT_SYMBOLS = "BundleTemperatureUnitSymbols";
 
-	private TemperatureUnitPickerDialogFragment() {
-		super();
-	}
 
 	public static TemperatureUnitPickerDialogFragment newInstance(String[] temperatureUnitNames, String[] temperatureUnitSymbols) {
 		TemperatureUnitPickerDialogFragment fragment = new TemperatureUnitPickerDialogFragment();

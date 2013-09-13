@@ -1,6 +1,5 @@
 package fr.tvbarthel.apps.simplethermometer;
 
-import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.location.Criteria;
@@ -11,9 +10,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
-import android.text.SpannableString;
-import android.text.method.LinkMovementMethod;
-import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -24,7 +20,7 @@ import android.widget.Toast;
 import java.text.DecimalFormat;
 
 public class MainActivity extends ActionBarActivity implements SharedPreferences.OnSharedPreferenceChangeListener,
-		OpenWeatherMapParserAsyncTask.Listener {
+		OpenWeatherMapParserAsyncTask.Listener, ChangeColorDialogFragment.Listener {
 
 	public static final String PREF_KEY_BACKGROUND_COLOR = "PrefKeyBackgroundColor";
 	public static final String PREF_KEY_TEXT_COLOR = "PrefKeyTextColor";
@@ -94,14 +90,9 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.menu_item_action_background_color:
-				pickSharedPreferenceColor(PREF_KEY_BACKGROUND_COLOR);
-				return true;
-			case R.id.menu_item_action_text_color:
-				pickSharedPreferenceColor(PREF_KEY_TEXT_COLOR);
-				return true;
-			case R.id.menu_item_action_icon_color:
-				pickSharedPreferenceColor(PREF_KEY_ICON_COLOR);
+			case R.id.menu_item_action_set_color:
+				ChangeColorDialogFragment.newInstance(getResources().getStringArray(R.array.change_color_options)
+				).show(getSupportFragmentManager(), null);
 				return true;
 			case R.id.menu_item_action_temperature_unit:
 				pickTemperatureUnit();
@@ -253,20 +244,7 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 	}
 
 	private void displayAbout() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(R.string.about_title);
-		builder.setCancelable(true);
-		builder.setPositiveButton(R.string.alert_dialog_ok_button, null);
-		final TextView description = new TextView(this);
-		description.setAutoLinkMask(RESULT_OK);
-		description.setMovementMethod(LinkMovementMethod.getInstance());
-		final int paddingInPixelSize = getResources().getDimensionPixelSize(R.dimen.default_padding);
-		description.setPadding(paddingInPixelSize, paddingInPixelSize, paddingInPixelSize, paddingInPixelSize);
-		final SpannableString s = new SpannableString(getString(R.string.about_description));
-		Linkify.addLinks(s, Linkify.WEB_URLS);
-		description.setText(s);
-		builder.setView(description);
-		builder.create().show();
+		new AboutDialogFragment().show(getSupportFragmentManager(), null);
 	}
 
 	@Override
@@ -296,5 +274,16 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 	@Override
 	public void onWeatherLoadingCancelled() {
 		displayTemperature();
+	}
+
+	@Override
+	public void onChangeColorRequested(int which) {
+		String sharedPrefColor = PREF_KEY_BACKGROUND_COLOR;
+		if(which == 1) {
+			sharedPrefColor = PREF_KEY_TEXT_COLOR;
+		}else if(which == 2) {
+			sharedPrefColor = PREF_KEY_ICON_COLOR;
+		}
+		pickSharedPreferenceColor(sharedPrefColor);
 	}
 }

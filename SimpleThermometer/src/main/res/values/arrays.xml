@@ -41,4 +41,10 @@
         <item>@string/temperature_unit_fahrenheit_symbol</item>
         <item>@string/temperature_unit_kelvin_symbol</item>
     </string-array>
+
+    <string-array name="change_color_options">
+        <item>@string/change_color_fragment_background</item>
+        <item>@string/change_color_fragment_text</item>
+        <item>@string/change_color_fragment_icon</item>
+    </string-array>
 </resources>

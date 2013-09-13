@@ -15,10 +15,6 @@ public class SharedPreferenceColorPickerDialogFragment extends DialogFragment {
 	private static final String BUNDLE_COLOR_RESOURCE_IDS = "BundleColorResourceIds";
 	private static final String BUNLDE_PREFERENCE_KEY = "BundlePreferenceKey";
 
-	private SharedPreferenceColorPickerDialogFragment() {
-		super();
-	}
-
 	public static SharedPreferenceColorPickerDialogFragment newInstance(String preferenceKey, String[] colorNames, int[] colorResourcesIds) {
 		SharedPreferenceColorPickerDialogFragment fragment = new SharedPreferenceColorPickerDialogFragment();
 		Bundle arguments = new Bundle();
