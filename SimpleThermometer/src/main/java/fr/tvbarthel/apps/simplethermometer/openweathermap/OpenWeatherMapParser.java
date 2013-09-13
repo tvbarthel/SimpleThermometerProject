@@ -35,6 +35,7 @@ import java.io.InputStream;
  */
 
 public class OpenWeatherMapParser {
+	//Names and Attributes used in the openWeatherMap XML
 	public static final String NAME_ROOT = "current";
 	public static final String NAME_CITY = "city";
 	public static final String ATTRIBUTE_CITY_ID = "id";
@@ -79,6 +80,14 @@ public class OpenWeatherMapParser {
 
 	private static final String NAME_SPACE = null;
 
+	/**
+	 * Parse {@code in} a {@link fr.tvbarthel.apps.simplethermometer.openweathermap.OpenWeatherMapParserResult}
+	 *
+	 * @param in {@link java.io.InputStream}
+	 * @return {@link fr.tvbarthel.apps.simplethermometer.openweathermap.OpenWeatherMapParserResult}
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
 	public OpenWeatherMapParserResult parse(InputStream in) throws XmlPullParserException, IOException {
 		try {
 			XmlPullParser parser = Xml.newPullParser();
@@ -91,6 +100,15 @@ public class OpenWeatherMapParser {
 		}
 	}
 
+	/**
+	 * Read an {@link fr.tvbarthel.apps.simplethermometer.openweathermap.OpenWeatherMapParserResult}
+	 * from {@code parser}
+	 *
+	 * @param parser {@link org.xmlpull.v1.XmlPullParser}
+	 * @return {@link fr.tvbarthel.apps.simplethermometer.openweathermap.OpenWeatherMapParserResult}
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
 	private OpenWeatherMapParserResult readOpenWeatherMap(XmlPullParser parser) throws XmlPullParserException, IOException {
 		OpenWeatherMapParserResult result = new OpenWeatherMapParserResult();
 
@@ -125,6 +143,14 @@ public class OpenWeatherMapParser {
 		return result;
 	}
 
+	/**
+	 * Read the precipitation information from {@code parser} and set them in {@code result}
+	 *
+	 * @param parser {@link org.xmlpull.v1.XmlPullParser}
+	 * @param result {@link fr.tvbarthel.apps.simplethermometer.openweathermap.OpenWeatherMapParserResult}
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
 	private void readPrecipitation(XmlPullParser parser, OpenWeatherMapParserResult result) throws XmlPullParserException, IOException {
 		parser.require(XmlPullParser.START_TAG, NAME_SPACE, NAME_PRECIPITATION);
 		result.setPrecipitationMode(parser.getAttributeValue(NAME_SPACE, ATTRIBUTE_PRECIPITATION_MODE));
@@ -133,6 +159,14 @@ public class OpenWeatherMapParser {
 	}
 
 
+	/**
+	 * Read the cloud information from {@code parser} and set them in {@code result}
+	 *
+	 * @param parser {@link org.xmlpull.v1.XmlPullParser}
+	 * @param result {@link fr.tvbarthel.apps.simplethermometer.openweathermap.OpenWeatherMapParserResult}
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
 	private void readCloud(XmlPullParser parser, OpenWeatherMapParserResult result) throws XmlPullParserException, IOException {
 		parser.require(XmlPullParser.START_TAG, NAME_SPACE, NAME_CLOUD);
 		result.setCloudValue(Float.valueOf(parser.getAttributeValue(NAME_SPACE, ATTRIBUTE_CLOUD_VALUE)));
@@ -141,6 +175,14 @@ public class OpenWeatherMapParser {
 		parser.require(XmlPullParser.END_TAG, NAME_SPACE, NAME_CLOUD);
 	}
 
+	/**
+	 * Read the pressure information from {@code parser} and set them in {@code result}
+	 *
+	 * @param parser {@link org.xmlpull.v1.XmlPullParser}
+	 * @param result {@link fr.tvbarthel.apps.simplethermometer.openweathermap.OpenWeatherMapParserResult}
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
 	private void readPressure(XmlPullParser parser, OpenWeatherMapParserResult result) throws XmlPullParserException, IOException {
 		parser.require(XmlPullParser.START_TAG, NAME_SPACE, NAME_PRESSURE);
 		result.setPressureValue(Float.valueOf(parser.getAttributeValue(NAME_SPACE, ATTRIBUTE_PRESSURE_VALUE)));
@@ -149,6 +191,14 @@ public class OpenWeatherMapParser {
 		parser.require(XmlPullParser.END_TAG, NAME_SPACE, NAME_PRESSURE);
 	}
 
+	/**
+	 * Read the humidity information from {@code parser} and set them in {@code result}
+	 *
+	 * @param parser {@link org.xmlpull.v1.XmlPullParser}
+	 * @param result {@link fr.tvbarthel.apps.simplethermometer.openweathermap.OpenWeatherMapParserResult}
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
 	private void readHumidity(XmlPullParser parser, OpenWeatherMapParserResult result) throws XmlPullParserException, IOException {
 		parser.require(XmlPullParser.START_TAG, NAME_SPACE, NAME_HUMDITY);
 		result.setHumidityValue(Float.valueOf(parser.getAttributeValue(NAME_SPACE, ATTRIBUTE_HUMIDITY_VALUE)));
@@ -157,6 +207,14 @@ public class OpenWeatherMapParser {
 		parser.require(XmlPullParser.END_TAG, NAME_SPACE, NAME_HUMDITY);
 	}
 
+	/**
+	 * Read the weather information from {@code parser} and set them in {@code result}
+	 *
+	 * @param parser {@link org.xmlpull.v1.XmlPullParser}
+	 * @param result {@link fr.tvbarthel.apps.simplethermometer.openweathermap.OpenWeatherMapParserResult}
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
 	private void readWeather(XmlPullParser parser, OpenWeatherMapParserResult result) throws XmlPullParserException, IOException {
 		parser.require(XmlPullParser.START_TAG, NAME_SPACE, NAME_WEATHER);
 		result.setWeatherValue(parser.getAttributeValue(NAME_SPACE, ATTRIBUTE_WEATHER_VALUE));
@@ -166,6 +224,14 @@ public class OpenWeatherMapParser {
 		parser.require(XmlPullParser.END_TAG, NAME_SPACE, NAME_WEATHER);
 	}
 
+	/**
+	 * Read the last update information from {@code parser} and set them in {@code result}
+	 *
+	 * @param parser {@link org.xmlpull.v1.XmlPullParser}
+	 * @param result {@link fr.tvbarthel.apps.simplethermometer.openweathermap.OpenWeatherMapParserResult}
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
 	private void readLastUpdate(XmlPullParser parser, OpenWeatherMapParserResult result) throws XmlPullParserException, IOException {
 		parser.require(XmlPullParser.START_TAG, NAME_SPACE, NAME_LAST_UPDATE);
 		result.setLastUpdate(parser.getAttributeValue(NAME_SPACE, ATTIBUTE_LAST_UPDATE_VALUE));
@@ -173,6 +239,14 @@ public class OpenWeatherMapParser {
 		parser.require(XmlPullParser.END_TAG, NAME_SPACE, NAME_LAST_UPDATE);
 	}
 
+	/**
+	 * Read the temperature information from {@code parser} and set them in {@code result}
+	 *
+	 * @param parser {@link org.xmlpull.v1.XmlPullParser}
+	 * @param result {@link fr.tvbarthel.apps.simplethermometer.openweathermap.OpenWeatherMapParserResult}
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
 	private void readTemperature(XmlPullParser parser, OpenWeatherMapParserResult result) throws XmlPullParserException, IOException {
 		parser.require(XmlPullParser.START_TAG, NAME_SPACE, NAME_TEMPERATURE);
 		result.setTemperatureValue(Float.valueOf(parser.getAttributeValue(NAME_SPACE, ATTRIBUTE_TEMPERATURE_VALUE)));
@@ -183,6 +257,14 @@ public class OpenWeatherMapParser {
 		parser.require(XmlPullParser.END_TAG, NAME_SPACE, NAME_TEMPERATURE);
 	}
 
+	/**
+	 * Read the wind information from {@code parser} and set them in {@code result}
+	 *
+	 * @param parser {@link org.xmlpull.v1.XmlPullParser}
+	 * @param result {@link fr.tvbarthel.apps.simplethermometer.openweathermap.OpenWeatherMapParserResult}
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
 	private void readWind(XmlPullParser parser, OpenWeatherMapParserResult result) throws XmlPullParserException, IOException {
 		parser.require(XmlPullParser.START_TAG, NAME_SPACE, NAME_WIND);
 		while (parser.next() != XmlPullParser.END_TAG) {
@@ -206,6 +288,14 @@ public class OpenWeatherMapParser {
 
 	}
 
+	/**
+	 * Read the city information from {@code parser} and set them in {@code result}
+	 *
+	 * @param parser {@link org.xmlpull.v1.XmlPullParser}
+	 * @param result {@link fr.tvbarthel.apps.simplethermometer.openweathermap.OpenWeatherMapParserResult}
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
 	private void readCity(XmlPullParser parser, OpenWeatherMapParserResult result) throws XmlPullParserException, IOException {
 		parser.require(XmlPullParser.START_TAG, NAME_SPACE, NAME_CITY);
 		result.setCityId(Integer.valueOf(parser.getAttributeValue(NAME_SPACE, ATTRIBUTE_CITY_ID)));
