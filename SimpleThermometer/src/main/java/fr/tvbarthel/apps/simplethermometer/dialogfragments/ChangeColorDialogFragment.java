@@ -20,6 +20,8 @@ public class ChangeColorDialogFragment extends DialogFragment {
 
 	public static ChangeColorDialogFragment newInstance(String[] changeColorOption) {
 		ChangeColorDialogFragment fragment = new ChangeColorDialogFragment();
+
+		//Put the different colors that can be changed in the fragment arguments
 		Bundle arguments = new Bundle();
 		arguments.putStringArray(BUNDLE_CHANGE_COLOR_OPTIONS, changeColorOption);
 		fragment.setArguments(arguments);
@@ -29,6 +31,7 @@ public class ChangeColorDialogFragment extends DialogFragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
+		//Try to cast the activity into a ChangeColorDialogFragment.Listener
 		if (activity instanceof ChangeColorDialogFragment.Listener) {
 			mListener = (ChangeColorDialogFragment.Listener) activity;
 		} else {
@@ -40,14 +43,18 @@ public class ChangeColorDialogFragment extends DialogFragment {
 	@Override
 	public void onDetach() {
 		super.onDetach();
+		//Release the listening activity
 		mListener = null;
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		//Retrieve information from the arguments
 		final Bundle arguments = getArguments();
 		final String[] changeColorOptions = arguments.getStringArray(BUNDLE_CHANGE_COLOR_OPTIONS);
+
+		//Create an AlertDialog to display the different color that can be changed
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
 				android.R.layout.simple_expandable_list_item_1,
 				changeColorOptions);
@@ -62,6 +69,7 @@ public class ChangeColorDialogFragment extends DialogFragment {
 	}
 
 	public interface Listener {
+		//Notify the color to change
 		public void onChangeColorRequested(int which);
 	}
 

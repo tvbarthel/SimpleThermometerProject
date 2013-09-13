@@ -22,6 +22,8 @@ public class SharedPreferenceColorPickerDialogFragment extends DialogFragment {
 
 	public static SharedPreferenceColorPickerDialogFragment newInstance(String preferenceKey, String[] colorNames, int[] colorResourcesIds) {
 		SharedPreferenceColorPickerDialogFragment fragment = new SharedPreferenceColorPickerDialogFragment();
+
+		//Put the preferenceKey, the color names and the color resource Ids in the fragment arguments
 		Bundle arguments = new Bundle();
 		arguments.putString(BUNLDE_PREFERENCE_KEY, preferenceKey);
 		arguments.putStringArray(BUNDLE_COLOR_NAMES, colorNames);
@@ -32,12 +34,13 @@ public class SharedPreferenceColorPickerDialogFragment extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-
+		//Retrieve information from the arguments
 		Bundle arguments = getArguments();
 		final String preferenceKey = arguments.getString(BUNLDE_PREFERENCE_KEY);
 		final String[] colorNames = arguments.getStringArray(BUNDLE_COLOR_NAMES);
 		final int[] colorResourceIds = arguments.getIntArray(BUNDLE_COLOR_RESOURCE_IDS);
 
+		//Create an AlertDialog to display the different colors that can be chosen
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setTitle(R.string.shared_preference_color_picker_dialog_fragment_title);
 		final ArrayAdapter<String> arrayAdapterColorNames = new ArrayAdapter<String>(getActivity(),

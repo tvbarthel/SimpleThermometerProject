@@ -24,6 +24,8 @@ public class TemperatureUnitPickerDialogFragment extends DialogFragment {
 
 	public static TemperatureUnitPickerDialogFragment newInstance(String[] temperatureUnitNames, String[] temperatureUnitSymbols) {
 		TemperatureUnitPickerDialogFragment fragment = new TemperatureUnitPickerDialogFragment();
+
+		//Put the temperature unit names and symbols in the fragment arguments
 		Bundle arguments = new Bundle();
 		arguments.putStringArray(BUNDLE_TEMPERATURE_UNIT_NAMES, temperatureUnitNames);
 		arguments.putStringArray(BUNDLE_TEMPERATURE_UNIT_SYMBOLS, temperatureUnitSymbols);
@@ -33,11 +35,12 @@ public class TemperatureUnitPickerDialogFragment extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-
+		//Retrieve information from the arguments
 		Bundle arguments = getArguments();
 		final String[] temperatureUnitNames = arguments.getStringArray(BUNDLE_TEMPERATURE_UNIT_NAMES);
 		final String[] temperatureUnitSymbols = arguments.getStringArray(BUNDLE_TEMPERATURE_UNIT_SYMBOLS);
 
+		//Create an AlertDialog to display the different temperature unit that can be chosen
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setTitle(R.string.temperature_unit_picker_dialog_fragment_title);
 		final ArrayAdapter<String> arrayAdapterColorNames = new ArrayAdapter<String>(getActivity(),
@@ -54,7 +57,6 @@ public class TemperatureUnitPickerDialogFragment extends DialogFragment {
 		});
 		builder.setCancelable(true);
 		builder.setNegativeButton(R.string.alert_dialog_cancel_button, null);
-
 		return builder.create();
 	}
 }
