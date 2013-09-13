@@ -1,4 +1,4 @@
-package fr.tvbarthel.apps.simplethermometer;
+package fr.tvbarthel.apps.simplethermometer.openweathermap;
 
 public class OpenWeatherMapParserResult {
 	private Integer mCityId;

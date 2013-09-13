@@ -1,4 +1,4 @@
-package fr.tvbarthel.apps.simplethermometer;
+package fr.tvbarthel.apps.simplethermometer.openweathermap;
 
 import android.os.AsyncTask;
 
@@ -11,6 +11,8 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
+
+import fr.tvbarthel.apps.simplethermometer.R;
 
 public class OpenWeatherMapParserAsyncTask extends AsyncTask<String, Integer, OpenWeatherMapParserResult> {
 

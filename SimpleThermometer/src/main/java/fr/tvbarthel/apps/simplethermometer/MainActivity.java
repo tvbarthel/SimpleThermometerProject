@@ -23,6 +23,8 @@ import fr.tvbarthel.apps.simplethermometer.dialogfragments.AboutDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.ChangeColorDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.SharedPreferenceColorPickerDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.TemperatureUnitPickerDialogFragment;
+import fr.tvbarthel.apps.simplethermometer.openweathermap.OpenWeatherMapParserAsyncTask;
+import fr.tvbarthel.apps.simplethermometer.openweathermap.OpenWeatherMapParserResult;
 
 public class MainActivity extends ActionBarActivity implements SharedPreferences.OnSharedPreferenceChangeListener,
 		OpenWeatherMapParserAsyncTask.Listener, ChangeColorDialogFragment.Listener {
