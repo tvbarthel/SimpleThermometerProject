@@ -15,7 +15,7 @@ import java.io.InputStream;
  * an xml flux from the OpenWeatherMap Api.
  */
 public class OpenWeatherMapParser {
-	
+
 /*
  * A typical xml response from http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&mode=xml&units=metric
  *
