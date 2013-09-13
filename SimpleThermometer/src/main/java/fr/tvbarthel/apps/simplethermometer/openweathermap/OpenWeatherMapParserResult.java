@@ -1,5 +1,12 @@
 package fr.tvbarthel.apps.simplethermometer.openweathermap;
 
+/**
+ * A simple class used to store the information
+ * retrieved during the parsing of an xml flux from the
+ * openWeatherMap api.
+ *
+ * See {@link fr.tvbarthel.apps.simplethermometer.openweathermap.OpenWeatherMapParser}
+ */
 public class OpenWeatherMapParserResult {
 	private Integer mCityId;
 	private String mCityName;
