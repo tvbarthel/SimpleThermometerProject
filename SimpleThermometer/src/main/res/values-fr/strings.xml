@@ -3,11 +3,11 @@
     <string name="action_change_colors">Changer les couleurs</string>
     <string name="action_temperature_unit">Changer l\'unité</string>
     <string name="action_manual_refresh">Forcer la mise à jour</string>
-    <string name="action_about">A Propos</string>
+    <string name="action_about">À Propos</string>
 
     <string name="change_color_fragment_background">Couleur de fond</string>
     <string name="change_color_fragment_text">Couleur du text</string>
-    <string name="change_color_fragment_icon">Couleur des icones</string>
+    <string name="change_color_fragment_icon">Couleur des icônes</string>
 
     <string name="message_loading_progress">Mise à jour\n(%1$d%%)</string>
 
@@ -18,7 +18,7 @@
     <string name="error_message_xml_pull_parser_exception">XmlPullParserException</string>
     <string name="error_message_location_not_found">Position non trouvée</string>
 
-    <string name="about_title">A Propos</string>
+    <string name="about_title">À Propos</string>
     <string name="about_description">SimpleThermometer est une application open source développée par deux étudiants:
         \nThomas \"Tbarthel\" Barthélémy
         \nVincent \"Vbarthel\" Barthélémy
