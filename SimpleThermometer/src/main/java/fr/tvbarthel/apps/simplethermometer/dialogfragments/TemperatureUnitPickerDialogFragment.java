@@ -13,6 +13,9 @@ import android.widget.ArrayAdapter;
 import fr.tvbarthel.apps.simplethermometer.MainActivity;
 import fr.tvbarthel.apps.simplethermometer.R;
 
+/**
+ * A dialog fragment used to change and store the temperature unit
+ */
 public class TemperatureUnitPickerDialogFragment extends DialogFragment {
 
 	private static final String BUNDLE_TEMPERATURE_UNIT_NAMES = "BundleTemperatureUnitNames";

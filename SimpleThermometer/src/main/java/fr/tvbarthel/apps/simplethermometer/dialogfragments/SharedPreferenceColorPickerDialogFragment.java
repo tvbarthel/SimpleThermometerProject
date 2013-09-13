@@ -11,6 +11,9 @@ import android.widget.ArrayAdapter;
 
 import fr.tvbarthel.apps.simplethermometer.R;
 
+/**
+ * A dialog fragment used to change and store a color
+ */
 public class SharedPreferenceColorPickerDialogFragment extends DialogFragment {
 
 	private static final String BUNDLE_COLOR_NAMES = "BundleColorNames";

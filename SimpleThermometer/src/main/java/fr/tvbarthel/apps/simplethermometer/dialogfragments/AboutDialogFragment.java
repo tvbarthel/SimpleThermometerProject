@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import fr.tvbarthel.apps.simplethermometer.R;
 
+/**
+ * A simple dialog fragment used to displayed the about information
+ */
 public class AboutDialogFragment extends DialogFragment {
 
 	@Override
