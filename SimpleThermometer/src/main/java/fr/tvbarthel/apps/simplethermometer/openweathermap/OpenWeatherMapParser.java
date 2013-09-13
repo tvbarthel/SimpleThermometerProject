@@ -8,33 +8,37 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.InputStream;
 
+
+
+/**
+ * A simple parser used to retrieve data of
+ * an xml flux from the OpenWeatherMap Api.
+ */
+public class OpenWeatherMapParser {
+	
 /*
-	Typical openweathermap api result
-	09/12/2013
-	http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&mode=xml&units=metric
-
-	<current>
-		<city id="1851632" name="Shuzenji">
-			<coord lon="139" lat="35"/>
-			<country>JP</country>
-			<sun rise="2013-09-11T20:24:53" set="2013-09-12T08:55:26"/>
-		</city>
-		<temperature value="21.47" min="21.47" max="21.47" unit="celsius"/>
-		<humidity value="100" unit="%"/>
-		<pressure value="1005.09" unit="hPa"/>
-		<wind>
-		<speed value="1.96" name="Light breeze"/>
-		<direction value="42.0003" code="NE" name="NorthEast"/>
-		</wind>
-		<clouds value="8" name="sky is clear"/>
-		<precipitation mode="no"/>
-		<weather number="800" value="sky is clear" icon="02n"/>
-		<lastupdate value="2013-09-12T17:32:19"/>
-	</current>
-
+ * A typical xml response from http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&mode=xml&units=metric
+ *
+ * <current>
+ * 		<city id="1851632" name="Shuzenji">
+ * 			<coord lon="139" lat="35"/>
+ * 			<country>JP</country>
+ * 			<sun rise="2013-09-11T20:24:53" set="2013-09-12T08:55:26"/>
+ * 		</city>
+ * 		<temperature value="21.47" min="21.47" max="21.47" unit="celsius"/>
+ * 		<humidity value="100" unit="%"/>
+ * 		<pressure value="1005.09" unit="hPa"/>
+ * 		<wind>
+ * 			<speed value="1.96" name="Light breeze"/>
+ * 			<direction value="42.0003" code="NE" name="NorthEast"/>
+ * 		</wind>
+ * 		<clouds value="8" name="sky is clear"/>
+ * 		<precipitation mode="no"/>
+ * 		<weather number="800" value="sky is clear" icon="02n"/>
+ * 		<lastupdate value="2013-09-12T17:32:19"/>
+ * </current>
  */
 
-public class OpenWeatherMapParser {
 	//Names and Attributes used in the openWeatherMap XML
 	public static final String NAME_ROOT = "current";
 	public static final String NAME_CITY = "city";
