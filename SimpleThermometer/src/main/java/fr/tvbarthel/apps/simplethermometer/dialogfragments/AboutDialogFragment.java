@@ -1,4 +1,4 @@
-package fr.tvbarthel.apps.simplethermometer;
+package fr.tvbarthel.apps.simplethermometer.dialogfragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -8,6 +8,8 @@ import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.widget.TextView;
+
+import fr.tvbarthel.apps.simplethermometer.R;
 
 public class AboutDialogFragment extends DialogFragment {
 

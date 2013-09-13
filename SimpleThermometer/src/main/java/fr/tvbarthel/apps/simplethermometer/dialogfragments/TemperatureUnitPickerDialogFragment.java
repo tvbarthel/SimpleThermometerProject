@@ -1,4 +1,4 @@
-package fr.tvbarthel.apps.simplethermometer;
+package fr.tvbarthel.apps.simplethermometer.dialogfragments;
 
 
 import android.app.AlertDialog;
@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.widget.ArrayAdapter;
+
+import fr.tvbarthel.apps.simplethermometer.MainActivity;
+import fr.tvbarthel.apps.simplethermometer.R;
 
 public class TemperatureUnitPickerDialogFragment extends DialogFragment {
 

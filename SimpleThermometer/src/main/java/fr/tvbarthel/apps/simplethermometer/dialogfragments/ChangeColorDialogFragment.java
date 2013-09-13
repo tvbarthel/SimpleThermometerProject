@@ -1,4 +1,4 @@
-package fr.tvbarthel.apps.simplethermometer;
+package fr.tvbarthel.apps.simplethermometer.dialogfragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.widget.ArrayAdapter;
+
+import fr.tvbarthel.apps.simplethermometer.R;
 
 public class ChangeColorDialogFragment extends DialogFragment {
 

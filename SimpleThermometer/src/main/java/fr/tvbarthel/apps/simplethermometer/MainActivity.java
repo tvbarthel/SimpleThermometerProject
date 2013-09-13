@@ -19,6 +19,11 @@ import android.widget.Toast;
 
 import java.text.DecimalFormat;
 
+import fr.tvbarthel.apps.simplethermometer.dialogfragments.AboutDialogFragment;
+import fr.tvbarthel.apps.simplethermometer.dialogfragments.ChangeColorDialogFragment;
+import fr.tvbarthel.apps.simplethermometer.dialogfragments.SharedPreferenceColorPickerDialogFragment;
+import fr.tvbarthel.apps.simplethermometer.dialogfragments.TemperatureUnitPickerDialogFragment;
+
 public class MainActivity extends ActionBarActivity implements SharedPreferences.OnSharedPreferenceChangeListener,
 		OpenWeatherMapParserAsyncTask.Listener, ChangeColorDialogFragment.Listener {
 
