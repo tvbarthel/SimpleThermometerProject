@@ -19,7 +19,8 @@
     <string name="error_message_location_not_found">Position non trouvée</string>
 
     <string name="about_title">À Propos</string>
-    <string name="about_description">SimpleThermometer est une application open source développée par deux étudiants:
+    <string name="about_description">SimpleThermometer donne la température extérieure basée sur votre position.
+        \n\nC\'est une application open source développée par deux étudiants:
         \nThomas \"Tbarthel\" Barthélémy
         \nVincent \"Vbarthel\" Barthélémy
         \n\nCode Source\nhttps://github.com/tvbarthel/ChaseWhisplyProject
