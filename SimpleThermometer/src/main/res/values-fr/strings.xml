@@ -6,7 +6,7 @@
     <string name="action_about">À Propos</string>
 
     <string name="change_color_fragment_background">Couleur de fond</string>
-    <string name="change_color_fragment_text">Couleur du text</string>
+    <string name="change_color_fragment_text">Couleur du texte</string>
     <string name="change_color_fragment_icon">Couleur des icônes</string>
 
     <string name="message_loading_progress">Mise à jour\n(%1$d%%)</string>
