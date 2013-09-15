@@ -1,5 +1,6 @@
 package fr.tvbarthel.apps.simplethermometer;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.location.Criteria;
@@ -17,34 +18,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.DecimalFormat;
-
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.AboutDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.ChangeColorDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.SharedPreferenceColorPickerDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.TemperatureUnitPickerDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.openweathermap.OpenWeatherMapParserAsyncTask;
 import fr.tvbarthel.apps.simplethermometer.openweathermap.OpenWeatherMapParserResult;
+import fr.tvbarthel.apps.simplethermometer.preferences.PreferenceUtils;
+import fr.tvbarthel.apps.simplethermometer.widget.STWidgetProvider;
 
 public class MainActivity extends ActionBarActivity implements SharedPreferences.OnSharedPreferenceChangeListener,
 		OpenWeatherMapParserAsyncTask.Listener, ChangeColorDialogFragment.Listener {
-
-	/*
-		Shared Preference Keys
-	 */
-
-	//Used to store the color of the background
-	public static final String PREF_KEY_BACKGROUND_COLOR = "PrefKeyBackgroundColor";
-	//Used to store the color of the text
-	public static final String PREF_KEY_TEXT_COLOR = "PrefKeyTextColor";
-	//Used to store the color of the icons
-	public static final String PREF_KEY_ICON_COLOR = "PrefKeyIconColor";
-	//Used to store the last retrieved temperature (in Celsius)
-	public static final String PREF_KEY_LAST_TEMPERATURE_IN_CELSIUS = "PrefKeylastTemperatureInCelsius";
-	//Used to store the time of the last update (in Millis)
-	public static final String PREF_KEY_LAST_UPDATE_TIME = "PrefKeyLastUpdateTime";
-	//Used to store the temperature unit
-	public static final String PREF_KEY_TEMPERATURE_UNIT_STRING = "PrefKeyTemperatureUnitString";
 
 	/*
 		Update Interval
@@ -79,7 +63,7 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 	//Default Shared Preferences used in the app
 	private SharedPreferences mDefaultSharedPreferences;
 	//An AsyncTask used to load the temperature
-	private OpenWeatherMapParserAsyncTask mOpenWeatherMapResultLoader;
+	private TemperatureLoader mTemperatureLoader;
 	//A single Toast used to display textToast
 	private Toast mTextToast;
 
@@ -129,9 +113,9 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 		//hide Toast if displayed
 		hideToastIfDisplayed();
 		//Cancel and clear the AsyncTask used to load the temperature
-		if (mOpenWeatherMapResultLoader != null) {
-			mOpenWeatherMapResultLoader.cancel(true);
-			mOpenWeatherMapResultLoader = null;
+		if (mTemperatureLoader != null) {
+			mTemperatureLoader.cancel(true);
+			mTemperatureLoader = null;
 		}
 	}
 
@@ -171,20 +155,34 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 	 */
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String sharedPreferenceKey) {
+		boolean broadcastChangeToWidgets = false;
 		//the shared preference with the key "sharedPreferenceKey" has changed
-		if (sharedPreferenceKey.equals(PREF_KEY_BACKGROUND_COLOR)) {
+		if (sharedPreferenceKey.equals(PreferenceUtils.PREF_KEY_BACKGROUND_COLOR)) {
 			//Set the new background color stored in the SharedPreferences "sharedPreferences"
 			setBackgroundColor(sharedPreferences);
-		} else if (sharedPreferenceKey.equals(PREF_KEY_TEXT_COLOR)) {
+			broadcastChangeToWidgets = true;
+		} else if (sharedPreferenceKey.equals(PreferenceUtils.PREF_KEY_TEXT_COLOR)) {
 			//Set the new text color stored in the SharedPreferences "sharedPreferences"
 			setTextColor(sharedPreferences);
-		} else if (sharedPreferenceKey.equals(PREF_KEY_ICON_COLOR)) {
+			broadcastChangeToWidgets = true;
+		} else if (sharedPreferenceKey.equals(PreferenceUtils.PREF_KEY_ICON_COLOR)) {
 			//Set the new icon color stored in the SharedPreferences "sharedPreferences"
 			setIconColor(sharedPreferences);
-		} else if (sharedPreferenceKey.equals(PREF_KEY_TEMPERATURE_UNIT_STRING)) {
+		} else if (sharedPreferenceKey.equals(PreferenceUtils.PREF_KEY_TEMPERATURE_UNIT_STRING)) {
 			//Display the temperature with the new unit stored in the SharedPreferences "sharedPreferences"
 			displayTemperature();
+			broadcastChangeToWidgets = true;
+		} else if(sharedPreferenceKey.equals(PreferenceUtils.PREF_KEY_LAST_TEMPERATURE_IN_CELSIUS)) {
+			displayTemperature();
+			broadcastChangeToWidgets = true;
 		}
+
+		if(broadcastChangeToWidgets) {
+			Intent intent = new Intent(this, STWidgetProvider.class);
+			intent.setAction(STWidgetProvider.APPWIDGET_DATA_CHANGED);
+			sendBroadcast(intent);
+		}
+
 	}
 
 	/*
@@ -192,14 +190,6 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 	 */
 	@Override
 	public void onWeatherLoadingSuccess(OpenWeatherMapParserResult result) {
-		if (result.getTemperatureValue() != null) {
-			//Store the temperature and the time of the update
-			//in mDefaultSharedPreferences
-			final SharedPreferences.Editor editor = mDefaultSharedPreferences.edit();
-			editor.putFloat(PREF_KEY_LAST_TEMPERATURE_IN_CELSIUS, result.getTemperatureValue());
-			editor.putLong(PREF_KEY_LAST_UPDATE_TIME, System.currentTimeMillis());
-			editor.commit();
-		}
 		//Update the displayed temperature
 		displayTemperature();
 		//reset the weather loader
@@ -236,11 +226,11 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 	 */
 	@Override
 	public void onChangeColorRequested(int which) {
-		String sharedPrefColor = PREF_KEY_BACKGROUND_COLOR;
+		String sharedPrefColor = PreferenceUtils.PREF_KEY_BACKGROUND_COLOR;
 		if (which == 1) {
-			sharedPrefColor = PREF_KEY_TEXT_COLOR;
+			sharedPrefColor = PreferenceUtils.PREF_KEY_TEXT_COLOR;
 		} else if (which == 2) {
-			sharedPrefColor = PREF_KEY_ICON_COLOR;
+			sharedPrefColor = PreferenceUtils.PREF_KEY_ICON_COLOR;
 		}
 		pickSharedPreferenceColor(sharedPrefColor);
 	}
@@ -250,22 +240,8 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 	 * The temperature and the unit are retrieved from {@code mDefaultSharedPreferences}
 	 */
 	private void displayTemperature() {
-		//Retrieve the temperature (in Celsius)
-		String temperatureUnit = mDefaultSharedPreferences.getString(PREF_KEY_TEMPERATURE_UNIT_STRING,
-				getString(R.string.temperature_unit_celsius_symbol));
-		//Retrieve the unit symbol
-		Float temperatureFlt = mDefaultSharedPreferences.getFloat(PREF_KEY_LAST_TEMPERATURE_IN_CELSIUS, 20);
-
-		if (temperatureUnit.equals(getString(R.string.temperature_unit_fahrenheit_symbol))) {
-			//Convert from Celsius to Fahrenheit
-			temperatureFlt += 32f;
-		} else if (temperatureUnit.equals(getString(R.string.temperature_unit_kelvin_symbol))) {
-			//Convert from Celsius to Kelvin
-			temperatureFlt += 273.15f;
-		}
-		//Format the temperature with only one decimal
-		final String temperatureStr = new DecimalFormat("#.#").format(temperatureFlt);
-		mTextViewTemperature.setText(temperatureStr + temperatureUnit);
+		final String temperature = PreferenceUtils.getTemperatureAsString(this, mDefaultSharedPreferences);
+		mTextViewTemperature.setText(temperature);
 	}
 
 	/**
@@ -276,8 +252,7 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 	 */
 	private void setIconColor(SharedPreferences sharedPreferences) {
 		//Retrieve the icon color
-		final int iconColor = sharedPreferences.getInt(PREF_KEY_ICON_COLOR,
-				getResources().getColor(R.color.white));
+		final int iconColor = PreferenceUtils.getIconColor(this, sharedPreferences);
 		//Apply a color Filter to the four ImageViews
 		mImageViewFair.setColorFilter(iconColor, PorterDuff.Mode.SRC_ATOP);
 		mImageViewChange.setColorFilter(iconColor, PorterDuff.Mode.SRC_ATOP);
@@ -297,8 +272,7 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 	 */
 	private void setTextColor(SharedPreferences sharedPreferences) {
 		//Retrieve the text color
-		final int textColor = sharedPreferences.getInt(PREF_KEY_TEXT_COLOR,
-				getResources().getColor(R.color.black));
+		final int textColor = PreferenceUtils.getTextColor(this, sharedPreferences);
 		//Set the text color to the temperature textView
 		mTextViewTemperature.setTextColor(textColor);
 	}
@@ -315,8 +289,8 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 	 * @param sharedPreferences the {@link android.content.SharedPreferences} used to retrieve the background color
 	 */
 	private void setBackgroundColor(SharedPreferences sharedPreferences) {
-		mRelativeLayoutBackground.setBackgroundColor(sharedPreferences.getInt(PREF_KEY_BACKGROUND_COLOR,
-				getResources().getColor(R.color.holo_blue)));
+		final int backgroundColor = PreferenceUtils.getBackgroundColor(this, sharedPreferences);
+		mRelativeLayoutBackground.setBackgroundColor(backgroundColor);
 	}
 
 	private void setBackgroundColor() {
@@ -393,7 +367,7 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 	private void refreshTemperatureIfOutdated(boolean manualRefresh) {
 		//Retrieve the current time and the time of the last update (in Millis)
 		final long now = System.currentTimeMillis();
-		final long lastUpdate = mDefaultSharedPreferences.getLong(PREF_KEY_LAST_UPDATE_TIME, 0);
+		final long lastUpdate = mDefaultSharedPreferences.getLong(PreferenceUtils.PREF_KEY_LAST_UPDATE_TIME, 0);
 
 		//Get the update Interval
 		long updateInterval = UPDATE_INTERVAL_IN_MILLIS;
@@ -404,7 +378,7 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 			if (!isNetworkConnected()) {
 				//there is no connection available
 				makeTextToast(R.string.error_message_network_not_connected);
-			} else if (mOpenWeatherMapResultLoader == null) {
+			} else if (mTemperatureLoader == null) {
 				//there is no running weather loader
 
 				//retrieve an instance of the LocationManager
@@ -424,8 +398,8 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 					//Retrieve the latitude and the longitude and execute a weather loader
 					final double latitude = location.getLatitude();
 					final double longitude = location.getLongitude();
-					mOpenWeatherMapResultLoader = new OpenWeatherMapParserAsyncTask(this);
-					mOpenWeatherMapResultLoader.execute(String.format(getResources().getString(R.string.url_open_weather_api), latitude, longitude));
+					mTemperatureLoader = new TemperatureLoader(this, getApplicationContext());
+					mTemperatureLoader.execute(String.format(getResources().getString(R.string.url_open_weather_api), latitude, longitude));
 				}
 			}
 		}
@@ -439,10 +413,10 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 	 * Reset the weather loader
 	 */
 	public void resetOpenWeatherMapLoader() {
-		if (mOpenWeatherMapResultLoader != null) {
-			mOpenWeatherMapResultLoader.cancel(true);
-			mOpenWeatherMapResultLoader.setListener(null);
-			mOpenWeatherMapResultLoader = null;
+		if (mTemperatureLoader != null) {
+			mTemperatureLoader.cancel(true);
+			mTemperatureLoader.setListener(null);
+			mTemperatureLoader = null;
 		}
 	}
 

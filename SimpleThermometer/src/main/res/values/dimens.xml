@@ -3,4 +3,5 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="text_size_temperature">40sp</dimen>
     <dimen name="default_padding">8dp</dimen>
+    <dimen name="widget_padding">8dp</dimen>
 </resources>

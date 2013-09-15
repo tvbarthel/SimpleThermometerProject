@@ -20,9 +20,9 @@ import fr.tvbarthel.apps.simplethermometer.R;
 public class OpenWeatherMapParserAsyncTask extends AsyncTask<String, Integer, OpenWeatherMapParserResult> {
 
 	//If there is an Exception, contains a displayable explanation.
-	private int mErrorMessage;
+	protected int mErrorMessage;
 	//the listener that is notified
-	private Listener mListener;
+	protected Listener mListener;
 
 	public OpenWeatherMapParserAsyncTask(Listener listener) {
 		super();

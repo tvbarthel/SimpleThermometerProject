@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 
 import fr.tvbarthel.apps.simplethermometer.MainActivity;
 import fr.tvbarthel.apps.simplethermometer.R;
+import fr.tvbarthel.apps.simplethermometer.preferences.PreferenceUtils;
 
 /**
  * A dialog fragment used to change and store the temperature unit
@@ -51,7 +52,7 @@ public class TemperatureUnitPickerDialogFragment extends DialogFragment {
 			public void onClick(DialogInterface dialog, int which) {
 				SharedPreferences defaultPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 				SharedPreferences.Editor editor = defaultPreferences.edit();
-				editor.putString(MainActivity.PREF_KEY_TEMPERATURE_UNIT_STRING, temperatureUnitSymbols[which]);
+				editor.putString(PreferenceUtils.PREF_KEY_TEMPERATURE_UNIT_STRING, temperatureUnitSymbols[which]);
 				editor.commit();
 			}
 		});
