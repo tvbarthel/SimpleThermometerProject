@@ -36,6 +36,7 @@ public class OpenWeatherMapParserAsyncTask extends AsyncTask<String, Integer, Op
 	@Override
 	protected OpenWeatherMapParserResult doInBackground(String... params) {
 		OpenWeatherMapParserResult result = null;
+		publishProgress(0);
 		try {
 			//Get the target url
 			final URL url = new URL(params[0]);
@@ -48,9 +49,15 @@ public class OpenWeatherMapParserAsyncTask extends AsyncTask<String, Integer, Op
 			publishProgress(50);
 			urlConnection.setUseCaches(true);
 
+			//Check is the task has been cancelled
+			if(isCancelled()) return result;
+
 			//Get an InputStream
 			final InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
 			publishProgress(80);
+
+			//Check is the task has been cancelled
+			if(isCancelled()) return result;
 
 			//Parse the InputStream
 			final OpenWeatherMapParser parser = new OpenWeatherMapParser();
@@ -77,13 +84,6 @@ public class OpenWeatherMapParserAsyncTask extends AsyncTask<String, Integer, Op
 	}
 
 	@Override
-	protected void onPreExecute() {
-		super.onPreExecute();
-		//Notify the listener
-		mListener.onWeatherLoadingProgress(0);
-	}
-
-	@Override
 	protected void onPostExecute(OpenWeatherMapParserResult result) {
 		super.onPostExecute(result);
 		if (result == null) {
@@ -104,20 +104,7 @@ public class OpenWeatherMapParserAsyncTask extends AsyncTask<String, Integer, Op
 	}
 
 	/**
-	 * Set the listener
-	 *
-	 * @param listener {@link fr.tvbarthel.apps.simplethermometer.openweathermap.OpenWeatherMapParserAsyncTask.Listener}
-	 */
-	public void setListener(Listener listener) {
-		if (listener == null) {
-			mListener = new DummyListener();
-		} else {
-			mListener = listener;
-		}
-	}
-
-	/**
-	 * An interface for Listeners
+	 * A public interface used to notify weather loading states
 	 */
 	public interface Listener {
 		//Notify parsing success
@@ -129,28 +116,8 @@ public class OpenWeatherMapParserAsyncTask extends AsyncTask<String, Integer, Op
 		//Notify parsing progress
 		public void onWeatherLoadingProgress(int progress);
 
-		//Notify parsing cancel
+		//Notify parsing pause
 		public void onWeatherLoadingCancelled();
 	}
 
-	/**
-	 * A dummy implementation of {@link fr.tvbarthel.apps.simplethermometer.openweathermap.OpenWeatherMapParserAsyncTask.Listener}
-	 */
-	private static class DummyListener implements Listener {
-		@Override
-		public void onWeatherLoadingSuccess(OpenWeatherMapParserResult result) {
-		}
-
-		@Override
-		public void onWeatherLoadingFail(int stringResourceId) {
-		}
-
-		@Override
-		public void onWeatherLoadingProgress(int progress) {
-		}
-
-		@Override
-		public void onWeatherLoadingCancelled() {
-		}
-	}
 }

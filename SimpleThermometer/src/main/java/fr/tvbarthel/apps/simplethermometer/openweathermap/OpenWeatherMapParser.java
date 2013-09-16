@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 
-
 /**
  * A simple parser used to retrieve data of
  * an xml flux from the OpenWeatherMap Api.

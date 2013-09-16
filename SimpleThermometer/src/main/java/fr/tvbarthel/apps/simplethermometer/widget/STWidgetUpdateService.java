@@ -6,9 +6,6 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
@@ -16,31 +13,39 @@ import android.widget.RemoteViews;
 import fr.tvbarthel.apps.simplethermometer.MainActivity;
 import fr.tvbarthel.apps.simplethermometer.R;
 import fr.tvbarthel.apps.simplethermometer.TemperatureLoader;
-import fr.tvbarthel.apps.simplethermometer.openweathermap.OpenWeatherMapParserAsyncTask;
-import fr.tvbarthel.apps.simplethermometer.openweathermap.OpenWeatherMapParserResult;
-import fr.tvbarthel.apps.simplethermometer.preferences.PreferenceUtils;
+import fr.tvbarthel.apps.simplethermometer.utils.PreferenceUtils;
 
-public class STWidgetUpdateService extends Service implements OpenWeatherMapParserAsyncTask.Listener {
+/**
+ * A {@link android.app.Service} used by the {@link fr.tvbarthel.apps.simplethermometer.widget.STWidgetProvider}
+ * to update the Simple Thermometer Widgets.
+ */
+public class STWidgetUpdateService extends Service implements TemperatureLoader.Listener {
 
 	public static final String EXTRA_RELOAD_TEMPERATURE = "ExtraReloadTemperature";
 
+	//The instance of the AppWidgetManager
 	private AppWidgetManager mAppWidgetManager;
-	private int[] mAlWidgetIds;
+	//The Simple Thermometer Widget Ids
+	private int[] mAllWidgetIds;
 
+	/*
+		Service overrides
+	 */
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-
 		mAppWidgetManager = AppWidgetManager.getInstance(this.getApplicationContext());
-		mAlWidgetIds = intent.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS);
+		mAllWidgetIds = intent.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS);
 
+		//Check if the temperature has to be reloaded
 		if (intent.getBooleanExtra(EXTRA_RELOAD_TEMPERATURE, false)) {
-			reloadTemperature();
+			//start a temperature loader
+			new TemperatureLoader(this, getApplicationContext()).start();
 		} else {
-			finalizeUpdate();
+			//finalize the update
+			finalizeUpdateRequest();
 		}
 
 		return super.onStartCommand(intent, flags, startId);
-
 	}
 
 	@Override
@@ -48,71 +53,73 @@ public class STWidgetUpdateService extends Service implements OpenWeatherMapPars
 		return null;
 	}
 
+	/*
+		Private Methods
+	 */
+
+	/**
+	 * Update the app widgets according to the stored parameters.
+	 */
 	private void updateAppWidgets() {
+		//Retrieve the stored values
 		final Context context = getApplicationContext();
 		final SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		final String temperature = PreferenceUtils.getTemperatureAsString(context, defaultSharedPreferences);
 		final int textColor = PreferenceUtils.getTextColor(context, defaultSharedPreferences);
 		final int backgroundColor = PreferenceUtils.getBackgroundColor(context, defaultSharedPreferences);
+		final int iconColor = PreferenceUtils.getIconColor(context, defaultSharedPreferences);
 
-		for (int widgetId : mAlWidgetIds) {
+		//Update all the app widgets
+		for (int widgetId : mAllWidgetIds) {
 			final RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
+
+			//Use the stored values to update the app widget
 			remoteViews.setTextViewText(R.id.widget_temperature, temperature);
 			remoteViews.setTextColor(R.id.widget_temperature, textColor);
-			remoteViews.setInt(R.id.widget_frame_layout, "setBackgroundColor", backgroundColor);
+			remoteViews.setInt(R.id.widget_root_layout, "setBackgroundColor", backgroundColor);
+			remoteViews.setInt(R.id.widget_fair_icon, "setColorFilter", iconColor);
+			remoteViews.setInt(R.id.widget_storm_icon, "setColorFilter", iconColor);
 
+			//Add a clickIntent on the app widget
+			//This Intent will launch the SimpleThermometer Application
 			final Intent clickIntent = new Intent(getApplicationContext(), MainActivity.class);
 			final PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-			remoteViews.setOnClickPendingIntent(R.id.widget_frame_layout, pendingIntent);
+			remoteViews.setOnClickPendingIntent(R.id.widget_root_layout, pendingIntent);
 
+			//Update the app widget
 			mAppWidgetManager.updateAppWidget(widgetId, remoteViews);
 		}
 	}
 
-	private void reloadTemperature() {
-		//retrieve an instance of the LocationManager
-		final LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-		//Get a location with a coarse accuracy
-		final Criteria criteria = new Criteria();
-		criteria.setAccuracy(Criteria.ACCURACY_COARSE);
-		final String provider = locationManager.getBestProvider(criteria, true);
-		if (provider == null) return;
-		final Location location = locationManager.getLastKnownLocation(provider);
-
-		if (location != null) {
-			//Retrieve the latitude and the longitude and execute a weather loader
-			final double latitude = location.getLatitude();
-			final double longitude = location.getLongitude();
-			new TemperatureLoader(this, getApplicationContext()).execute(
-					String.format(getResources().getString(R.string.url_open_weather_api), latitude, longitude));
-		} else {
-			finalizeUpdate();
-		}
-	}
-
-	private void finalizeUpdate() {
+	/**
+	 * Finalize the Update Request
+	 */
+	private void finalizeUpdateRequest() {
 		updateAppWidgets();
 		stopSelf();
 	}
 
+	/*
+		TemperatureLoader.Listener Overrides
+	 */
 
 	@Override
-	public void onWeatherLoadingSuccess(OpenWeatherMapParserResult result) {
-		finalizeUpdate();
+	public void onTemperatureLoadingSuccess() {
+		finalizeUpdateRequest();
 	}
 
 	@Override
-	public void onWeatherLoadingFail(int stringResourceId) {
-		finalizeUpdate();
+	public void onTemperatureLoadingProgress(int progress) {
+		finalizeUpdateRequest();
 	}
 
 	@Override
-	public void onWeatherLoadingProgress(int progress) {
+	public void onTemperatureLoadingFail(int stringResourceId) {
+		finalizeUpdateRequest();
 	}
 
 	@Override
-	public void onWeatherLoadingCancelled() {
-		finalizeUpdate();
+	public void onTemperatureLoadingCancelled() {
+		finalizeUpdateRequest();
 	}
 }

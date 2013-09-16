@@ -32,6 +32,10 @@ public class SharedPreferenceColorPickerDialogFragment extends DialogFragment {
 		return fragment;
 	}
 
+	/*
+		DialogFragment Overrides
+	 */
+
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		//Retrieve information from the arguments

@@ -10,9 +10,8 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.widget.ArrayAdapter;
 
-import fr.tvbarthel.apps.simplethermometer.MainActivity;
 import fr.tvbarthel.apps.simplethermometer.R;
-import fr.tvbarthel.apps.simplethermometer.preferences.PreferenceUtils;
+import fr.tvbarthel.apps.simplethermometer.utils.PreferenceUtils;
 
 /**
  * A dialog fragment used to change and store the temperature unit
@@ -33,6 +32,10 @@ public class TemperatureUnitPickerDialogFragment extends DialogFragment {
 		fragment.setArguments(arguments);
 		return fragment;
 	}
+
+	/*
+		DialogFragment Overrides
+	 */
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/widget_padding"
     android:background="@color/holo_blue_deep"
-    android:id="@+id/widget_frame_layout">
+    android:id="@+id/widget_root_layout">
 
 
     <TextView
@@ -14,5 +14,32 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/widget_temperature"
         android:layout_gravity="center"
-        android:textStyle="bold" />
-</FrameLayout>
+        android:textStyle="bold"
+        android:layout_centerInParent="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/widget_fair_icon"
+        android:src="@drawable/ic_fair_light"
+        android:contentDescription="@string/content_description_fair_icon"
+        android:layout_toLeftOf="@+id/widget_temperature"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignBottom="@+id/widget_temperature"
+        android:scaleType="fitCenter"
+        android:padding="@dimen/default_padding" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/widget_storm_icon"
+        android:layout_toRightOf="@+id/widget_temperature"
+        android:src="@drawable/ic_storm_light"
+        android:contentDescription="@string/content_description_storm_icon"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/widget_temperature"
+        android:scaleType="fitCenter"
+        android:padding="@dimen/default_padding" />
+</RelativeLayout>

@@ -3,11 +3,6 @@ package fr.tvbarthel.apps.simplethermometer;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
@@ -22,22 +17,12 @@ import fr.tvbarthel.apps.simplethermometer.dialogfragments.AboutDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.ChangeColorDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.SharedPreferenceColorPickerDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.TemperatureUnitPickerDialogFragment;
-import fr.tvbarthel.apps.simplethermometer.openweathermap.OpenWeatherMapParserAsyncTask;
-import fr.tvbarthel.apps.simplethermometer.openweathermap.OpenWeatherMapParserResult;
-import fr.tvbarthel.apps.simplethermometer.preferences.PreferenceUtils;
+import fr.tvbarthel.apps.simplethermometer.utils.ConnectivityUtils;
+import fr.tvbarthel.apps.simplethermometer.utils.PreferenceUtils;
 import fr.tvbarthel.apps.simplethermometer.widget.STWidgetProvider;
 
 public class MainActivity extends ActionBarActivity implements SharedPreferences.OnSharedPreferenceChangeListener,
-		OpenWeatherMapParserAsyncTask.Listener, ChangeColorDialogFragment.Listener {
-
-	/*
-		Update Interval
-	 */
-
-	//automatic update interval (in Millis)
-	public static final long UPDATE_INTERVAL_IN_MILLIS = 30 * 60 * 1000;
-	//manual update interval (in Millis)
-	public static final long UPDATE_INTERVAL_IN_MILLIS_MANUAL = 10 * 60 * 1000;
+		ChangeColorDialogFragment.Listener, TemperatureLoader.Listener {
 
 	/*
 		UI Elements
@@ -62,7 +47,7 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 
 	//Default Shared Preferences used in the app
 	private SharedPreferences mDefaultSharedPreferences;
-	//An AsyncTask used to load the temperature
+	//An AsyncTask used to start the temperature
 	private TemperatureLoader mTemperatureLoader;
 	//A single Toast used to display textToast
 	private Toast mTextToast;
@@ -75,6 +60,8 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		mTemperatureLoader = new TemperatureLoader(this, getApplicationContext());
 
 		//Retrieve the UI elements references
 		mTextViewTemperature = (TextView) findViewById(R.id.textViewTemperature);
@@ -100,7 +87,7 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 		//Set the icon color
 		setIconColor();
 		//Display the temperature
-		displayTemperature();
+		displayLastKnownTemperature();
 		//refresh the temperature if it's outdated
 		refreshTemperatureIfOutdated();
 	}
@@ -112,11 +99,8 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 		mDefaultSharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
 		//hide Toast if displayed
 		hideToastIfDisplayed();
-		//Cancel and clear the AsyncTask used to load the temperature
-		if (mTemperatureLoader != null) {
-			mTemperatureLoader.cancel(true);
-			mTemperatureLoader = null;
-		}
+		//Pause the temperature Loader
+		mTemperatureLoader.pause();
 	}
 
 	@Override
@@ -168,16 +152,21 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 		} else if (sharedPreferenceKey.equals(PreferenceUtils.PREF_KEY_ICON_COLOR)) {
 			//Set the new icon color stored in the SharedPreferences "sharedPreferences"
 			setIconColor(sharedPreferences);
+			broadcastChangeToWidgets = true;
 		} else if (sharedPreferenceKey.equals(PreferenceUtils.PREF_KEY_TEMPERATURE_UNIT_STRING)) {
 			//Display the temperature with the new unit stored in the SharedPreferences "sharedPreferences"
-			displayTemperature();
+			displayLastKnownTemperature();
 			broadcastChangeToWidgets = true;
-		} else if(sharedPreferenceKey.equals(PreferenceUtils.PREF_KEY_LAST_TEMPERATURE_IN_CELSIUS)) {
-			displayTemperature();
+		} else if (sharedPreferenceKey.equals(PreferenceUtils.PREF_KEY_LAST_TEMPERATURE_IN_CELSIUS)) {
+			//Display the temperature with the new value stored in the SharedPreferences "sharedPreferences"
+			//This mainly happens when the App is displayed and an app widget background service
+			//update the temperature value.
+			displayLastKnownTemperature();
 			broadcastChangeToWidgets = true;
 		}
 
-		if(broadcastChangeToWidgets) {
+		if (broadcastChangeToWidgets) {
+			//A change has to be propagate to the app widgets
 			Intent intent = new Intent(this, STWidgetProvider.class);
 			intent.setAction(STWidgetProvider.APPWIDGET_DATA_CHANGED);
 			sendBroadcast(intent);
@@ -186,38 +175,36 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 	}
 
 	/*
-		OpenWeatherMapParserAsyncTask.Listener Override
+		TemperatureLoader.Listener Override
 	 */
+
 	@Override
-	public void onWeatherLoadingSuccess(OpenWeatherMapParserResult result) {
-		//Update the displayed temperature
-		displayTemperature();
-		//reset the weather loader
-		resetOpenWeatherMapLoader();
+	public void onTemperatureLoadingSuccess() {
+		//The temperature has been correctly loaded
+		//and stored in the defaultSharedPreferences
+		//so the last known temperature should be the
+		//new temperature that has just been retrieved.
+		displayLastKnownTemperature();
 	}
 
 	@Override
-	public void onWeatherLoadingFail(int stringResourceId) {
-		//Show the reason of the failure
-		makeTextToast(stringResourceId);
-		//Display the last known temperature
-		displayTemperature();
-		//reset the weather loader
-		resetOpenWeatherMapLoader();
-	}
-
-	@Override
-	public void onWeatherLoadingProgress(int progress) {
+	public void onTemperatureLoadingProgress(int progress) {
 		//Display the weather loader progress
 		mTextViewTemperature.setText(String.format(getString(R.string.message_loading_progress), progress));
 	}
 
 	@Override
-	public void onWeatherLoadingCancelled() {
-		//reset the weather loader
-		resetOpenWeatherMapLoader();
+	public void onTemperatureLoadingFail(int stringResourceId) {
+		//Show the reason of the failure
+		makeTextToast(stringResourceId);
 		//Display the last known temperature
-		displayTemperature();
+		displayLastKnownTemperature();
+	}
+
+	@Override
+	public void onTemperatureLoadingCancelled() {
+		//Display the last known temperature
+		displayLastKnownTemperature();
 	}
 
 
@@ -238,8 +225,9 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 	/**
 	 * Display the temperature with a unit symbol.
 	 * The temperature and the unit are retrieved from {@code mDefaultSharedPreferences}
+	 * so the temperature should be up to date.
 	 */
-	private void displayTemperature() {
+	private void displayLastKnownTemperature() {
 		final String temperature = PreferenceUtils.getTemperatureAsString(this, mDefaultSharedPreferences);
 		mTextViewTemperature.setText(temperature);
 	}
@@ -318,18 +306,6 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 				getResources().getIntArray(R.array.pref_color_list_colors)).show(getSupportFragmentManager(), null);
 	}
 
-	/**
-	 * Check if a network connection is available
-	 *
-	 * @return true if a network connection is available, false otherwise.
-	 */
-	private boolean isNetworkConnected() {
-		//Retrieve the instance of the connectivity manager
-		final ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-		//Retrieve info about the currently active default network
-		final NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-		return networkInfo != null && networkInfo.isConnected();
-	}
 
 	/**
 	 * Show a textToast.
@@ -365,42 +341,16 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 	 * @param manualRefresh true if it's a manual refresh request
 	 */
 	private void refreshTemperatureIfOutdated(boolean manualRefresh) {
-		//Retrieve the current time and the time of the last update (in Millis)
-		final long now = System.currentTimeMillis();
-		final long lastUpdate = mDefaultSharedPreferences.getLong(PreferenceUtils.PREF_KEY_LAST_UPDATE_TIME, 0);
-
 		//Get the update Interval
-		long updateInterval = UPDATE_INTERVAL_IN_MILLIS;
-		if (manualRefresh) updateInterval = UPDATE_INTERVAL_IN_MILLIS_MANUAL;
+		long updateInterval = TemperatureLoader.UPDATE_INTERVAL_IN_MILLIS;
+		if (manualRefresh) updateInterval = TemperatureLoader.UPDATE_INTERVAL_IN_MILLIS_MANUAL;
 
-		//if the temperature is outdated, try an update.
-		if (now - lastUpdate > updateInterval) {
-			if (!isNetworkConnected()) {
+		if (TemperatureLoader.isTemperatureOutdated(mDefaultSharedPreferences, updateInterval)) {
+			if (!ConnectivityUtils.isNetworkConnected(this)) {
 				//there is no connection available
 				makeTextToast(R.string.error_message_network_not_connected);
-			} else if (mTemperatureLoader == null) {
-				//there is no running weather loader
-
-				//retrieve an instance of the LocationManager
-				final LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-				//Get a location with a coarse accuracy
-				final Criteria criteria = new Criteria();
-				criteria.setAccuracy(Criteria.ACCURACY_COARSE);
-				final String provider = locationManager.getBestProvider(criteria, true);
-				if (provider == null) return;
-				final Location location = locationManager.getLastKnownLocation(provider);
-
-				if (location == null) {
-					//no location is available
-					makeTextToast(R.string.error_message_location_not_found);
-				} else {
-					//Retrieve the latitude and the longitude and execute a weather loader
-					final double latitude = location.getLatitude();
-					final double longitude = location.getLongitude();
-					mTemperatureLoader = new TemperatureLoader(this, getApplicationContext());
-					mTemperatureLoader.execute(String.format(getResources().getString(R.string.url_open_weather_api), latitude, longitude));
-				}
+			} else {
+				mTemperatureLoader.start();
 			}
 		}
 	}
@@ -409,16 +359,6 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 		refreshTemperatureIfOutdated(false);
 	}
 
-	/**
-	 * Reset the weather loader
-	 */
-	public void resetOpenWeatherMapLoader() {
-		if (mTemperatureLoader != null) {
-			mTemperatureLoader.cancel(true);
-			mTemperatureLoader.setListener(null);
-			mTemperatureLoader = null;
-		}
-	}
 
 	/**
 	 * Show the about information in a {@link fr.tvbarthel.apps.simplethermometer.dialogfragments.AboutDialogFragment}

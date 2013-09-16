@@ -28,6 +28,9 @@ public class ChangeColorDialogFragment extends DialogFragment {
 		return fragment;
 	}
 
+	/*
+		DialogFragment Overrides
+	 */
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -68,6 +71,9 @@ public class ChangeColorDialogFragment extends DialogFragment {
 		return builder.create();
 	}
 
+	/**
+	 * A public Interface used to notify a color change.
+	 */
 	public interface Listener {
 		//Notify the color to change
 		public void onChangeColorRequested(int which);
