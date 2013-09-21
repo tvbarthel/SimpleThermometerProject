@@ -45,7 +45,8 @@ public class STWidgetUpdateService extends Service implements TemperatureLoader.
 			finalizeUpdateRequest();
 		}
 
-		return super.onStartCommand(intent, flags, startId);
+		//Try to avoid a null intent, got a NullPointerException in a report crash. Dunno the reason :s
+		return START_REDELIVER_INTENT;
 	}
 
 	@Override
