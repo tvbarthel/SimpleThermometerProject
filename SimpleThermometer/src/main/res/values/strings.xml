@@ -43,7 +43,8 @@
     <string name="error_message_malformed_url">Malformed Url</string>
     <string name="error_message_io_exception">IO Exception</string>
     <string name="error_message_xml_pull_parser_exception">XmlPullParserException</string>
-    <string name="error_message_location_not_found">location not found</string>
+    <string name="error_message_location_not_found">Location not found</string>
+    <string name="error_message_location_provider_not_found">Location provider not allowed</string>
 
     <string name="about_title">About</string>
     <string name="about_description">SimpleThermometer gives you the outdoor temperature based on your location.
