@@ -45,7 +45,7 @@ public class PreferenceUtils {
 
 		if (temperatureUnit.equals(context.getString(R.string.temperature_unit_fahrenheit_symbol))) {
 			//Convert from Celsius to Fahrenheit
-			temperatureFlt += 32f;
+			temperatureFlt = temperatureFlt * 1.8f + 32f;
 		} else if (temperatureUnit.equals(context.getString(R.string.temperature_unit_kelvin_symbol))) {
 			//Convert from Celsius to Kelvin
 			temperatureFlt += 273.15f;
