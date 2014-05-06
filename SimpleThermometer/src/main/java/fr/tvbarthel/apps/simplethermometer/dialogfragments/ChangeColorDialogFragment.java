@@ -68,6 +68,7 @@ public class ChangeColorDialogFragment extends DialogFragment {
 			}
 		});
 		builder.setNegativeButton(R.string.alert_dialog_cancel_button, null);
+        builder.setInverseBackgroundForced(true);
 		return builder.create();
 	}
 

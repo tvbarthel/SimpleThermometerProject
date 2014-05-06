@@ -26,6 +26,7 @@ public class AboutDialogFragment extends DialogFragment {
 		builder.setTitle(R.string.about_title);
 		builder.setCancelable(true);
 		builder.setPositiveButton(R.string.alert_dialog_ok_button, null);
+        builder.setInverseBackgroundForced(true);
 		final TextView description = new TextView(getActivity());
 		description.setMovementMethod(LinkMovementMethod.getInstance());
 		final int paddingInPixelSize = getResources().getDimensionPixelSize(R.dimen.default_padding);
