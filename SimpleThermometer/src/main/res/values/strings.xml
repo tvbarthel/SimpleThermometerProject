@@ -23,11 +23,6 @@
     <string name="color_name_black">Black</string>
     <string name="color_name_white">White</string>
 
-    <string name="content_description_fair_icon">Fair Icon</string>
-    <string name="content_description_change_icon">Change Icon</string>
-    <string name="content_description_rain_icon">Rain Icon</string>
-    <string name="content_description_storm_icon">Storm Icon</string>
-
     <string name="message_loading_progress">Updating\n(%1$d%%)</string>
     <string name="temperature_unit_celsius">Celsius</string>
     <string name="temperature_unit_celsius_symbol">°C</string>
