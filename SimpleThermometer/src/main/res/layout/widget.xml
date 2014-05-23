@@ -11,18 +11,18 @@
 
     <ImageView
         android:id="@+id/widget_background"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="@dimen/widget_temperature_background_size"
+        android:layout_height="@dimen/widget_temperature_background_size"
         android:layout_centerInParent="true"
         android:src="@drawable/bg_ellipse" />
 
     <TextView
         android:id="@+id/widget_temperature"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="@dimen/widget_temperature_background_size"
+        android:layout_height="@dimen/widget_temperature_background_size"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:textSize="16sp"
+        android:textSize="@dimen/widget_temperature_text_size"
         tools:text="20°C" />
 
 </RelativeLayout>

@@ -1,7 +1,18 @@
 <resources>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="text_size_temperature">40sp</dimen>
     <dimen name="default_padding">8dp</dimen>
+
+    <!-- Main Activity -->
+    <dimen name="activity_main_temperature_text_size">40sp</dimen>
+    <dimen name="activity_main_temperature_background_size">170dp</dimen>
+    <dimen name="activity_main_line_height">2dp</dimen>
+    <dimen name="activity_main_line_margin">16dp</dimen>
+
+
+    <!-- App Widget -->
     <dimen name="widget_padding">8dp</dimen>
+    <dimen name="widget_temperature_text_size">16sp</dimen>
+    <dimen name="widget_temperature_background_size">70dp</dimen>
+
 </resources>
