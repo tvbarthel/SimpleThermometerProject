@@ -9,8 +9,6 @@
     <string name="change_color_fragment_text">Couleur du texte</string>
     <string name="change_color_fragment_foreground">Couleur du premier plan</string>
 
-    <string name="message_loading_progress">Mise à jour\n(%1$d%%)</string>
-
     <string name="error_message_network_not_connected">Pas de connexion</string>
     <string name="error_message_server_not_available">Server non disponible, essayez plus tard</string>
     <string name="error_message_malformed_url">Url malformée</string>

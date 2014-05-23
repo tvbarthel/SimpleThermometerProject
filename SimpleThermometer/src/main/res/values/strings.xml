@@ -23,7 +23,6 @@
     <string name="color_name_black">Black</string>
     <string name="color_name_white">White</string>
 
-    <string name="message_loading_progress">Updating\n(%1$d%%)</string>
     <string name="temperature_unit_celsius">Celsius</string>
     <string name="temperature_unit_celsius_symbol">°C</string>
     <string name="temperature_unit_kelvin">Kelvin</string>

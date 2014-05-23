@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +39,8 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
     private View mLeftLine;
     //Right Line
     private View mRightLine;
+    //Progress Bar
+    private ProgressBar mProgressBar;
 
 	/*
         Other
@@ -67,6 +70,7 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
         mLeftLine = findViewById(R.id.activity_main_horizontal_line_left);
         mRightLine = findViewById(R.id.activity_main_horizontal_line_right);
         mEllipseBackground = (GradientDrawable) mTextViewTemperature.getBackground();
+        mProgressBar = (ProgressBar) findViewById(R.id.activity_main_progress_bar);
 
         //Retrieve the default shared preferences instance
         mDefaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -172,7 +176,7 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
     }
 
 	/*
-		TemperatureLoader.Listener Override
+        TemperatureLoader.Listener Override
 	 */
 
     @Override
@@ -187,7 +191,9 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
     @Override
     public void onTemperatureLoadingProgress(int progress) {
         //Display the weather loader progress
-        mTextViewTemperature.setText(String.format(getString(R.string.message_loading_progress), progress));
+        mTextViewTemperature.setText("");
+        mProgressBar.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -227,6 +233,7 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
     private void displayLastKnownTemperature() {
         final String temperature = PreferenceUtils.getTemperatureAsString(this, mDefaultSharedPreferences);
         mTextViewTemperature.setText(temperature);
+        mProgressBar.setVisibility(View.INVISIBLE);
     }
 
     /**
