@@ -1,69 +1,46 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    android:id="@+id/relativeLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/holo_blue"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity"
-    android:background="@color/holo_blue"
-    android:id="@+id/relativeLayout">
+    tools:context=".MainActivity">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/linearLayout">
+    <View
+        android:id="@+id/activity_main_horizontal_line_left"
+        android:layout_width="wrap_content"
+        android:layout_height="2dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="16dp"
+        android:layout_toLeftOf="@+id/activity_main_temperature"
+        android:background="@color/holo_blue_deep" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:id="@+id/imageViewFair"
-            android:layout_gravity="left"
-            android:src="@drawable/ic_fair_light"
-            android:layout_weight="1"
-            android:contentDescription="@string/content_description_fair_icon" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:id="@+id/imageViewChange"
-            android:layout_gravity="right|center_vertical"
-            android:src="@drawable/ic_change_light"
-            android:layout_weight="1"
-            android:contentDescription="@string/content_description_change_icon" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:id="@+id/imageViewRain"
-            android:layout_gravity="left|center_vertical"
-            android:src="@drawable/ic_rain_or_wind_light"
-            android:layout_weight="1"
-            android:contentDescription="@string/content_description_rain_icon" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:id="@+id/imageViewStorm"
-            android:layout_gravity="right|center_vertical"
-            android:src="@drawable/ic_storm_light"
-            android:layout_weight="1"
-            android:contentDescription="@string/content_description_storm_icon" />
-    </LinearLayout>
+    <View
+        android:id="@+id/activity_main_horizontal_line_right"
+        android:layout_width="wrap_content"
+        android:layout_height="2dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@+id/activity_main_temperature"
+        android:background="@color/holo_blue_deep" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="@dimen/text_size_temperature"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:id="@+id/textViewTemperature"
+        android:id="@+id/activity_main_temperature"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
         android:layout_centerInParent="true"
-        android:gravity="center" />
+        android:background="@drawable/bg_ellipse"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_temperature"
+        tools:text="20°C" />
 
 </RelativeLayout>

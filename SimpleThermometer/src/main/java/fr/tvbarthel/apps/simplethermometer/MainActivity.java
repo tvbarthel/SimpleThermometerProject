@@ -2,13 +2,13 @@ package fr.tvbarthel.apps.simplethermometer;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.PorterDuff;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
+import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,16 +30,14 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 
 	//Display the temperature with the unit symbol
 	private TextView mTextViewTemperature;
+    //Text Background
+    private GradientDrawable mEllipseBackground;
 	//Root View
 	private RelativeLayout mRelativeLayoutBackground;
-	//ImageView of the fair weather icon
-	private ImageView mImageViewFair;
-	//ImageView of the change weather icon
-	private ImageView mImageViewChange;
-	//ImageView of the rain weather icon
-	private ImageView mImageViewRain;
-	//ImageView of the storm weather icon
-	private ImageView mImageViewStorm;
+    //Left Line
+    private View mLeftLine;
+    //Right Line
+    private View mRightLine;
 
 	/*
 		Other
@@ -64,12 +62,11 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 		mTemperatureLoader = new TemperatureLoader(this, getApplicationContext());
 
 		//Retrieve the UI elements references
-		mTextViewTemperature = (TextView) findViewById(R.id.textViewTemperature);
+		mTextViewTemperature = (TextView) findViewById(R.id.activity_main_temperature);
 		mRelativeLayoutBackground = (RelativeLayout) findViewById(R.id.relativeLayout);
-		mImageViewFair = (ImageView) findViewById(R.id.imageViewFair);
-		mImageViewChange = (ImageView) findViewById(R.id.imageViewChange);
-		mImageViewRain = (ImageView) findViewById(R.id.imageViewRain);
-		mImageViewStorm = (ImageView) findViewById(R.id.imageViewStorm);
+        mLeftLine = findViewById(R.id.activity_main_horizontal_line_left);
+        mRightLine = findViewById(R.id.activity_main_horizontal_line_right);
+        mEllipseBackground = (GradientDrawable) mTextViewTemperature.getBackground();
 
 		//Retrieve the default shared preferences instance
 		mDefaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -84,8 +81,8 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 		setBackgroundColor();
 		//Set the text color
 		setTextColor();
-		//Set the icon color
-		setIconColor();
+		//Set the foreground color
+		setForegroundColor();
 		//Display the temperature
 		displayLastKnownTemperature();
 		//refresh the temperature if it's outdated
@@ -149,9 +146,9 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 			//Set the new text color stored in the SharedPreferences "sharedPreferences"
 			setTextColor(sharedPreferences);
 			broadcastChangeToWidgets = true;
-		} else if (sharedPreferenceKey.equals(PreferenceUtils.PREF_KEY_ICON_COLOR)) {
-			//Set the new icon color stored in the SharedPreferences "sharedPreferences"
-			setIconColor(sharedPreferences);
+		} else if (sharedPreferenceKey.equals(PreferenceUtils.PREF_KEY_FOREGROUND_COLOR)) {
+			//Set the new foreground color stored in the SharedPreferences "sharedPreferences"
+			setForegroundColor(sharedPreferences);
 			broadcastChangeToWidgets = true;
 		} else if (sharedPreferenceKey.equals(PreferenceUtils.PREF_KEY_TEMPERATURE_UNIT_STRING)) {
 			//Display the temperature with the new unit stored in the SharedPreferences "sharedPreferences"
@@ -217,7 +214,7 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 		if (which == 1) {
 			sharedPrefColor = PreferenceUtils.PREF_KEY_TEXT_COLOR;
 		} else if (which == 2) {
-			sharedPrefColor = PreferenceUtils.PREF_KEY_ICON_COLOR;
+			sharedPrefColor = PreferenceUtils.PREF_KEY_FOREGROUND_COLOR;
 		}
 		pickSharedPreferenceColor(sharedPrefColor);
 	}
@@ -233,23 +230,22 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 	}
 
 	/**
-	 * Retrieve the icon color stored in a {@link android.content.SharedPreferences},
-	 * and apply a color filter to the icon ImageViews.
+	 * Retrieve the foreground color stored in a {@link android.content.SharedPreferences},
+	 * and apply it to the foreground elements.
 	 *
-	 * @param sharedPreferences the {@link android.content.SharedPreferences} used to retrieve the icon color
+	 * @param sharedPreferences the {@link android.content.SharedPreferences} used to retrieve the foreground color
 	 */
-	private void setIconColor(SharedPreferences sharedPreferences) {
-		//Retrieve the icon color
-		final int iconColor = PreferenceUtils.getIconColor(this, sharedPreferences);
-		//Apply a color Filter to the four ImageViews
-		mImageViewFair.setColorFilter(iconColor, PorterDuff.Mode.SRC_ATOP);
-		mImageViewChange.setColorFilter(iconColor, PorterDuff.Mode.SRC_ATOP);
-		mImageViewRain.setColorFilter(iconColor, PorterDuff.Mode.SRC_ATOP);
-		mImageViewStorm.setColorFilter(iconColor, PorterDuff.Mode.SRC_ATOP);
+	private void setForegroundColor(SharedPreferences sharedPreferences) {
+		//Retrieve the foreground color
+		final int foregroundColor = PreferenceUtils.getForegroundColor(this, sharedPreferences);
+		//Apply color to the foreground elements
+        mLeftLine.setBackgroundColor(foregroundColor);
+        mRightLine.setBackgroundColor(foregroundColor);
+        mEllipseBackground.setColor(foregroundColor);
 	}
 
-	private void setIconColor() {
-		setIconColor(mDefaultSharedPreferences);
+	private void setForegroundColor() {
+		setForegroundColor(mDefaultSharedPreferences);
 	}
 
 	/**

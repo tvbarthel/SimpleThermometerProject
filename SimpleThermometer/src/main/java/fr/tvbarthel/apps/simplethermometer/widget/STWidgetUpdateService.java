@@ -68,7 +68,7 @@ public class STWidgetUpdateService extends Service implements TemperatureLoader.
 		final String temperature = PreferenceUtils.getTemperatureAsString(context, defaultSharedPreferences);
 		final int textColor = PreferenceUtils.getTextColor(context, defaultSharedPreferences);
 		final int backgroundColor = PreferenceUtils.getBackgroundColor(context, defaultSharedPreferences);
-		final int iconColor = PreferenceUtils.getIconColor(context, defaultSharedPreferences);
+		final int foregroundColor = PreferenceUtils.getForegroundColor(context, defaultSharedPreferences);
 
 		//Update all the app widgets
 		for (int widgetId : mAllWidgetIds) {
@@ -78,8 +78,8 @@ public class STWidgetUpdateService extends Service implements TemperatureLoader.
 			remoteViews.setTextViewText(R.id.widget_temperature, temperature);
 			remoteViews.setTextColor(R.id.widget_temperature, textColor);
 			remoteViews.setInt(R.id.widget_root_layout, "setBackgroundColor", backgroundColor);
-			remoteViews.setInt(R.id.widget_fair_icon, "setColorFilter", iconColor);
-			remoteViews.setInt(R.id.widget_storm_icon, "setColorFilter", iconColor);
+			remoteViews.setInt(R.id.widget_fair_icon, "setColorFilter", foregroundColor);
+			remoteViews.setInt(R.id.widget_storm_icon, "setColorFilter", foregroundColor);
 
 			//Add a clickIntent on the app widget
 			//This Intent will launch the SimpleThermometer Application
