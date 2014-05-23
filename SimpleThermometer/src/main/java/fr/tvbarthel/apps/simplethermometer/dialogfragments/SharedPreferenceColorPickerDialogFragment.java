@@ -16,53 +16,53 @@ import fr.tvbarthel.apps.simplethermometer.R;
  */
 public class SharedPreferenceColorPickerDialogFragment extends DialogFragment {
 
-	private static final String BUNDLE_COLOR_NAMES = "BundleColorNames";
-	private static final String BUNDLE_COLOR_RESOURCE_IDS = "BundleColorResourceIds";
-	private static final String BUNLDE_PREFERENCE_KEY = "BundlePreferenceKey";
+    private static final String BUNDLE_COLOR_NAMES = "BundleColorNames";
+    private static final String BUNDLE_COLOR_RESOURCE_IDS = "BundleColorResourceIds";
+    private static final String BUNLDE_PREFERENCE_KEY = "BundlePreferenceKey";
 
-	public static SharedPreferenceColorPickerDialogFragment newInstance(String preferenceKey, String[] colorNames, int[] colorResourcesIds) {
-		SharedPreferenceColorPickerDialogFragment fragment = new SharedPreferenceColorPickerDialogFragment();
+    public static SharedPreferenceColorPickerDialogFragment newInstance(String preferenceKey, String[] colorNames, int[] colorResourcesIds) {
+        SharedPreferenceColorPickerDialogFragment fragment = new SharedPreferenceColorPickerDialogFragment();
 
-		//Put the preferenceKey, the color names and the color resource Ids in the fragment arguments
-		Bundle arguments = new Bundle();
-		arguments.putString(BUNLDE_PREFERENCE_KEY, preferenceKey);
-		arguments.putStringArray(BUNDLE_COLOR_NAMES, colorNames);
-		arguments.putIntArray(BUNDLE_COLOR_RESOURCE_IDS, colorResourcesIds);
-		fragment.setArguments(arguments);
-		return fragment;
-	}
+        //Put the preferenceKey, the color names and the color resource Ids in the fragment arguments
+        Bundle arguments = new Bundle();
+        arguments.putString(BUNLDE_PREFERENCE_KEY, preferenceKey);
+        arguments.putStringArray(BUNDLE_COLOR_NAMES, colorNames);
+        arguments.putIntArray(BUNDLE_COLOR_RESOURCE_IDS, colorResourcesIds);
+        fragment.setArguments(arguments);
+        return fragment;
+    }
 
 	/*
-		DialogFragment Overrides
+        DialogFragment Overrides
 	 */
 
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		//Retrieve information from the arguments
-		Bundle arguments = getArguments();
-		final String preferenceKey = arguments.getString(BUNLDE_PREFERENCE_KEY);
-		final String[] colorNames = arguments.getStringArray(BUNDLE_COLOR_NAMES);
-		final int[] colorResourceIds = arguments.getIntArray(BUNDLE_COLOR_RESOURCE_IDS);
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        //Retrieve information from the arguments
+        Bundle arguments = getArguments();
+        final String preferenceKey = arguments.getString(BUNLDE_PREFERENCE_KEY);
+        final String[] colorNames = arguments.getStringArray(BUNDLE_COLOR_NAMES);
+        final int[] colorResourceIds = arguments.getIntArray(BUNDLE_COLOR_RESOURCE_IDS);
 
-		//Create an AlertDialog to display the different colors that can be chosen
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle(R.string.shared_preference_color_picker_dialog_fragment_title);
-		final ArrayAdapter<String> arrayAdapterColorNames = new ArrayAdapter<String>(getActivity(),
-				android.R.layout.simple_expandable_list_item_1,
-				colorNames);
-		builder.setAdapter(arrayAdapterColorNames, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				SharedPreferences defaultPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-				SharedPreferences.Editor editor = defaultPreferences.edit();
-				editor.putInt(preferenceKey, colorResourceIds[which]);
-				editor.commit();
-			}
-		});
-		builder.setCancelable(true);
-		builder.setNegativeButton(R.string.alert_dialog_cancel_button, null);
+        //Create an AlertDialog to display the different colors that can be chosen
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.shared_preference_color_picker_dialog_fragment_title);
+        final ArrayAdapter<String> arrayAdapterColorNames = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_expandable_list_item_1,
+                colorNames);
+        builder.setAdapter(arrayAdapterColorNames, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SharedPreferences defaultPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                SharedPreferences.Editor editor = defaultPreferences.edit();
+                editor.putInt(preferenceKey, colorResourceIds[which]);
+                editor.commit();
+            }
+        });
+        builder.setCancelable(true);
+        builder.setNegativeButton(R.string.alert_dialog_cancel_button, null);
         builder.setInverseBackgroundForced(true);
 
-		return builder.create();
-	}
+        return builder.create();
+    }
 }

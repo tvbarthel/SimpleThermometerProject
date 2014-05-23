@@ -37,7 +37,6 @@
     <string name="temperature_unit_fahrenheit_symbol">°F</string>
 
 
-
     <string name="error_message_network_not_connected">No connection</string>
     <string name="error_message_server_not_available">Server not available, try again later</string>
     <string name="error_message_malformed_url">Malformed Url</string>
