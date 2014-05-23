@@ -52,7 +52,6 @@
     <string name="shared_preference_color_picker_dialog_fragment_title">Chose a Color</string>
     <string name="temperature_unit_picker_dialog_fragment_title">Chose a Unit</string>
     <string name="alert_dialog_cancel_button">Cancel</string>
-    <string name="alert_dialog_ok_button">Ok</string>
 
     <string name="url_open_weather_api">http://api.openweathermap.org/data/2.5/weather?lat=%1$f&amp;lon=%2$f&amp;mode=xml&amp;units=metric&amp;APPID=c756ce72a59777bd32a5762e12e74057</string>
 </resources>

@@ -60,7 +60,7 @@ public class SharedPreferenceColorPickerDialogFragment extends DialogFragment {
             }
         });
         builder.setCancelable(true);
-        builder.setNegativeButton(R.string.alert_dialog_cancel_button, null);
+        builder.setNegativeButton(android.R.string.cancel, null);
         builder.setInverseBackgroundForced(true);
 
         return builder.create();
