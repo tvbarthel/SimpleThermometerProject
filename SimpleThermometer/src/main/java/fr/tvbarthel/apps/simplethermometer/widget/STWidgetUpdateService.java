@@ -76,7 +76,7 @@ public class STWidgetUpdateService extends Service implements TemperatureLoader.
             //Use the stored values to update the app widget
             remoteViews.setTextViewText(R.id.widget_temperature, temperature);
             remoteViews.setTextColor(R.id.widget_temperature, textColor);
-            remoteViews.setInt(R.id.widget_background, "setColorFilter", foregroundColor);
+            remoteViews.setInt(R.id.widget_foreground, "setColorFilter", foregroundColor);
 
             //Add a clickIntent on the app widget
             //This Intent will launch the SimpleThermometer Application

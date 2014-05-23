@@ -38,7 +38,7 @@
         android:background="@drawable/bg_ellipse"
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/white"
+        android:textColor="@color/holo_blue"
         android:textSize="@dimen/activity_main_temperature_text_size"
         tools:text="20°C" />
 

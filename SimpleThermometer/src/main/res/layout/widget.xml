@@ -10,7 +10,7 @@
 
 
     <ImageView
-        android:id="@+id/widget_background"
+        android:id="@+id/widget_foreground"
         android:layout_width="@dimen/widget_temperature_background_size"
         android:layout_height="@dimen/widget_temperature_background_size"
         android:layout_centerInParent="true"
