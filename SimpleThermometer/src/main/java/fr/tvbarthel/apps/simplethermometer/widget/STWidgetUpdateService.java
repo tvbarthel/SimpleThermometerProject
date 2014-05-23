@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.GradientDrawable;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
@@ -67,7 +68,6 @@ public class STWidgetUpdateService extends Service implements TemperatureLoader.
 		final SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		final String temperature = PreferenceUtils.getTemperatureAsString(context, defaultSharedPreferences);
 		final int textColor = PreferenceUtils.getTextColor(context, defaultSharedPreferences);
-		final int backgroundColor = PreferenceUtils.getBackgroundColor(context, defaultSharedPreferences);
 		final int foregroundColor = PreferenceUtils.getForegroundColor(context, defaultSharedPreferences);
 
 		//Update all the app widgets
@@ -77,9 +77,7 @@ public class STWidgetUpdateService extends Service implements TemperatureLoader.
 			//Use the stored values to update the app widget
 			remoteViews.setTextViewText(R.id.widget_temperature, temperature);
 			remoteViews.setTextColor(R.id.widget_temperature, textColor);
-			remoteViews.setInt(R.id.widget_root_layout, "setBackgroundColor", backgroundColor);
-			remoteViews.setInt(R.id.widget_fair_icon, "setColorFilter", foregroundColor);
-			remoteViews.setInt(R.id.widget_storm_icon, "setColorFilter", foregroundColor);
+            remoteViews.setInt(R.id.widget_background, "setColorFilter", foregroundColor);
 
 			//Add a clickIntent on the app widget
 			//This Intent will launch the SimpleThermometer Application

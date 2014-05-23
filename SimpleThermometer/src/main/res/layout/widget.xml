@@ -1,45 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    android:id="@+id/widget_root_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/widget_padding"
-    android:background="@color/holo_blue_deep"
-    android:id="@+id/widget_root_layout">
+    android:padding="@dimen/widget_padding">
 
+
+    <ImageView
+        android:id="@+id/widget_background"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/bg_ellipse" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/widget_temperature"
-        android:layout_gravity="center"
-        android:textStyle="bold"
-        android:layout_centerInParent="true" />
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:textSize="16sp"
+        tools:text="20°C" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/widget_fair_icon"
-        android:src="@drawable/ic_fair_light"
-        android:contentDescription="@string/content_description_fair_icon"
-        android:layout_toLeftOf="@+id/widget_temperature"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignBottom="@+id/widget_temperature"
-        android:scaleType="fitCenter"
-        android:padding="@dimen/default_padding" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/widget_storm_icon"
-        android:layout_toRightOf="@+id/widget_temperature"
-        android:src="@drawable/ic_storm_light"
-        android:contentDescription="@string/content_description_storm_icon"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/widget_temperature"
-        android:scaleType="fitCenter"
-        android:padding="@dimen/default_padding" />
 </RelativeLayout>
