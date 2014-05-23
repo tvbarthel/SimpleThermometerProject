@@ -45,6 +45,6 @@
     <string-array name="change_color_options">
         <item>@string/change_color_fragment_background</item>
         <item>@string/change_color_fragment_text</item>
-        <item>@string/change_color_fragment_icon</item>
+        <item>@string/change_color_fragment_foreground</item>
     </string-array>
 </resources>

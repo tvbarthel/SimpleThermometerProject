@@ -8,7 +8,7 @@
 
     <string name="change_color_fragment_background">Background Color</string>
     <string name="change_color_fragment_text">Text Color</string>
-    <string name="change_color_fragment_icon">Icon Color</string>
+    <string name="change_color_fragment_foreground">Foreground Color</string>
 
     <string name="color_name_holo_blue">Holo Blue</string>
     <string name="color_name_holo_blue_deep">Holo Deep Blue</string>

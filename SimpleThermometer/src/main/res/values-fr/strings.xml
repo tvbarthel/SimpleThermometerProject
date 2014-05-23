@@ -5,9 +5,9 @@
     <string name="action_manual_refresh">Forcer la mise à jour</string>
     <string name="action_about">À Propos</string>
 
-    <string name="change_color_fragment_background">Couleur de fond</string>
+    <string name="change_color_fragment_background">Couleur d\'arrière plan</string>
     <string name="change_color_fragment_text">Couleur du texte</string>
-    <string name="change_color_fragment_icon">Couleur des icônes</string>
+    <string name="change_color_fragment_foreground">Couleur du premier plan</string>
 
     <string name="message_loading_progress">Mise à jour\n(%1$d%%)</string>
 
