@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SimpleThermometer</string>
+
+    <!-- Menu action items -->
     <string name="action_change_colors">Changer les couleurs</string>
     <string name="action_temperature_unit">Changer l\'unité</string>
     <string name="action_manual_refresh">Forcer la mise à jour</string>
@@ -8,10 +10,12 @@
     <string name="action_report_a_problem">Signaler un problème</string>
     <string name="action_more_apps">Plus d\'Applications</string>
 
+    <!-- Color picker -->
     <string name="change_color_fragment_background">Couleur d\'arrière plan</string>
     <string name="change_color_fragment_text">Couleur du texte</string>
     <string name="change_color_fragment_foreground">Couleur du premier plan</string>
 
+    <!-- Error messages -->
     <string name="error_message_network_not_connected">Pas de connexion</string>
     <string name="error_message_server_not_available">Server non disponible, essayez plus tard</string>
     <string name="error_message_malformed_url">Url malformée</string>
@@ -20,10 +24,12 @@
     <string name="error_message_location_not_found">Position non trouvée</string>
     <string name="error_message_location_provider_not_found">Service de localisation non autorisé</string>
 
+    <!-- Unit picker -->
     <string name="temperature_unit_celsius">Celsius</string>
     <string name="temperature_unit_kelvin">Kelvin</string>
     <string name="temperature_unit_fahrenheit">Fahrenheit</string>
 
+    <!-- About fragment -->
     <string name="about_title">À Propos</string>
     <string name="about_description">SimpleThermometer donne la température extérieure basée sur votre position.
         \n\nC\'est une application open source développée par deux étudiants:
