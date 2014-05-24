@@ -231,7 +231,7 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
     /**
      * Handle the "report a problem" action.
      * <p/>
-     * Start a new activity to send a proble report.
+     * Start a new activity to send a problem report.
      *
      * @return true if the action is handled, false otherwise.
      */
