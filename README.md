@@ -10,7 +10,6 @@ SimpleThermometer gives you the outside temperature according to your location, 
 
 &rarr; Network access and connections: SimpleThermometer uses the network only to get the temperature from openweathermap, and that's it.
 
-SimpleThermometer gives you the outdoor temperature based on your location.
 ###Disclaimer
 Developed by two students, this free and open-sourced application is distributed "as is", without any pretention.
 
