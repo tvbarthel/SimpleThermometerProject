@@ -12,25 +12,25 @@
     <string name="change_color_fragment_text">Text Color</string>
     <string name="change_color_fragment_foreground">Foreground Color</string>
 
-    <string name="color_name_holo_blue">Holo Blue</string>
-    <string name="color_name_holo_blue_deep">Holo Deep Blue</string>
-    <string name="color_name_holo_purple">Holo Purple</string>
-    <string name="color_name_holo_purple_deep">Holo Deep Purple</string>
-    <string name="color_name_holo_green">Holo Green</string>
-    <string name="color_name_holo_green_deep">Holo Deep Green</string>
-    <string name="color_name_holo_orange">Holo Orange</string>
-    <string name="color_name_holo_orange_deep">Holo Deep Orange</string>
-    <string name="color_name_holo_red">Holo Red</string>
-    <string name="color_name_holo_red_deep">Holo Deep Red</string>
-    <string name="color_name_black">Black</string>
-    <string name="color_name_white">White</string>
+    <string name="color_name_holo_blue" translatable="false">Holo Blue</string>
+    <string name="color_name_holo_blue_deep" translatable="false">Holo Deep Blue</string>
+    <string name="color_name_holo_purple" translatable="false">Holo Purple</string>
+    <string name="color_name_holo_purple_deep" translatable="false">Holo Deep Purple</string>
+    <string name="color_name_holo_green" translatable="false">Holo Green</string>
+    <string name="color_name_holo_green_deep" translatable="false">Holo Deep Green</string>
+    <string name="color_name_holo_orange" translatable="false">Holo Orange</string>
+    <string name="color_name_holo_orange_deep" translatable="false">Holo Deep Orange</string>
+    <string name="color_name_holo_red" translatable="false">Holo Red</string>
+    <string name="color_name_holo_red_deep" translatable="false">Holo Deep Red</string>
+    <string name="color_name_black" translatable="false">Black</string>
+    <string name="color_name_white" translatable="false">White</string>
 
     <string name="temperature_unit_celsius">Celsius</string>
-    <string name="temperature_unit_celsius_symbol">°C</string>
+    <string name="temperature_unit_celsius_symbol" translatable="false">°C</string>
     <string name="temperature_unit_kelvin">Kelvin</string>
-    <string name="temperature_unit_kelvin_symbol">K</string>
+    <string name="temperature_unit_kelvin_symbol" translatable="false">K</string>
     <string name="temperature_unit_fahrenheit">Fahrenheit</string>
-    <string name="temperature_unit_fahrenheit_symbol">°F</string>
+    <string name="temperature_unit_fahrenheit_symbol" translatable="false">°F</string>
 
 
     <string name="error_message_network_not_connected">No connection</string>
@@ -52,13 +52,12 @@
 
     <string name="shared_preference_color_picker_dialog_fragment_title">Chose a Color</string>
     <string name="temperature_unit_picker_dialog_fragment_title">Chose a Unit</string>
-    <string name="alert_dialog_cancel_button">Cancel</string>
 
-    <string name="url_open_weather_api">http://api.openweathermap.org/data/2.5/weather?lat=%1$f&amp;lon=%2$f&amp;mode=xml&amp;units=metric&amp;APPID=c756ce72a59777bd32a5762e12e74057</string>
+    <string name="url_open_weather_api" translatable="false">http://api.openweathermap.org/data/2.5/weather?lat=%1$f&amp;lon=%2$f&amp;mode=xml&amp;units=metric&amp;APPID=c756ce72a59777bd32a5762e12e74057</string>
 
     <!-- Report a Problem -->
-    <string name="report_a_problem_email" translate="false">tvbarthel@gmail.com</string>
-    <string name="report_a_problem_uri" translate="false">mailto:%1$s?subject=%2$s</string>
+    <string name="report_a_problem_email" translatable="false">tvbarthel@gmail.com</string>
+    <string name="report_a_problem_uri" translatable="false">mailto:%1$s?subject=%2$s</string>
     <string name="report_a_problem_default_subject">[SimpleThermometer] Problem report</string>
 
     <!-- More apps dialog fragment -->
