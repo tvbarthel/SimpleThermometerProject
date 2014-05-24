@@ -1,0 +1,13 @@
+<b>Description</b>
+SimpleThermometer gives you the outside temperature according to your location, and nothing more. This application is extremely light, fast, free and without any ads.
+It doesn't collect any personal data.
+
+<b>Permissions</b>
+&rarr; Approximate location: SimpleThermometer uses your approximate location to give you a relevant temperature.
+&rarr; Network access and connections: SimpleThermometer uses the network only to get the temperature from openweathermap, and that's it.
+
+<b>See for yourself!</b>
+SimpleThermometer is an open source application, it can't hide anything from you! You can explore its functionning at the following link https://github.com/tvbarthel/SimpleThermometerProject
+
+<b>Disclaimer</b>
+Developed by two students, this free and open-sourced application is distributed "as is", without any pretention.

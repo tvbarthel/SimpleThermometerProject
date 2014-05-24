@@ -1,0 +1,13 @@
+<b>Description</b>
+SimpleThermometer donne la température extérieure en fonction de votre position, et rien de plus. Cette application est légère, rapide, gratuite et sans publicité.
+Elle ne collecte aucune donnée personnelle.
+
+<b>Permissions</b>
+&rarr; Position approximative : SimpleThermometer utilise votre position approximative pour vous donner une température la plus pertinente possible.
+&rarr; Accés et connexions réseau : SimpleThermometer n'utilise le réseau que pour récupérer la température depuis openweathermap, et c'est tout.
+
+<b>Vérifiez par vous même !</b>
+SimpleThermometer est une application open source, elle ne peut rien vous cacher! Venez explorer son fonctionnement à l'adresse suivante https://github.com/tvbarthel/SimpleThermometerProject
+
+<b>Disclaimer</b>
+Développée par deux étudiants, cette application gratuite et open-source est livrée telle quelle, sans prétention aucune.
