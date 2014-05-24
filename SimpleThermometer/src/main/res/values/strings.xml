@@ -5,6 +5,7 @@
     <string name="action_temperature_unit">Set Unit</string>
     <string name="action_manual_refresh">Manual Refresh</string>
     <string name="action_about">About</string>
+    <string name="action_report_a_problem">Report a problem</string>
 
     <string name="change_color_fragment_background">Background Color</string>
     <string name="change_color_fragment_text">Text Color</string>
@@ -53,4 +54,9 @@
     <string name="alert_dialog_cancel_button">Cancel</string>
 
     <string name="url_open_weather_api">http://api.openweathermap.org/data/2.5/weather?lat=%1$f&amp;lon=%2$f&amp;mode=xml&amp;units=metric&amp;APPID=c756ce72a59777bd32a5762e12e74057</string>
+
+    <!-- Report a Problem -->
+    <string name="report_a_problem_email" translate="false">tvbarthel@gmail.com</string>
+    <string name="report_a_problem_uri" translate="false">mailto:%1$s?subject=%2$s</string>
+    <string name="report_a_problem_default_subject">[SimpleThermometer] Problem report</string>
 </resources>

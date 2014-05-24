@@ -2,25 +2,31 @@
     xmlns:resauto="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_item_action_set_color"
-        android:title="@string/action_change_colors"
         android:orderInCategory="100"
+        android:title="@string/action_change_colors"
         resauto:showAsAction="never" />
 
     <item
         android:id="@+id/menu_item_action_temperature_unit"
-        android:title="@string/action_temperature_unit"
         android:orderInCategory="103"
+        android:title="@string/action_temperature_unit"
         resauto:showAsAction="never" />
 
     <item
         android:id="@+id/menu_item_action_manual_refresh"
-        android:title="@string/action_manual_refresh"
         android:orderInCategory="104"
+        android:title="@string/action_manual_refresh"
+        resauto:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_item_action_report_a_problem"
+        android:orderInCategory="105"
+        android:title="@string/action_report_a_problem"
         resauto:showAsAction="never" />
 
     <item
         android:id="@+id/menu_item_action_about"
+        android:orderInCategory="106"
         android:title="@string/action_about"
-        android:orderInCategory="105"
         resauto:showAsAction="never" />
 </menu>

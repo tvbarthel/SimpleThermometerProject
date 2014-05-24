@@ -4,6 +4,7 @@
     <string name="action_temperature_unit">Changer l\'unité</string>
     <string name="action_manual_refresh">Forcer la mise à jour</string>
     <string name="action_about">À Propos</string>
+    <string name="action_report_a_problem">Signaler un problème</string>
 
     <string name="change_color_fragment_background">Couleur d\'arrière plan</string>
     <string name="change_color_fragment_text">Couleur du texte</string>
@@ -30,4 +31,7 @@
     <string name="temperature_unit_picker_dialog_fragment_title">Choisissez une Unité</string>
 
     <string name="url_open_weather_api">http://api.openweathermap.org/data/2.5/weather?lat=%1$f&amp;lon=%2$f&amp;mode=xml&amp;units=metric&amp;APPID=c756ce72a59777bd32a5762e12e74057&amp;lang=fr</string>
+
+    <!-- Report a Problem -->
+    <string name="report_a_problem_default_subject">[SimpleThermometer] Rapport de problème</string>
 </resources>

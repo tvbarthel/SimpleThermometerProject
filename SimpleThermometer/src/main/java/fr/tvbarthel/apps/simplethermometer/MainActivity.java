@@ -3,6 +3,7 @@ package fr.tvbarthel.apps.simplethermometer;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
@@ -130,6 +131,8 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
                 //Show the about AlertDialogFragment
                 displayAbout();
                 return true;
+            case R.id.menu_item_action_report_a_problem:
+                return handleReportAProblem();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -223,6 +226,25 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
             sharedPrefColor = PreferenceUtils.PREF_KEY_FOREGROUND_COLOR;
         }
         pickSharedPreferenceColor(sharedPrefColor);
+    }
+
+    /**
+     * Handle the "report a problem" action.
+     * <p/>
+     * Start a new activity to send a proble report.
+     *
+     * @return true if the action is handled, false otherwise.
+     */
+    private boolean handleReportAProblem() {
+        final String email = getString(R.string.report_a_problem_email);
+        final String subject = getString(R.string.report_a_problem_default_subject);
+        final String uriString = getString(R.string.report_a_problem_uri,
+                Uri.encode(email), Uri.encode(subject));
+        final Uri mailToUri = Uri.parse(uriString);
+        final Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(mailToUri);
+        startActivity(intent);
+        return true;
     }
 
     /**
