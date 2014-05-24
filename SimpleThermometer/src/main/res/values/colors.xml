@@ -15,4 +15,9 @@
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+
+    <!-- More apps dialog fragment -->
+    <color name="row_more_apps_background">#CC999999</color>
+    <color name="row_more_apps_title_background">#CC333333</color>
+    <color name="row_more_apps_title">#FFFFFFFF</color>
 </resources>

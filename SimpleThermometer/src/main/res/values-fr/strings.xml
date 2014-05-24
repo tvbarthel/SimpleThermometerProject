@@ -5,6 +5,7 @@
     <string name="action_manual_refresh">Forcer la mise à jour</string>
     <string name="action_about">À Propos</string>
     <string name="action_report_a_problem">Signaler un problème</string>
+    <string name="action_more_apps">Plus d\'Applications</string>
 
     <string name="change_color_fragment_background">Couleur d\'arrière plan</string>
     <string name="change_color_fragment_text">Couleur du texte</string>
@@ -34,4 +35,10 @@
 
     <!-- Report a Problem -->
     <string name="report_a_problem_default_subject">[SimpleThermometer] Rapport de problème</string>
+
+    <!-- More apps dialog fragment -->
+    <string name="dialog_more_apps_title">Plus d\'applications</string>
+    <string name="dialog_more_apps_simple_weather_forecast_app_name">Simple Weather Forecast</string>
+    <string name="dialog_more_apps_chase_whisply_app_name">Chase Whisply</string>
+    <string name="dialog_more_apps_googly_zoo_app_name">Googly Zoo</string>
 </resources>

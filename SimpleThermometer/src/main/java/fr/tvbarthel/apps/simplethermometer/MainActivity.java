@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.AboutDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.ChangeColorDialogFragment;
+import fr.tvbarthel.apps.simplethermometer.dialogfragments.MoreAppsDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.SharedPreferenceColorPickerDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.TemperatureUnitPickerDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.utils.ConnectivityUtils;
@@ -133,6 +134,8 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
                 return true;
             case R.id.menu_item_action_report_a_problem:
                 return handleReportAProblem();
+            case R.id.menu_item_action_more_apps:
+                return handleMoreApps();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -226,6 +229,16 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
             sharedPrefColor = PreferenceUtils.PREF_KEY_FOREGROUND_COLOR;
         }
         pickSharedPreferenceColor(sharedPrefColor);
+    }
+
+    /**
+     * Handle the "more apps" action.
+     *
+     * @return true is the action is handled, false otherwise.
+     */
+    private boolean handleMoreApps() {
+        (new MoreAppsDialogFragment()).show(getSupportFragmentManager(), null);
+        return true;
     }
 
     /**

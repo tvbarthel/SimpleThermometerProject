@@ -25,8 +25,14 @@
         resauto:showAsAction="never" />
 
     <item
-        android:id="@+id/menu_item_action_about"
+        android:id="@+id/menu_item_action_more_apps"
         android:orderInCategory="106"
+        android:title="@string/action_more_apps"
+        resauto:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_item_action_about"
+        android:orderInCategory="107"
         android:title="@string/action_about"
         resauto:showAsAction="never" />
 </menu>

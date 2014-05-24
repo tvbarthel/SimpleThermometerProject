@@ -15,4 +15,7 @@
     <dimen name="widget_temperature_text_size">16sp</dimen>
     <dimen name="widget_temperature_background_size">70dp</dimen>
 
+    <!-- More apps dialog fragment -->
+    <dimen name="dialog_more_app_app_name_padding">32dp</dimen>
+    <dimen name="dialog_more_app_logo_padding">8dp</dimen>
 </resources>
