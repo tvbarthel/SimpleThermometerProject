@@ -2,6 +2,8 @@ SimpleThermometerProject
 ========================
 [Download From Play Store](https://play.google.com/store/apps/details?id=fr.tvbarthel.apps.simplethermometer)
 
+![feature graphic](StoreListing/en-GB/feature_graphic.jpg)
+
 ###Description
 SimpleThermometer gives you the outside temperature according to your location, and nothing more. This application is extremely light, fast, free and without any ads. It doesn't collect any personal data.
 
