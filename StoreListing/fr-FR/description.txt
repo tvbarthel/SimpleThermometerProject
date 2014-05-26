@@ -1,4 +1,3 @@
-<b>Description</b>
 SimpleThermometer donne la température extérieure en fonction de votre position, et rien de plus. Cette application est légère, rapide, gratuite et sans publicité.
 Elle ne collecte aucune donnée personnelle.
 
