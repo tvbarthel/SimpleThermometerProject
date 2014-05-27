@@ -1,0 +1,5 @@
+Nouveau design de l'application
+Nouveau design du widget
+Quelques corrections de bug.
+
+Les permissions sont maintenant expliquées dans la description du play store.
