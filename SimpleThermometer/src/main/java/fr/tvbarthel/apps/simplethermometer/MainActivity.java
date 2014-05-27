@@ -2,6 +2,7 @@ package fr.tvbarthel.apps.simplethermometer;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -35,8 +37,6 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
     private TextView mTextViewTemperature;
     //Text Background
     private GradientDrawable mEllipseBackground;
-    //Root View
-    private RelativeLayout mRelativeLayoutBackground;
     //Left Line
     private View mLeftLine;
     //Right Line
@@ -68,7 +68,6 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 
         //Retrieve the UI elements references
         mTextViewTemperature = (TextView) findViewById(R.id.activity_main_temperature);
-        mRelativeLayoutBackground = (RelativeLayout) findViewById(R.id.relativeLayout);
         mLeftLine = findViewById(R.id.activity_main_horizontal_line_left);
         mRightLine = findViewById(R.id.activity_main_horizontal_line_right);
         mEllipseBackground = (GradientDrawable) mTextViewTemperature.getBackground();
@@ -316,7 +315,7 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
      */
     private void setBackgroundColor(SharedPreferences sharedPreferences) {
         final int backgroundColor = PreferenceUtils.getBackgroundColor(this, sharedPreferences);
-        mRelativeLayoutBackground.setBackgroundColor(backgroundColor);
+        getWindow().setBackgroundDrawable(new ColorDrawable(backgroundColor));
     }
 
     private void setBackgroundColor() {
