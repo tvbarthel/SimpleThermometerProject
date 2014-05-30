@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.widget.ArrayAdapter;
 
-import fr.tvbarthel.apps.simplethermometer.R;
-
 /**
  * A dialog fragment used to select a color to change
  */
