@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="@dimen/default_padding">
+
+    <View
+        android:id="@+id/row_color_pick_preview"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:background="@drawable/bg_ellipse" />
+
+    <TextView
+        android:id="@+id/row_color_pick_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:paddingLeft="@dimen/default_padding"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/black"
+        tools:text="Holo Blue" />
+
+</LinearLayout>

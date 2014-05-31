@@ -1,35 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="pref_color_list_names">
-        <item>@string/color_name_holo_blue</item>
-        <item>@string/color_name_holo_blue_deep</item>
-        <item>@string/color_name_holo_purple</item>
-        <item>@string/color_name_holo_purple_deep</item>
-        <item>@string/color_name_holo_green</item>
-        <item>@string/color_name_holo_green_deep</item>
-        <item>@string/color_name_holo_orange</item>
-        <item>@string/color_name_holo_orange_deep</item>
-        <item>@string/color_name_holo_red</item>
-        <item>@string/color_name_holo_red_deep</item>
-        <item>@string/color_name_black</item>
-        <item>@string/color_name_white</item>
-    </string-array>
-
-    <array name="pref_color_list_colors">
-        <item>@color/holo_blue</item>
-        <item>@color/holo_blue_deep</item>
-        <item>@color/holo_purple</item>
-        <item>@color/holo_purple_deep</item>
-        <item>@color/holo_green</item>
-        <item>@color/holo_green_deep</item>
-        <item>@color/holo_orange</item>
-        <item>@color/holo_orange_deep</item>
-        <item>@color/holo_red</item>
-        <item>@color/holo_red_deep</item>
-        <item>@color/black</item>
-        <item>@color/white</item>
-    </array>
-
     <string-array name="pref_temperature_name">
         <item>@string/temperature_unit_celsius</item>
         <item>@string/temperature_unit_fahrenheit</item>

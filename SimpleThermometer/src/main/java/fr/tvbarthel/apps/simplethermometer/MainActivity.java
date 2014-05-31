@@ -15,11 +15,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.AboutDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.ChangeColorDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.MoreAppsDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.SharedPreferenceColorPickerDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.TemperatureUnitPickerDialogFragment;
+import fr.tvbarthel.apps.simplethermometer.models.ColorPick;
 import fr.tvbarthel.apps.simplethermometer.utils.ConnectivityUtils;
 import fr.tvbarthel.apps.simplethermometer.utils.PreferenceUtils;
 import fr.tvbarthel.apps.simplethermometer.widget.STWidgetProvider;
@@ -336,9 +339,55 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
      * @param preferenceKey the {@link String} representing the sharedPreference key.
      */
     private void pickSharedPreferenceColor(String preferenceKey) {
-        SharedPreferenceColorPickerDialogFragment.newInstance(preferenceKey,
-                getResources().getStringArray(R.array.pref_color_list_names),
-                getResources().getIntArray(R.array.pref_color_list_colors)).show(getSupportFragmentManager(), null);
+        SharedPreferenceColorPickerDialogFragment.newInstance(preferenceKey, getColorPicks())
+                .show(getSupportFragmentManager(), null);
+    }
+
+    /**
+     * Get the colors that can be picked.
+     *
+     * @return an ArrayList of {@link fr.tvbarthel.apps.simplethermometer.models.ColorPick}
+     */
+    private ArrayList<ColorPick> getColorPicks() {
+        final ArrayList<ColorPick> colorPicks = new ArrayList<ColorPick>();
+        // Holo Blue
+        colorPicks.add(new ColorPick(getString(R.string.color_name_holo_blue),
+                getResources().getColor(R.color.holo_blue)));
+        // Holo Blue Deep
+        colorPicks.add(new ColorPick(getString(R.string.color_name_holo_blue_deep),
+                getResources().getColor(R.color.holo_blue_deep)));
+        // Holo Purple
+        colorPicks.add(new ColorPick(getString(R.string.color_name_holo_purple),
+                getResources().getColor(R.color.holo_purple)));
+        // Holo Purple Deep
+        colorPicks.add(new ColorPick(getString(R.string.color_name_holo_purple_deep),
+                getResources().getColor(R.color.holo_purple_deep)));
+        // Holo Green
+        colorPicks.add(new ColorPick(getString(R.string.color_name_holo_green),
+                getResources().getColor(R.color.holo_green)));
+        // Holo Green Deep
+        colorPicks.add(new ColorPick(getString(R.string.color_name_holo_green_deep),
+                getResources().getColor(R.color.holo_green_deep)));
+        // Holo Orange
+        colorPicks.add(new ColorPick(getString(R.string.color_name_holo_orange),
+                getResources().getColor(R.color.holo_orange)));
+        // Holo Orange Deep
+        colorPicks.add(new ColorPick(getString(R.string.color_name_holo_orange_deep),
+                getResources().getColor(R.color.holo_orange_deep)));
+        // Holo Red
+        colorPicks.add(new ColorPick(getString(R.string.color_name_holo_red),
+                getResources().getColor(R.color.holo_red)));
+        // Holo Red Deep
+        colorPicks.add(new ColorPick(getString(R.string.color_name_holo_red_deep),
+                getResources().getColor(R.color.holo_red_deep)));
+        // White
+        colorPicks.add(new ColorPick(getString(R.string.color_name_white),
+                getResources().getColor(R.color.white)));
+        // Black
+        colorPicks.add(new ColorPick(getString(R.string.color_name_black),
+                getResources().getColor(R.color.black)));
+
+        return colorPicks;
     }
 
 
