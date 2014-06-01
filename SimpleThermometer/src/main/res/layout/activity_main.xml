@@ -40,7 +40,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/holo_blue"
         android:textSize="@dimen/activity_main_temperature_text_size"
-        tools:text="20°C" />
+        tools:text="104.3°F" />
 
     <ProgressBar
         android:id="@+id/activity_main_progress_bar"

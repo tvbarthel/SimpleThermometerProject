@@ -2,4 +2,5 @@
     <!-- Customize dimensions originally defined in res/values/dimens.xml (such as
          screen margins) for sw600dp devices (e.g. 7" tablets) here. -->
     <dimen name="activity_main_temperature_text_size">70sp</dimen>
+    <dimen name="activity_main_temperature_background_size">280dp</dimen>
 </resources>

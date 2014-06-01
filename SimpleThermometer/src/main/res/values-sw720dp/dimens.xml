@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="activity_main_temperature_text_size">130sp</dimen>
-    <dimen name="activity_main_temperature_background_size">270dp</dimen>
-</resources>
