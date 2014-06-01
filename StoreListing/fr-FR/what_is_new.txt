@@ -1,5 +1,2 @@
-Nouveau design de l'application
-Nouveau design du widget
-Quelques corrections de bug.
-
-Les permissions sont maintenant expliquées dans la description du play store.
+Correction de l'affichage pour les tablettes (Bug remonté par un utilisateur, merci à lui !)
+Ajout d'un aperçu de la couleur à côté de son nom lors du choix des couleurs.

@@ -1,5 +1,2 @@
-New design for the application
-New design for the widget
-Some internal bug fixes.
-
-Permissions are now explained in the description on the play store.
+Fix the display of the temperature on tablets (Bug reported by a user, many thanks to him)
+Add a preview of the color next to its name during the color selection.
