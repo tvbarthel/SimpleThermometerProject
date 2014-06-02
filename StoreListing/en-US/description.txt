@@ -6,7 +6,7 @@ It doesn't collect any personal information.
 &rarr; Network access and connections: SimpleThermometer uses the network only to get the temperature from openweathermap, and that's it.
 
 <b>See for yourself!</b>
-SimpleThermometer is an open source application, it can't hide anything from you! You can explore its functionning at the following link https://github.com/tvbarthel/SimpleThermometerProject
+SimpleThermometer is an open source application, it can't hide anything from you! You can explore its functioning at the following link https://github.com/tvbarthel/SimpleThermometerProject
 
 <b>Disclaimer</b>
 Developed by two students, this free and open-sourced application is distributed "as is", without any pretention.
