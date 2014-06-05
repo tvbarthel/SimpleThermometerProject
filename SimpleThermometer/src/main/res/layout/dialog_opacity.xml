@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="@dimen/default_padding">
+
+    <View
+        android:id="@+id/dialog_opacity_preview"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/bg_ellipse" />
+
+    <SeekBar
+        android:id="@+id/dialog_opacity_seek_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:max="255" />
+
+</LinearLayout>

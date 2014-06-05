@@ -9,6 +9,7 @@
     <string name="action_about">À Propos</string>
     <string name="action_report_a_problem">Signaler un problème</string>
     <string name="action_more_apps">Plus d\'Applications</string>
+    <string name="action_set_opacity">Changer l\'opacité</string>
 
     <!-- Color picker -->
     <string name="change_color_fragment_background">Couleur d\'arrière plan</string>
@@ -28,6 +29,9 @@
     <string name="temperature_unit_celsius">Celsius</string>
     <string name="temperature_unit_kelvin">Kelvin</string>
     <string name="temperature_unit_fahrenheit">Fahrenheit</string>
+
+    <!-- Opacity Picker -->
+    <string name="opacity_picker_title">Choisissez l\'opacité</string>
 
     <!-- About fragment -->
     <string name="about_title">À Propos</string>

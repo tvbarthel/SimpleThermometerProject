@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.AboutDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.ChangeColorDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.MoreAppsDialogFragment;
+import fr.tvbarthel.apps.simplethermometer.dialogfragments.OpacityDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.SharedPreferenceColorPickerDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.TemperatureUnitPickerDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.models.ColorPick;
@@ -136,6 +137,8 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
                 return handleReportAProblem();
             case R.id.menu_item_action_more_apps:
                 return handleMoreApps();
+            case R.id.menu_item_action_set_opacity:
+                return handleSetOpacity();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -229,6 +232,11 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
             sharedPrefColor = PreferenceUtils.PREF_KEY_FOREGROUND_COLOR;
         }
         pickSharedPreferenceColor(sharedPrefColor);
+    }
+
+    private boolean handleSetOpacity() {
+        new OpacityDialogFragment().show(getSupportFragmentManager(), null);
+        return true;
     }
 
     /**

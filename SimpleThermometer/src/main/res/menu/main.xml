@@ -7,10 +7,17 @@
         resauto:showAsAction="never" />
 
     <item
+        android:id="@+id/menu_item_action_set_opacity"
+        android:orderInCategory="101"
+        android:title="@string/action_set_opacity"
+        resauto:showAsAction="never" />
+
+    <item
         android:id="@+id/menu_item_action_temperature_unit"
         android:orderInCategory="103"
         android:title="@string/action_temperature_unit"
         resauto:showAsAction="never" />
+
 
     <item
         android:id="@+id/menu_item_action_manual_refresh"

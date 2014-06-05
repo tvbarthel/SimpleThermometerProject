@@ -9,6 +9,7 @@
     <string name="action_about">About</string>
     <string name="action_report_a_problem">Report a problem</string>
     <string name="action_more_apps">More Apps</string>
+    <string name="action_set_opacity">Set Opacity</string>
 
     <!-- Color picker -->
     <string name="change_color_fragment_background">Background Color</string>
@@ -35,6 +36,9 @@
     <string name="temperature_unit_kelvin_symbol" translatable="false">K</string>
     <string name="temperature_unit_fahrenheit">Fahrenheit</string>
     <string name="temperature_unit_fahrenheit_symbol" translatable="false">°F</string>
+
+    <!-- Opacity Picker -->
+    <string name="opacity_picker_title">Set the opacity</string>
 
     <!-- Error messages -->
     <string name="error_message_network_not_connected">No connection</string>
