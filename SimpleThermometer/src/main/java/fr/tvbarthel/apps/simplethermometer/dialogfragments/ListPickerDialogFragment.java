@@ -9,19 +9,21 @@ import android.support.v4.app.DialogFragment;
 import android.widget.ArrayAdapter;
 
 /**
- * A dialog fragment used to select a color to change
+ * A dialog fragment used to select an item in a list.
  */
-public class ChangeColorDialogFragment extends DialogFragment {
+public class ListPickerDialogFragment extends DialogFragment {
 
-    private static final String BUNDLE_CHANGE_COLOR_OPTIONS = "BundleChangeColorOptions";
+    private static final String ARGS_CHOICE_ID = "ListPickerDialogFragment.Args.ChoiceId";
+    private static final String ARGS_CHOICES = "ListPickerDialogFragment.Args.Choices";
     private Listener mListener;
 
-    public static ChangeColorDialogFragment newInstance(String[] changeColorOption) {
-        ChangeColorDialogFragment fragment = new ChangeColorDialogFragment();
+    public static ListPickerDialogFragment newInstance(int choiceId, String[] choices) {
+        ListPickerDialogFragment fragment = new ListPickerDialogFragment();
 
         //Put the different colors that can be changed in the fragment arguments
         Bundle arguments = new Bundle();
-        arguments.putStringArray(BUNDLE_CHANGE_COLOR_OPTIONS, changeColorOption);
+        arguments.putInt(ARGS_CHOICE_ID, choiceId);
+        arguments.putStringArray(ARGS_CHOICES, choices);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -33,11 +35,11 @@ public class ChangeColorDialogFragment extends DialogFragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         //Try to cast the activity into a ChangeColorDialogFragment.Listener
-        if (activity instanceof ChangeColorDialogFragment.Listener) {
-            mListener = (ChangeColorDialogFragment.Listener) activity;
+        if (activity instanceof ListPickerDialogFragment.Listener) {
+            mListener = (ListPickerDialogFragment.Listener) activity;
         } else {
             throw new ClassCastException(activity.toString()
-                    + " must implement ChangeColorDialogFragment.Listener");
+                    + " must implement ListPickerDialogFragment.Listener");
         }
     }
 
@@ -52,17 +54,18 @@ public class ChangeColorDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         //Retrieve information from the arguments
         final Bundle arguments = getArguments();
-        final String[] changeColorOptions = arguments.getStringArray(BUNDLE_CHANGE_COLOR_OPTIONS);
+        final String[] choices = arguments.getStringArray(ARGS_CHOICES);
+        final int choiceId = arguments.getInt(ARGS_CHOICE_ID);
 
         //Create an AlertDialog to display the different color that can be changed
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_expandable_list_item_1,
-                changeColorOptions);
+                choices);
         builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mListener.onChangeColorRequested(which);
+                mListener.onChoiceSelected(choiceId, which);
             }
         });
         builder.setNegativeButton(android.R.string.cancel, null);
@@ -75,7 +78,7 @@ public class ChangeColorDialogFragment extends DialogFragment {
      */
     public interface Listener {
         //Notify the color to change
-        public void onChangeColorRequested(int which);
+        public void onChoiceSelected(int choiceId, int which);
     }
 
 }

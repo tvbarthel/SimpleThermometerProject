@@ -18,7 +18,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.AboutDialogFragment;
-import fr.tvbarthel.apps.simplethermometer.dialogfragments.ChangeColorDialogFragment;
+import fr.tvbarthel.apps.simplethermometer.dialogfragments.ListPickerDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.MoreAppsDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.OpacityDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.SharedPreferenceColorPickerDialogFragment;
@@ -29,7 +29,11 @@ import fr.tvbarthel.apps.simplethermometer.utils.PreferenceUtils;
 import fr.tvbarthel.apps.simplethermometer.widget.STWidgetProvider;
 
 public class MainActivity extends ActionBarActivity implements SharedPreferences.OnSharedPreferenceChangeListener,
-        ChangeColorDialogFragment.Listener, TemperatureLoader.Listener {
+        ListPickerDialogFragment.Listener, TemperatureLoader.Listener {
+
+
+    private static final int CHOICE_ID_COLORS = 100;
+    private static final int CHOICE_ID_OPACITIES = 200;
 
 	/*
         UI Elements
@@ -118,7 +122,7 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
         switch (item.getItemId()) {
             case R.id.menu_item_action_set_color:
                 //Ask for the color you want to change through an AlertDialogFragment
-                ChangeColorDialogFragment.newInstance(getResources().getStringArray(R.array.change_color_options)
+                ListPickerDialogFragment.newInstance(CHOICE_ID_COLORS, getResources().getStringArray(R.array.change_color_options)
                 ).show(getSupportFragmentManager(), null);
                 return true;
             case R.id.menu_item_action_temperature_unit:
@@ -224,7 +228,13 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
         ChangeColorDialogFragment.Listener Override
      */
     @Override
-    public void onChangeColorRequested(int which) {
+    public void onChoiceSelected(int choiceId, int which) {
+        if (choiceId == CHOICE_ID_COLORS) {
+            onColorSelected(which);
+        }
+    }
+
+    public void onColorSelected(int which) {
         String sharedPrefColor = PreferenceUtils.PREF_KEY_BACKGROUND_COLOR;
         if (which == 1) {
             sharedPrefColor = PreferenceUtils.PREF_KEY_TEXT_COLOR;
