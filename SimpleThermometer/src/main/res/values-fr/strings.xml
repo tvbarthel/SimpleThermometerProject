@@ -32,6 +32,9 @@
 
     <!-- Opacity Picker -->
     <string name="opacity_picker_title">Choisissez l\'opacité</string>
+    <string name="opacity_background">Opacité de l\'arrière plan</string>
+    <string name="opacity_foreground">Opacité du premier plan</string>
+    <string name="opacity_text">Opacité du text</string>
 
     <!-- About fragment -->
     <string name="about_title">À Propos</string>

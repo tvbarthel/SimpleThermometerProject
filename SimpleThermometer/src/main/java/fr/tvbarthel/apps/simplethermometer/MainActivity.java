@@ -230,11 +230,17 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
     @Override
     public void onChoiceSelected(int choiceId, int which) {
         if (choiceId == CHOICE_ID_COLORS) {
-            onColorSelected(which);
+            onColorChangeRequested(which);
+        } else if (choiceId == CHOICE_ID_OPACITIES) {
+            onOpacityChangeRequested(which);
         }
     }
 
-    public void onColorSelected(int which) {
+    private void onOpacityChangeRequested(int which) {
+        new OpacityDialogFragment().show(getSupportFragmentManager(), null);
+    }
+
+    private void onColorChangeRequested(int which) {
         String sharedPrefColor = PreferenceUtils.PREF_KEY_BACKGROUND_COLOR;
         if (which == 1) {
             sharedPrefColor = PreferenceUtils.PREF_KEY_TEXT_COLOR;
@@ -245,7 +251,9 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
     }
 
     private boolean handleSetOpacity() {
-        new OpacityDialogFragment().show(getSupportFragmentManager(), null);
+        // Ask which opacity to set
+        ListPickerDialogFragment.newInstance(CHOICE_ID_OPACITIES, getResources().getStringArray(R.array.change_opacity_options)
+        ).show(getSupportFragmentManager(), null);
         return true;
     }
 

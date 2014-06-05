@@ -39,6 +39,9 @@
 
     <!-- Opacity Picker -->
     <string name="opacity_picker_title">Set the opacity</string>
+    <string name="opacity_background">Background opacity</string>
+    <string name="opacity_foreground">Foreground opacity</string>
+    <string name="opacity_text">Text opacity</string>
 
     <!-- Error messages -->
     <string name="error_message_network_not_connected">No connection</string>

@@ -17,4 +17,10 @@
         <item>@string/change_color_fragment_text</item>
         <item>@string/change_color_fragment_foreground</item>
     </string-array>
+
+    <string-array name="change_opacity_options">
+        <item>@string/opacity_background</item>
+        <item>@string/opacity_text</item>
+        <item>@string/opacity_foreground</item>
+    </string-array>
 </resources>
