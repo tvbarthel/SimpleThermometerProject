@@ -17,7 +17,7 @@ public class PreferenceUtils {
     public static final String PREF_KEY_BACKGROUND_COLOR = "PrefKeyBackgroundColor";
     //Used to store the color of the text
     public static final String PREF_KEY_TEXT_COLOR = "PrefKeyTextColor";
-    //Used to store the color of the Foreground
+    //Used to store the color of the foreground
     public static final String PREF_KEY_FOREGROUND_COLOR = "PrefKeyForegroundColor";
     //Used to store the last retrieved temperature (in Celsius)
     public static final String PREF_KEY_LAST_TEMPERATURE_IN_CELSIUS = "PrefKeylastTemperatureInCelsius";
@@ -25,6 +25,14 @@ public class PreferenceUtils {
     public static final String PREF_KEY_LAST_UPDATE_TIME = "PrefKeyLastUpdateTime";
     //Used to store the temperature unit
     public static final String PREF_KEY_TEMPERATURE_UNIT_STRING = "PrefKeyTemperatureUnitString";
+    //Used to store the opacity of the background
+    public static final String PREF_KEY_BACKGROUND_OPACITY = "PrefKeyBackgroundOpacity";
+    //Used to store the opacity of the foreground
+    public static final String PREF_KEY_FOREGROUND_OPACITY = "PrefKeyForegroundOpacity";
+    //Used to store the opacity of the text
+    public static final String PREF_KEY_TEXT_OPACITY = "PrefKeyTextOpacity";
+
+    private static final int DEFAULT_ALPHA = 255;
 
 
     /**
@@ -54,6 +62,18 @@ public class PreferenceUtils {
         final String temperatureStr = new DecimalFormat("#.#").format(temperatureFlt);
 
         return temperatureStr + temperatureUnit;
+    }
+
+    public static int getTextAlpha(SharedPreferences sharedPreferences) {
+        return sharedPreferences.getInt(PREF_KEY_TEXT_OPACITY, DEFAULT_ALPHA);
+    }
+
+    public static int getBackgroundAlpha(SharedPreferences sharedPreferences) {
+        return sharedPreferences.getInt(PREF_KEY_BACKGROUND_OPACITY, DEFAULT_ALPHA);
+    }
+
+    public static int getForegroundAlpha(SharedPreferences sharedPreferences) {
+        return sharedPreferences.getInt(PREF_KEY_FOREGROUND_OPACITY, DEFAULT_ALPHA);
     }
 
     /**

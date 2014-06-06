@@ -2,6 +2,7 @@ package fr.tvbarthel.apps.simplethermometer;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
@@ -24,6 +25,7 @@ import fr.tvbarthel.apps.simplethermometer.dialogfragments.OpacityDialogFragment
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.SharedPreferenceColorPickerDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.TemperatureUnitPickerDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.models.ColorPick;
+import fr.tvbarthel.apps.simplethermometer.utils.ColorUtils;
 import fr.tvbarthel.apps.simplethermometer.utils.ConnectivityUtils;
 import fr.tvbarthel.apps.simplethermometer.utils.PreferenceUtils;
 import fr.tvbarthel.apps.simplethermometer.widget.STWidgetProvider;
@@ -163,7 +165,8 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
             //Set the new text color stored in the SharedPreferences "sharedPreferences"
             setTextColor(sharedPreferences);
             broadcastChangeToWidgets = true;
-        } else if (sharedPreferenceKey.equals(PreferenceUtils.PREF_KEY_FOREGROUND_COLOR)) {
+        } else if (sharedPreferenceKey.equals(PreferenceUtils.PREF_KEY_FOREGROUND_COLOR) ||
+                PreferenceUtils.PREF_KEY_FOREGROUND_OPACITY.equals(sharedPreferenceKey)) {
             //Set the new foreground color stored in the SharedPreferences "sharedPreferences"
             setForegroundColor(sharedPreferences);
             broadcastChangeToWidgets = true;
@@ -237,7 +240,13 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
     }
 
     private void onOpacityChangeRequested(int which) {
-        new OpacityDialogFragment().show(getSupportFragmentManager(), null);
+        String sharedPrefColor = PreferenceUtils.PREF_KEY_BACKGROUND_OPACITY;
+        if (which == 1) {
+            sharedPrefColor = PreferenceUtils.PREF_KEY_TEXT_OPACITY;
+        } else if (which == 2) {
+            sharedPrefColor = PreferenceUtils.PREF_KEY_FOREGROUND_OPACITY;
+        }
+        OpacityDialogFragment.newInstance(sharedPrefColor).show(getSupportFragmentManager(), null);
     }
 
     private void onColorChangeRequested(int which) {
@@ -305,7 +314,12 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
      */
     private void setForegroundColor(SharedPreferences sharedPreferences) {
         //Retrieve the foreground color
-        final int foregroundColor = PreferenceUtils.getForegroundColor(this, sharedPreferences);
+        int foregroundColor = PreferenceUtils.getForegroundColor(this, sharedPreferences);
+        // Retrieve the alpha
+        int foregroundAlpha = PreferenceUtils.getForegroundAlpha(sharedPreferences);
+        // Add the alpha to the color
+        foregroundColor = ColorUtils.addAlphaToColor(foregroundColor, foregroundAlpha);
+
         //Apply color to the foreground elements
         mLeftLine.setBackgroundColor(foregroundColor);
         mRightLine.setBackgroundColor(foregroundColor);

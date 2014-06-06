@@ -8,11 +8,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.widget.ImageView;
 import android.widget.RemoteViews;
 
 import fr.tvbarthel.apps.simplethermometer.MainActivity;
 import fr.tvbarthel.apps.simplethermometer.R;
 import fr.tvbarthel.apps.simplethermometer.TemperatureLoader;
+import fr.tvbarthel.apps.simplethermometer.utils.ColorUtils;
 import fr.tvbarthel.apps.simplethermometer.utils.PreferenceUtils;
 
 /**
