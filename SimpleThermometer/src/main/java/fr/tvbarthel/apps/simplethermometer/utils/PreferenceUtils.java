@@ -2,12 +2,33 @@ package fr.tvbarthel.apps.simplethermometer.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import java.text.DecimalFormat;
 
 import fr.tvbarthel.apps.simplethermometer.R;
 
 public class PreferenceUtils {
+
+    public static final int PREF_ID_BACKGROUND = 100;
+    public static final int PREF_ID_FOREGROUND = 200;
+    public static final int PREF_ID_TEXT = 300;
+
+    public enum PreferenceId {
+        BACKGROUND(PREF_KEY_BACKGROUND_COLOR, PREF_KEY_BACKGROUND_OPACITY,R.color.holo_blue),
+        FOREGROUND(PREF_KEY_FOREGROUND_COLOR, PREF_KEY_FOREGROUND_OPACITY, R.color.holo_blue_deep),
+        TEXT(PREF_KEY_TEXT_COLOR, PREF_KEY_TEXT_OPACITY, R.color.holo_blue);
+
+        private String mKeyColor;
+        private String mKeyAlpha;
+        private int mDefaultColor;
+
+        PreferenceId(String keyColor, String keyAlpha, int defaultColor) {
+            mKeyAlpha = keyAlpha;
+            mKeyColor = keyColor;
+            mDefaultColor = defaultColor;
+        }
+    }
 
 	/*
         Shared Preference Keys
@@ -34,16 +55,20 @@ public class PreferenceUtils {
 
     private static final int DEFAULT_ALPHA = 255;
 
+    public static SharedPreferences getDefaultSharedPreferences(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context);
+    }
+
 
     /**
      * Return a human readable string that represents the current temperature stored
      * in {@code sharedPreferences}.
      *
      * @param context           the {@link android.content.Context} for getting the strings
-     * @param sharedPreferences the {@link android.content.SharedPreferences} for retrieving the stored temperature
      * @return a {@link java.lang.String} representing the temperature.
      */
-    public static String getTemperatureAsString(Context context, SharedPreferences sharedPreferences) {
+    public static String getTemperatureAsString(Context context) {
+        final SharedPreferences sharedPreferences = getDefaultSharedPreferences(context);
         //Retrieve the unit symbol
         final String temperatureUnit = sharedPreferences.getString(PREF_KEY_TEMPERATURE_UNIT_STRING,
                 context.getString(R.string.temperature_unit_celsius_symbol));
@@ -64,54 +89,6 @@ public class PreferenceUtils {
         return temperatureStr + temperatureUnit;
     }
 
-    public static int getTextAlpha(SharedPreferences sharedPreferences) {
-        return sharedPreferences.getInt(PREF_KEY_TEXT_OPACITY, DEFAULT_ALPHA);
-    }
-
-    public static int getBackgroundAlpha(SharedPreferences sharedPreferences) {
-        return sharedPreferences.getInt(PREF_KEY_BACKGROUND_OPACITY, DEFAULT_ALPHA);
-    }
-
-    public static int getForegroundAlpha(SharedPreferences sharedPreferences) {
-        return sharedPreferences.getInt(PREF_KEY_FOREGROUND_OPACITY, DEFAULT_ALPHA);
-    }
-
-    /**
-     * Return the text color stored in {@code sharedPreferences}
-     *
-     * @param context           the {@link android.content.Context} for getting the default value
-     * @param sharedPreferences the {@link android.content.SharedPreferences} for retrieving the stored value
-     * @return a color integer
-     */
-    public static int getTextColor(Context context, SharedPreferences sharedPreferences) {
-        return sharedPreferences.getInt(PREF_KEY_TEXT_COLOR,
-                context.getResources().getColor(R.color.holo_blue));
-    }
-
-    /**
-     * Return the background color stored in {@code sharedPreferences}
-     *
-     * @param context           the {@link android.content.Context} for getting the default value
-     * @param sharedPreferences the {@link android.content.SharedPreferences} for retrieving the stored value
-     * @return a color integer
-     */
-    public static int getBackgroundColor(Context context, SharedPreferences sharedPreferences) {
-        return sharedPreferences.getInt(PREF_KEY_BACKGROUND_COLOR,
-                context.getResources().getColor(R.color.holo_blue));
-    }
-
-    /**
-     * Return the foreground color stored in {@code sharedPreferences}
-     *
-     * @param context           the {@link android.content.Context} for getting the default value
-     * @param sharedPreferences the {@link android.content.SharedPreferences} for retrieving the stored value
-     * @return a color integer
-     */
-    public static int getForegroundColor(Context context, SharedPreferences sharedPreferences) {
-        return sharedPreferences.getInt(PreferenceUtils.PREF_KEY_FOREGROUND_COLOR,
-                context.getResources().getColor(R.color.holo_blue_deep));
-    }
-
     /**
      * Save {@code temperatureInCelsius} in {@code sharedPreferences}
      *
@@ -126,4 +103,26 @@ public class PreferenceUtils {
         editor.putLong(PreferenceUtils.PREF_KEY_LAST_UPDATE_TIME, System.currentTimeMillis());
         editor.commit();
     }
+
+
+    public static boolean storePreferedAlpha(Context context, PreferenceId preferenceId, int newValue) {
+        final SharedPreferences.Editor editor = getDefaultSharedPreferences(context).edit();
+        editor.putInt(preferenceId.mKeyAlpha, newValue);
+        return editor.commit();
+    }
+
+    public static int getPreferedAlpha(Context context, PreferenceId preferenceId) {
+        return getDefaultSharedPreferences(context).getInt(preferenceId.mKeyAlpha, DEFAULT_ALPHA);
+    }
+
+    public static boolean storePreferedColor(Context context, PreferenceId preferenceId, int newValue) {
+        final SharedPreferences.Editor editor = getDefaultSharedPreferences(context).edit();
+        editor.putInt(preferenceId.mKeyColor, newValue);
+        return editor.commit();
+    }
+
+    public static int getPreferedColor(Context context, PreferenceId preferenceId) {
+        return getDefaultSharedPreferences(context).getInt(preferenceId.mKeyColor, context.getResources().getColor(preferenceId.mDefaultColor));
+    }
+
 }

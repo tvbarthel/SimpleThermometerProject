@@ -55,9 +55,6 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 	/*
         Other
 	 */
-
-    //Default Shared Preferences used in the app
-    private SharedPreferences mDefaultSharedPreferences;
     //An AsyncTask used to start the temperature
     private TemperatureLoader mTemperatureLoader;
     //A single Toast used to display textToast
@@ -80,16 +77,13 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
         mRightLine = findViewById(R.id.activity_main_horizontal_line_right);
         mEllipseBackground = (GradientDrawable) mTextViewTemperature.getBackground();
         mProgressBar = (ProgressBar) findViewById(R.id.activity_main_progress_bar);
-
-        //Retrieve the default shared preferences instance
-        mDefaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         //Listen to the shared preference changes
-        mDefaultSharedPreferences.registerOnSharedPreferenceChangeListener(this);
+        PreferenceUtils.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
         //Set the background color
         setBackgroundColor();
         //Set the text color
@@ -106,7 +100,7 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
     protected void onPause() {
         super.onPause();
         //Stop listening to shared preference changes
-        mDefaultSharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
+        PreferenceUtils.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
         //hide Toast if displayed
         hideToastIfDisplayed();
         //Pause the temperature Loader
@@ -159,16 +153,16 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
         //the shared preference with the key "sharedPreferenceKey" has changed
         if (sharedPreferenceKey.equals(PreferenceUtils.PREF_KEY_BACKGROUND_COLOR)) {
             //Set the new background color stored in the SharedPreferences "sharedPreferences"
-            setBackgroundColor(sharedPreferences);
+            setBackgroundColor();
             broadcastChangeToWidgets = true;
         } else if (sharedPreferenceKey.equals(PreferenceUtils.PREF_KEY_TEXT_COLOR)) {
             //Set the new text color stored in the SharedPreferences "sharedPreferences"
-            setTextColor(sharedPreferences);
+            setTextColor();
             broadcastChangeToWidgets = true;
         } else if (sharedPreferenceKey.equals(PreferenceUtils.PREF_KEY_FOREGROUND_COLOR) ||
                 PreferenceUtils.PREF_KEY_FOREGROUND_OPACITY.equals(sharedPreferenceKey)) {
             //Set the new foreground color stored in the SharedPreferences "sharedPreferences"
-            setForegroundColor(sharedPreferences);
+            setForegroundColor();
             broadcastChangeToWidgets = true;
         } else if (sharedPreferenceKey.equals(PreferenceUtils.PREF_KEY_TEMPERATURE_UNIT_STRING)) {
             //Display the temperature with the new unit stored in the SharedPreferences "sharedPreferences"
@@ -301,7 +295,7 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
      * so the temperature should be up to date.
      */
     private void displayLastKnownTemperature() {
-        final String temperature = PreferenceUtils.getTemperatureAsString(this, mDefaultSharedPreferences);
+        final String temperature = PreferenceUtils.getTemperatureAsString(this);
         mTextViewTemperature.setText(temperature);
         mProgressBar.setVisibility(View.INVISIBLE);
     }
@@ -309,14 +303,12 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
     /**
      * Retrieve the foreground color stored in a {@link android.content.SharedPreferences},
      * and apply it to the foreground elements.
-     *
-     * @param sharedPreferences the {@link android.content.SharedPreferences} used to retrieve the foreground color
      */
-    private void setForegroundColor(SharedPreferences sharedPreferences) {
+    private void setForegroundColor() {
         //Retrieve the foreground color
-        int foregroundColor = PreferenceUtils.getForegroundColor(this, sharedPreferences);
+        int foregroundColor = PreferenceUtils.getPreferedColor(this, PreferenceUtils.PreferenceId.FOREGROUND);
         // Retrieve the alpha
-        int foregroundAlpha = PreferenceUtils.getForegroundAlpha(sharedPreferences);
+        int foregroundAlpha = PreferenceUtils.getPreferedAlpha(this, PreferenceUtils.PreferenceId.FOREGROUND);
         // Add the alpha to the color
         foregroundColor = ColorUtils.addAlphaToColor(foregroundColor, foregroundAlpha);
 
@@ -326,41 +318,25 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
         mEllipseBackground.setColor(foregroundColor);
     }
 
-    private void setForegroundColor() {
-        setForegroundColor(mDefaultSharedPreferences);
-    }
-
     /**
      * Retrieve the text color stored in a {@link android.content.SharedPreferences},
      * and set it to the textViews.
-     *
-     * @param sharedPreferences the {@link android.content.SharedPreferences} used to retrieve the text color
      */
-    private void setTextColor(SharedPreferences sharedPreferences) {
+    private void setTextColor() {
         //Retrieve the text color
-        final int textColor = PreferenceUtils.getTextColor(this, sharedPreferences);
+        final int textColor = PreferenceUtils.getPreferedColor(this, PreferenceUtils.PreferenceId.TEXT);
         //Set the text color to the temperature textView
         mTextViewTemperature.setTextColor(textColor);
-    }
-
-    private void setTextColor() {
-        setTextColor(mDefaultSharedPreferences);
     }
 
 
     /**
      * Retrieve the background color stored in a {@link android.content.SharedPreferences},
      * and use it to set the background color of {@code mRelativeLayoutBackground}.
-     *
-     * @param sharedPreferences the {@link android.content.SharedPreferences} used to retrieve the background color
      */
-    private void setBackgroundColor(SharedPreferences sharedPreferences) {
-        final int backgroundColor = PreferenceUtils.getBackgroundColor(this, sharedPreferences);
-        getWindow().setBackgroundDrawable(new ColorDrawable(backgroundColor));
-    }
-
     private void setBackgroundColor() {
-        setBackgroundColor(mDefaultSharedPreferences);
+        final int backgroundColor = PreferenceUtils.getPreferedColor(this, PreferenceUtils.PreferenceId.BACKGROUND);
+        getWindow().setBackgroundDrawable(new ColorDrawable(backgroundColor));
     }
 
     /**
@@ -469,7 +445,7 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
         long updateInterval = TemperatureLoader.UPDATE_INTERVAL_IN_MILLIS;
         if (manualRefresh) updateInterval = TemperatureLoader.UPDATE_INTERVAL_IN_MILLIS_MANUAL;
 
-        if (TemperatureLoader.isTemperatureOutdated(mDefaultSharedPreferences, updateInterval)) {
+        if (TemperatureLoader.isTemperatureOutdated(PreferenceUtils.getDefaultSharedPreferences(this), updateInterval)) {
             if (!ConnectivityUtils.isNetworkConnected(this)) {
                 //there is no connection available
                 makeTextToast(R.string.error_message_network_not_connected);

@@ -67,9 +67,9 @@ public class STWidgetUpdateService extends Service implements TemperatureLoader.
         //Retrieve the stored values
         final Context context = getApplicationContext();
         final SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        final String temperature = PreferenceUtils.getTemperatureAsString(context, defaultSharedPreferences);
-        final int textColor = PreferenceUtils.getTextColor(context, defaultSharedPreferences);
-        final int foregroundColor = PreferenceUtils.getForegroundColor(context, defaultSharedPreferences);
+        final String temperature = PreferenceUtils.getTemperatureAsString(context);
+        final int textColor = PreferenceUtils.getPreferedColor(context, PreferenceUtils.PreferenceId.TEXT);
+        final int foregroundColor = PreferenceUtils.getPreferedColor(context, PreferenceUtils.PreferenceId.FOREGROUND);
 
         //Update all the app widgets
         for (int widgetId : mAllWidgetIds) {
