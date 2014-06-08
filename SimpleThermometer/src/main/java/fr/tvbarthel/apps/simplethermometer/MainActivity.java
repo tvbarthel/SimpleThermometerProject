@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -49,6 +50,9 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
     private View mRightLine;
     //Progress Bar
     private ProgressBar mProgressBar;
+    //The root to use as background
+    private View mRoot;
+
 
     /*
         Other
@@ -75,6 +79,7 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
         mRightLine = findViewById(R.id.activity_main_horizontal_line_right);
         mEllipseBackground = (GradientDrawable) mTextViewTemperature.getBackground();
         mProgressBar = (ProgressBar) findViewById(R.id.activity_main_progress_bar);
+        mRoot = findViewById(R.id.activity_main_root);
     }
 
     @Override
@@ -340,8 +345,15 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
                 PreferenceUtils.PreferenceId.BACKGROUND);
         final int backgroundAlpha = PreferenceUtils.getPreferedAlpha(this,
                 PreferenceUtils.PreferenceId.BACKGROUND);
-        getWindow().setBackgroundDrawable(new ColorDrawable(
-                ColorUtils.addAlphaToColor(backgroundColor, backgroundAlpha)));
+
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            mRoot.setBackgroundDrawable(new ColorDrawable(
+                    ColorUtils.addAlphaToColor(backgroundColor, backgroundAlpha)));
+        } else {
+            mRoot.setBackground(new ColorDrawable(
+                    ColorUtils.addAlphaToColor(backgroundColor, backgroundAlpha)));
+        }
+
     }
 
     /**
