@@ -2,12 +2,10 @@ package fr.tvbarthel.apps.simplethermometer;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,9 +50,9 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
     //Progress Bar
     private ProgressBar mProgressBar;
 
-	/*
+    /*
         Other
-	 */
+     */
     //An AsyncTask used to start the temperature
     private TemperatureLoader mTemperatureLoader;
     //A single Toast used to display textToast
@@ -151,11 +149,13 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String sharedPreferenceKey) {
         boolean broadcastChangeToWidgets = false;
         //the shared preference with the key "sharedPreferenceKey" has changed
-        if (sharedPreferenceKey.equals(PreferenceUtils.PREF_KEY_BACKGROUND_COLOR)) {
+        if (sharedPreferenceKey.equals(PreferenceUtils.PREF_KEY_BACKGROUND_COLOR) ||
+                PreferenceUtils.PREF_KEY_BACKGROUND_OPACITY.equals(sharedPreferenceKey)) {
             //Set the new background color stored in the SharedPreferences "sharedPreferences"
             setBackgroundColor();
             broadcastChangeToWidgets = true;
-        } else if (sharedPreferenceKey.equals(PreferenceUtils.PREF_KEY_TEXT_COLOR)) {
+        } else if (sharedPreferenceKey.equals(PreferenceUtils.PREF_KEY_TEXT_COLOR) ||
+                PreferenceUtils.PREF_KEY_TEXT_OPACITY.equals(sharedPreferenceKey)) {
             //Set the new text color stored in the SharedPreferences "sharedPreferences"
             setTextColor();
             broadcastChangeToWidgets = true;
@@ -234,13 +234,13 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
     }
 
     private void onOpacityChangeRequested(int which) {
-        String sharedPrefColor = PreferenceUtils.PREF_KEY_BACKGROUND_OPACITY;
+        PreferenceUtils.PreferenceId preferenceId = PreferenceUtils.PreferenceId.BACKGROUND;
         if (which == 1) {
-            sharedPrefColor = PreferenceUtils.PREF_KEY_TEXT_OPACITY;
+            preferenceId = PreferenceUtils.PreferenceId.TEXT;
         } else if (which == 2) {
-            sharedPrefColor = PreferenceUtils.PREF_KEY_FOREGROUND_OPACITY;
+            preferenceId = PreferenceUtils.PreferenceId.FOREGROUND;
         }
-        OpacityDialogFragment.newInstance(sharedPrefColor).show(getSupportFragmentManager(), null);
+        OpacityDialogFragment.newInstance(preferenceId).show(getSupportFragmentManager(), null);
     }
 
     private void onColorChangeRequested(int which) {
@@ -325,8 +325,9 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
     private void setTextColor() {
         //Retrieve the text color
         final int textColor = PreferenceUtils.getPreferedColor(this, PreferenceUtils.PreferenceId.TEXT);
+        final int textAlpha = PreferenceUtils.getPreferedAlpha(this, PreferenceUtils.PreferenceId.TEXT);
         //Set the text color to the temperature textView
-        mTextViewTemperature.setTextColor(textColor);
+        mTextViewTemperature.setTextColor(ColorUtils.addAlphaToColor(textColor, textAlpha));
     }
 
 
@@ -335,8 +336,12 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
      * and use it to set the background color of {@code mRelativeLayoutBackground}.
      */
     private void setBackgroundColor() {
-        final int backgroundColor = PreferenceUtils.getPreferedColor(this, PreferenceUtils.PreferenceId.BACKGROUND);
-        getWindow().setBackgroundDrawable(new ColorDrawable(backgroundColor));
+        final int backgroundColor = PreferenceUtils.getPreferedColor(this,
+                PreferenceUtils.PreferenceId.BACKGROUND);
+        final int backgroundAlpha = PreferenceUtils.getPreferedAlpha(this,
+                PreferenceUtils.PreferenceId.BACKGROUND);
+        getWindow().setBackgroundDrawable(new ColorDrawable(
+                ColorUtils.addAlphaToColor(backgroundColor, backgroundAlpha)));
     }
 
     /**
