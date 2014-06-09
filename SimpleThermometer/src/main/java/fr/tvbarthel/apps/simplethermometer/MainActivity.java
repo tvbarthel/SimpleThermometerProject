@@ -249,13 +249,13 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
     }
 
     private void onColorChangeRequested(int which) {
-        String sharedPrefColor = PreferenceUtils.PREF_KEY_BACKGROUND_COLOR;
+        PreferenceUtils.PreferenceId preferenceId = PreferenceUtils.PreferenceId.BACKGROUND;
         if (which == 1) {
-            sharedPrefColor = PreferenceUtils.PREF_KEY_TEXT_COLOR;
+            preferenceId = PreferenceUtils.PreferenceId.TEXT;
         } else if (which == 2) {
-            sharedPrefColor = PreferenceUtils.PREF_KEY_FOREGROUND_COLOR;
+            preferenceId = PreferenceUtils.PreferenceId.FOREGROUND;
         }
-        pickSharedPreferenceColor(sharedPrefColor);
+        pickSharedPreferenceColor(preferenceId);
     }
 
     private boolean handleSetOpacity() {
@@ -346,7 +346,7 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
         final int backgroundAlpha = PreferenceUtils.getPreferedAlpha(this,
                 PreferenceUtils.PreferenceId.BACKGROUND);
 
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
             mRoot.setBackgroundDrawable(new ColorDrawable(
                     ColorUtils.addAlphaToColor(backgroundColor, backgroundAlpha)));
         } else {
@@ -369,10 +369,10 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
      * Show a {@link fr.tvbarthel.apps.simplethermometer.dialogfragments.SharedPreferenceColorPickerDialogFragment}
      * to ask the user to chose a color to store for the sharedPreference with the key {@code preferenceKey}
      *
-     * @param preferenceKey the {@link String} representing the sharedPreference key.
+     * @param preferenceId the {@link fr.tvbarthel.apps.simplethermometer.utils.PreferenceUtils.PreferenceId} for which the color will be picked.
      */
-    private void pickSharedPreferenceColor(String preferenceKey) {
-        SharedPreferenceColorPickerDialogFragment.newInstance(preferenceKey, getColorPicks())
+    private void pickSharedPreferenceColor(PreferenceUtils.PreferenceId preferenceId) {
+        SharedPreferenceColorPickerDialogFragment.newInstance(preferenceId, getColorPicks())
                 .show(getSupportFragmentManager(), null);
     }
 

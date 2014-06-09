@@ -19,22 +19,23 @@ import java.util.ArrayList;
 
 import fr.tvbarthel.apps.simplethermometer.R;
 import fr.tvbarthel.apps.simplethermometer.models.ColorPick;
+import fr.tvbarthel.apps.simplethermometer.utils.PreferenceUtils;
 
 /**
  * A dialog fragment used to change and store a color
  */
 public class SharedPreferenceColorPickerDialogFragment extends DialogFragment {
 
-    private static final String BUNLDE_PREFERENCE_KEY = "BundlePreferenceKey";
-    private static final String BUNDLE_COLOR_PICKS = "BundleColorPicks";
+    private static final String ARG_PREFERENCE_ID = "SharedPreferenceColorPickerDialogFragment.Args.PreferenceId";
+    private static final String ARG_COLOR_PICKS = "SharedPreferenceColorPickerDialogFragment.Args.ColorPicks";
 
-    public static SharedPreferenceColorPickerDialogFragment newInstance(String preferenceKey, ArrayList<ColorPick> colorPicks) {
+    public static SharedPreferenceColorPickerDialogFragment newInstance(PreferenceUtils.PreferenceId preferenceId, ArrayList<ColorPick> colorPicks) {
         SharedPreferenceColorPickerDialogFragment fragment = new SharedPreferenceColorPickerDialogFragment();
 
         //Put the preferenceKey, the color names and the color resource Ids in the fragment arguments
         Bundle arguments = new Bundle();
-        arguments.putString(BUNLDE_PREFERENCE_KEY, preferenceKey);
-        arguments.putParcelableArrayList(BUNDLE_COLOR_PICKS, colorPicks);
+        arguments.putSerializable(ARG_PREFERENCE_ID, preferenceId);
+        arguments.putParcelableArrayList(ARG_COLOR_PICKS, colorPicks);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -47,8 +48,8 @@ public class SharedPreferenceColorPickerDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         //Retrieve information from the arguments
         Bundle arguments = getArguments();
-        final String preferenceKey = arguments.getString(BUNLDE_PREFERENCE_KEY);
-        final ArrayList<ColorPick> colorPicks = arguments.getParcelableArrayList(BUNDLE_COLOR_PICKS);
+        final PreferenceUtils.PreferenceId preferenceId = (PreferenceUtils.PreferenceId) arguments.getSerializable(ARG_PREFERENCE_ID);
+        final ArrayList<ColorPick> colorPicks = arguments.getParcelableArrayList(ARG_COLOR_PICKS);
 
         //Create an AlertDialog to display the different colors that can be chosen
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -57,10 +58,7 @@ public class SharedPreferenceColorPickerDialogFragment extends DialogFragment {
         builder.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                SharedPreferences defaultPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                SharedPreferences.Editor editor = defaultPreferences.edit();
-                editor.putInt(preferenceKey, colorPicks.get(which).getColor());
-                editor.commit();
+                PreferenceUtils.storePreferedColor(getActivity(), preferenceId, colorPicks.get(which).getColor());
             }
         });
         builder.setCancelable(true);
