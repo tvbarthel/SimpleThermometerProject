@@ -8,14 +8,20 @@ import java.text.DecimalFormat;
 
 import fr.tvbarthel.apps.simplethermometer.R;
 
-public class PreferenceUtils {
+/**
+ * A simple utils class used to managed the different prefenreces within the application.
+ */
+public final class PreferenceUtils {
 
     public static final int PREF_ID_BACKGROUND = 100;
     public static final int PREF_ID_FOREGROUND = 200;
     public static final int PREF_ID_TEXT = 300;
 
+    /**
+     * A Simple enum that represents the different preferences that can be associated with an alpha value and a color.
+     */
     public enum PreferenceId {
-        BACKGROUND(PREF_KEY_BACKGROUND_COLOR, PREF_KEY_BACKGROUND_OPACITY,R.color.holo_blue),
+        BACKGROUND(PREF_KEY_BACKGROUND_COLOR, PREF_KEY_BACKGROUND_OPACITY, R.color.holo_blue),
         FOREGROUND(PREF_KEY_FOREGROUND_COLOR, PREF_KEY_FOREGROUND_OPACITY, R.color.holo_blue_deep),
         TEXT(PREF_KEY_TEXT_COLOR, PREF_KEY_TEXT_OPACITY, R.color.holo_blue);
 
@@ -55,6 +61,12 @@ public class PreferenceUtils {
 
     private static final int DEFAULT_ALPHA = 255;
 
+    /**
+     * Get the default preferences associated with a {@link android.content.Context}.
+     *
+     * @param context the {@link android.content.Context} used to retrieve the {@link android.content.SharedPreferences}
+     * @return the default {@link android.content.SharedPreferences}.
+     */
     public static SharedPreferences getDefaultSharedPreferences(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
@@ -64,7 +76,7 @@ public class PreferenceUtils {
      * Return a human readable string that represents the current temperature stored
      * in {@code sharedPreferences}.
      *
-     * @param context           the {@link android.content.Context} for getting the strings
+     * @param context the {@link android.content.Context} for getting the strings
      * @return a {@link java.lang.String} representing the temperature.
      */
     public static String getTemperatureAsString(Context context) {
@@ -105,24 +117,58 @@ public class PreferenceUtils {
     }
 
 
+    /**
+     * Store the alpha value of a {@link fr.tvbarthel.apps.simplethermometer.utils.PreferenceUtils.PreferenceId}.
+     *
+     * @param context      the {@link android.content.Context} used to store the alpha value.
+     * @param preferenceId the {@link fr.tvbarthel.apps.simplethermometer.utils.PreferenceUtils.PreferenceId} for which the alpha will be stored.
+     * @param newValue     the new alpha value to store.
+     * @return true if the new value was successfully written to persistence storage, false otherwise.
+     */
     public static boolean storePreferedAlpha(Context context, PreferenceId preferenceId, int newValue) {
         final SharedPreferences.Editor editor = getDefaultSharedPreferences(context).edit();
         editor.putInt(preferenceId.mKeyAlpha, newValue);
         return editor.commit();
     }
 
+    /**
+     * Get the alpha value associated with a {@link fr.tvbarthel.apps.simplethermometer.utils.PreferenceUtils.PreferenceId}.
+     *
+     * @param context      the {@link android.content.Context} used to get the alpha value.
+     * @param preferenceId the {@link fr.tvbarthel.apps.simplethermometer.utils.PreferenceUtils.PreferenceId} associated with the alpha value.
+     * @return the alpha value.
+     */
     public static int getPreferedAlpha(Context context, PreferenceId preferenceId) {
         return getDefaultSharedPreferences(context).getInt(preferenceId.mKeyAlpha, DEFAULT_ALPHA);
     }
 
+    /**
+     * Store the color of a {@link fr.tvbarthel.apps.simplethermometer.utils.PreferenceUtils.PreferenceId}.
+     *
+     * @param context      the {@link android.content.Context} used to store the color.
+     * @param preferenceId the {@link fr.tvbarthel.apps.simplethermometer.utils.PreferenceUtils.PreferenceId} that willl be associated with the color.
+     * @param newValue     the new color value.
+     * @return true if the value was successfully written to persistence storage, false otherwise.
+     */
     public static boolean storePreferedColor(Context context, PreferenceId preferenceId, int newValue) {
         final SharedPreferences.Editor editor = getDefaultSharedPreferences(context).edit();
         editor.putInt(preferenceId.mKeyColor, newValue);
         return editor.commit();
     }
 
+    /**
+     * Get the color associated with a {@link fr.tvbarthel.apps.simplethermometer.utils.PreferenceUtils.PreferenceId}.
+     *
+     * @param context      the {@link android.content.Context} used to get the color.
+     * @param preferenceId the {@link fr.tvbarthel.apps.simplethermometer.utils.PreferenceUtils.PreferenceId} associated with the color.
+     * @return the color.
+     */
     public static int getPreferedColor(Context context, PreferenceId preferenceId) {
         return getDefaultSharedPreferences(context).getInt(preferenceId.mKeyColor, context.getResources().getColor(preferenceId.mDefaultColor));
+    }
+
+    // Non instantiable class.
+    private PreferenceUtils() {
     }
 
 }
