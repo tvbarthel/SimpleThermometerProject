@@ -5,7 +5,10 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-public class ConnectivityUtils {
+/**
+ * A simple utils class used to check if the device is connected to a network.
+ */
+public final class ConnectivityUtils {
 
     /**
      * Check if a network connection is available
@@ -18,5 +21,9 @@ public class ConnectivityUtils {
         //Retrieve info about the currently active default network
         final NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
+    }
+
+    // Non-instantiable class.
+    private ConnectivityUtils() {
     }
 }
