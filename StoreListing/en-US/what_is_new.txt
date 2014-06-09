@@ -1,2 +1,3 @@
-Fix the display of the temperature on tablets (Bug reported by a user, many thanks to him)
-Add a preview of the color next to its name during the color selection.
+Everything you asked for, still free and open-source!
+You can now manage the background opacity, the foreground opacity and the opacity of the text.
+We made the navigation bar translucent for the 4.4 devices.
