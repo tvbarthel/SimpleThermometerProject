@@ -6,6 +6,7 @@
         <!-- Customize your theme here. -->
         <item name="android:actionBarStyle">@style/AppTheme.ActionBarStyle</item>
         <item name="android:actionBarWidgetTheme">@style/AppTheme.ActionBarWidgetTheme</item>
+
         <item name="android:windowShowWallpaper">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
 
