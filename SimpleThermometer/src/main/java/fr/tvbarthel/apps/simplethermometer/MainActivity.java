@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,11 +29,12 @@ import fr.tvbarthel.apps.simplethermometer.dialogfragments.TemperatureUnitPicker
 import fr.tvbarthel.apps.simplethermometer.models.ColorPick;
 import fr.tvbarthel.apps.simplethermometer.utils.ColorUtils;
 import fr.tvbarthel.apps.simplethermometer.utils.ConnectivityUtils;
+import fr.tvbarthel.apps.simplethermometer.utils.LocationUtils;
 import fr.tvbarthel.apps.simplethermometer.utils.PreferenceUtils;
 import fr.tvbarthel.apps.simplethermometer.widget.STWidgetProvider;
 
 public class MainActivity extends ActionBarActivity implements SharedPreferences.OnSharedPreferenceChangeListener,
-        ListPickerDialogFragment.Listener, TemperatureLoader.Listener {
+        ListPickerDialogFragment.Listener, TemperatureLoader.Listener, LocationListener {
 
 
     private static final int CHOICE_ID_COLORS = 100;
@@ -61,6 +65,8 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
     private TemperatureLoader mTemperatureLoader;
     //A single Toast used to display textToast
     private Toast mTextToast;
+    // A Reference to the location manager
+    private LocationManager mLocationManager;
 
 	/*
         Activity Overrides
@@ -72,6 +78,7 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
         setContentView(R.layout.activity_main);
 
         mTemperatureLoader = new TemperatureLoader(this, getApplicationContext());
+        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         //Retrieve the UI elements references
         mTextViewTemperature = (TextView) findViewById(R.id.activity_main_temperature);
@@ -108,6 +115,8 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
         hideToastIfDisplayed();
         //Pause the temperature Loader
         mTemperatureLoader.pause();
+        //If onPause occurs before requestSingleUpdate end, we should remove the update.
+        mLocationManager.removeUpdates(this);
     }
 
     @Override
@@ -145,6 +154,29 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    /*
+        LocationListener Implementation
+     */
+    @Override
+    public void onLocationChanged(Location location) {
+        mTemperatureLoader.start(location);
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 
     /*
@@ -201,14 +233,6 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
         //so the last known temperature should be the
         //new temperature that has just been retrieved.
         displayLastKnownTemperature();
-    }
-
-    @Override
-    public void onTemperatureLoadingProgress(int progress) {
-        //Display the weather loader progress
-        mTextViewTemperature.setText("");
-        mProgressBar.setVisibility(View.VISIBLE);
-
     }
 
     @Override
@@ -461,13 +485,21 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
         //Get the update Interval
         long updateInterval = TemperatureLoader.UPDATE_INTERVAL_IN_MILLIS;
         if (manualRefresh) updateInterval = TemperatureLoader.UPDATE_INTERVAL_IN_MILLIS_MANUAL;
-
         if (TemperatureLoader.isTemperatureOutdated(PreferenceUtils.getDefaultSharedPreferences(this), updateInterval)) {
             if (!ConnectivityUtils.isNetworkConnected(this)) {
                 //there is no connection available
                 makeTextToast(R.string.error_message_network_not_connected);
             } else {
-                mTemperatureLoader.start();
+                final String provider = LocationUtils.getBestCoarseProvider(this);
+                if (provider == null) {
+                    makeTextToast(R.string.error_message_location_provider_not_found);
+                } else {
+                    if(manualRefresh) {
+                        mTextViewTemperature.setText("");
+                        mProgressBar.setVisibility(View.VISIBLE);
+                    }
+                    mLocationManager.requestSingleUpdate(provider, this, null);
+                }
             }
         }
     }

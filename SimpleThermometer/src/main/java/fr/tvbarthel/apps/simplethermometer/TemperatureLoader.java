@@ -1,11 +1,8 @@
 package fr.tvbarthel.apps.simplethermometer;
 
-import android.app.Service;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationManager;
 import android.preference.PreferenceManager;
 
 import fr.tvbarthel.apps.simplethermometer.openweathermap.OpenWeatherMapParserAsyncTask;
@@ -42,41 +39,23 @@ public class TemperatureLoader implements OpenWeatherMapParserAsyncTask.Listener
      * To check if the temperature is outdated use
      * {@link fr.tvbarthel.apps.simplethermometer.TemperatureLoader#isTemperatureOutdated(android.content.SharedPreferences, long)}
      */
-    public void start() {
+    public void start(Location lastKnownLocation) {
         if (mOpenWeatherMapParserAsyncTask != null) {
             // there is already an async task running
             mListener.onTemperatureLoadingCancelled();
         } else {
-            //retrieve an instance of the LocationManager
-            final LocationManager locationManager = (LocationManager) mContext.getSystemService(Service.LOCATION_SERVICE);
-            //Get a location with a coarse accuracy
-            final Criteria criteria = new Criteria();
-            criteria.setAccuracy(Criteria.ACCURACY_COARSE);
-            final String provider = locationManager.getBestProvider(criteria, true);
-            if (provider == null) {
-                //No Provider found
-                mListener.onTemperatureLoadingFail(R.string.error_message_location_provider_not_found);
-            } else {
-                //Retrieve the location from the provider
-                final Location location = locationManager.getLastKnownLocation(provider);
-                if (location == null) {
-                    //no location found
-                    mListener.onTemperatureLoadingFail(R.string.error_message_location_not_found);
-                } else {
-                    //Retrieve the latitude and the longitude from the location
-                    // and execute a weather loader
-                    final double latitude = location.getLatitude();
-                    final double longitude = location.getLongitude();
+            //Retrieve the latitude and the longitude from the location
+            // and execute a weather loader
+            final double latitude = lastKnownLocation.getLatitude();
+            final double longitude = lastKnownLocation.getLongitude();
 
-                    //execute the AsyncTask
-                    mOpenWeatherMapParserAsyncTask = new OpenWeatherMapParserAsyncTask(this);
-                    mOpenWeatherMapParserAsyncTask.execute(String.format(
-                            mContext.getResources().getString(R.string.url_open_weather_api), latitude, longitude));
-                }
-            }
-
+            //execute the AsyncTask
+            mOpenWeatherMapParserAsyncTask = new OpenWeatherMapParserAsyncTask(this);
+            mOpenWeatherMapParserAsyncTask.execute(String.format(
+                    mContext.getResources().getString(R.string.url_open_weather_api), latitude, longitude));
         }
     }
+
 
     /**
      * Pause the loader
@@ -112,7 +91,7 @@ public class TemperatureLoader implements OpenWeatherMapParserAsyncTask.Listener
 
     @Override
     public void onWeatherLoadingProgress(int progress) {
-        mListener.onTemperatureLoadingProgress(progress);
+
     }
 
     @Override
@@ -127,11 +106,10 @@ public class TemperatureLoader implements OpenWeatherMapParserAsyncTask.Listener
     public interface Listener {
         public void onTemperatureLoadingSuccess();
 
-        public void onTemperatureLoadingProgress(int progress);
-
         public void onTemperatureLoadingFail(int stringResourceId);
 
         public void onTemperatureLoadingCancelled();
+
     }
 
     /**

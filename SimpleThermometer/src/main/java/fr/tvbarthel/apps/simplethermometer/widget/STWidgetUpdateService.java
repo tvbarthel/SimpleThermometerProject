@@ -6,22 +6,26 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
-import android.widget.ImageView;
 import android.widget.RemoteViews;
 
 import fr.tvbarthel.apps.simplethermometer.MainActivity;
 import fr.tvbarthel.apps.simplethermometer.R;
 import fr.tvbarthel.apps.simplethermometer.TemperatureLoader;
 import fr.tvbarthel.apps.simplethermometer.utils.ColorUtils;
+import fr.tvbarthel.apps.simplethermometer.utils.LocationUtils;
 import fr.tvbarthel.apps.simplethermometer.utils.PreferenceUtils;
 
 /**
  * A {@link android.app.Service} used by the {@link fr.tvbarthel.apps.simplethermometer.widget.STWidgetProvider}
  * to update the Simple Thermometer Widgets.
  */
-public class STWidgetUpdateService extends Service implements TemperatureLoader.Listener {
+public class STWidgetUpdateService extends Service implements TemperatureLoader.Listener, LocationListener {
 
     public static final String EXTRA_RELOAD_TEMPERATURE = "ExtraReloadTemperature";
 
@@ -29,10 +33,19 @@ public class STWidgetUpdateService extends Service implements TemperatureLoader.
     private AppWidgetManager mAppWidgetManager;
     //The Simple Thermometer Widget Ids
     private int[] mAllWidgetIds;
+    //A reference to the location manager
+    private LocationManager mLocationManager;
 
     /*
         Service overrides
      */
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+    }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mAppWidgetManager = AppWidgetManager.getInstance(this.getApplicationContext());
@@ -40,8 +53,14 @@ public class STWidgetUpdateService extends Service implements TemperatureLoader.
 
         //Check if the temperature has to be reloaded
         if (intent.getBooleanExtra(EXTRA_RELOAD_TEMPERATURE, false)) {
-            //start a temperature loader
-            new TemperatureLoader(this, getApplicationContext()).start();
+            // Get a new location
+            final String provider = LocationUtils.getBestCoarseProvider(this);
+            if(provider == null) {
+                // can't get a new location
+                finalizeUpdateRequest();
+            } else {
+                mLocationManager.requestSingleUpdate(provider, this, null);
+            }
         } else {
             //finalize the update
             finalizeUpdateRequest();
@@ -112,11 +131,6 @@ public class STWidgetUpdateService extends Service implements TemperatureLoader.
     }
 
     @Override
-    public void onTemperatureLoadingProgress(int progress) {
-        finalizeUpdateRequest();
-    }
-
-    @Override
     public void onTemperatureLoadingFail(int stringResourceId) {
         finalizeUpdateRequest();
     }
@@ -124,5 +138,26 @@ public class STWidgetUpdateService extends Service implements TemperatureLoader.
     @Override
     public void onTemperatureLoadingCancelled() {
         finalizeUpdateRequest();
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        //start a temperature loader
+        new TemperatureLoader(this, getApplicationContext()).start(location);
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 }
