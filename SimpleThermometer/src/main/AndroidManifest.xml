@@ -26,6 +26,7 @@
         </receiver>
 
         <service android:name=".widget.STWidgetUpdateService" />
+        <service android:name=".services.TemperatureUpdaterService" />
 
         <activity
             android:name=".MainActivity"

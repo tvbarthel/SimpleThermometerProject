@@ -24,6 +24,7 @@
     <string name="error_message_xml_pull_parser_exception">XmlPullParserException</string>
     <string name="error_message_location_not_found">Position non trouvée</string>
     <string name="error_message_location_provider_not_found">Service de localisation non autorisé</string>
+    <string name="error_message_temperature_up_to_date">À jour.</string>
 
     <!-- Unit picker -->
     <string name="temperature_unit_celsius">Celsius</string>

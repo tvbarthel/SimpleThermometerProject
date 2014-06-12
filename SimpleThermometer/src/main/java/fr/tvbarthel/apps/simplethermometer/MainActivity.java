@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
@@ -27,14 +25,13 @@ import fr.tvbarthel.apps.simplethermometer.dialogfragments.OpacityDialogFragment
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.SharedPreferenceColorPickerDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.TemperatureUnitPickerDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.models.ColorPick;
+import fr.tvbarthel.apps.simplethermometer.services.TemperatureUpdaterService;
 import fr.tvbarthel.apps.simplethermometer.utils.ColorUtils;
-import fr.tvbarthel.apps.simplethermometer.utils.ConnectivityUtils;
-import fr.tvbarthel.apps.simplethermometer.utils.LocationUtils;
 import fr.tvbarthel.apps.simplethermometer.utils.PreferenceUtils;
 import fr.tvbarthel.apps.simplethermometer.widget.STWidgetProvider;
 
 public class MainActivity extends ActionBarActivity implements SharedPreferences.OnSharedPreferenceChangeListener,
-        ListPickerDialogFragment.Listener, TemperatureLoader.Listener, LocationListener {
+        ListPickerDialogFragment.Listener {
 
 
     private static final int CHOICE_ID_COLORS = 100;
@@ -61,8 +58,6 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
     /*
         Other
      */
-    //An AsyncTask used to start the temperature
-    private TemperatureLoader mTemperatureLoader;
     //A single Toast used to display textToast
     private Toast mTextToast;
     // A Reference to the location manager
@@ -77,7 +72,6 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTemperatureLoader = new TemperatureLoader(this, getApplicationContext());
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         //Retrieve the UI elements references
@@ -113,10 +107,6 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
         PreferenceUtils.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
         //hide Toast if displayed
         hideToastIfDisplayed();
-        //Pause the temperature Loader
-        mTemperatureLoader.pause();
-        //If onPause occurs before requestSingleUpdate end, we should remove the update.
-        mLocationManager.removeUpdates(this);
     }
 
     @Override
@@ -154,29 +144,6 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    /*
-        LocationListener Implementation
-     */
-    @Override
-    public void onLocationChanged(Location location) {
-        mTemperatureLoader.start(location);
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
     }
 
     /*
@@ -222,34 +189,9 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 
     }
 
-	/*
+    /*
         TemperatureLoader.Listener Override
-	 */
-
-    @Override
-    public void onTemperatureLoadingSuccess() {
-        //The temperature has been correctly loaded
-        //and stored in the defaultSharedPreferences
-        //so the last known temperature should be the
-        //new temperature that has just been retrieved.
-        displayLastKnownTemperature();
-    }
-
-    @Override
-    public void onTemperatureLoadingFail(int stringResourceId) {
-        //Show the reason of the failure
-        makeTextToast(stringResourceId);
-        //Display the last known temperature
-        displayLastKnownTemperature();
-    }
-
-    @Override
-    public void onTemperatureLoadingCancelled() {
-        //Display the last known temperature
-        displayLastKnownTemperature();
-    }
-
-
+     */
     /*
         ChangeColorDialogFragment.Listener Override
      */
@@ -482,25 +424,14 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
      * @param manualRefresh true if it's a manual refresh request
      */
     private void refreshTemperatureIfOutdated(boolean manualRefresh) {
-        //Get the update Interval
-        long updateInterval = TemperatureLoader.UPDATE_INTERVAL_IN_MILLIS;
-        if (manualRefresh) updateInterval = TemperatureLoader.UPDATE_INTERVAL_IN_MILLIS_MANUAL;
-        if (TemperatureLoader.isTemperatureOutdated(PreferenceUtils.getDefaultSharedPreferences(this), updateInterval)) {
-            if (!ConnectivityUtils.isNetworkConnected(this)) {
-                //there is no connection available
-                makeTextToast(R.string.error_message_network_not_connected);
-            } else {
-                final String provider = LocationUtils.getBestCoarseProvider(this);
-                if (provider == null) {
-                    makeTextToast(R.string.error_message_location_provider_not_found);
-                } else {
-                    if(manualRefresh) {
-                        mTextViewTemperature.setText("");
-                        mProgressBar.setVisibility(View.VISIBLE);
-                    }
-                    mLocationManager.requestSingleUpdate(provider, this, null);
-                }
+        if (PreferenceUtils.isTemperatureOutdated(this, manualRefresh)) {
+            if (manualRefresh) {
+                mTextViewTemperature.setText("");
+                mProgressBar.setVisibility(View.VISIBLE);
             }
+            TemperatureUpdaterService.startForUpdate(this);
+        } else if (manualRefresh) {
+            makeTextToast(R.string.error_message_temperature_up_to_date);
         }
     }
 

@@ -5,12 +5,11 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
-import android.preference.PreferenceManager;
 
-import fr.tvbarthel.apps.simplethermometer.TemperatureLoader;
+import fr.tvbarthel.apps.simplethermometer.services.TemperatureUpdaterService;
 import fr.tvbarthel.apps.simplethermometer.utils.ConnectivityUtils;
+import fr.tvbarthel.apps.simplethermometer.utils.PreferenceUtils;
 
 /**
  * An {@link android.appwidget.AppWidgetProvider} used to update the
@@ -69,19 +68,17 @@ public class STWidgetProvider extends AppWidgetProvider {
      * @param appWidgetIds widget ids
      */
     private void updateAppWidgets(Context context, int[] appWidgetIds) {
-        //Check if the temperature is outdated
-        boolean reloadTemperature = false;
-        SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        if (TemperatureLoader.isTemperatureOutdated(defaultSharedPreferences,
-                TemperatureLoader.UPDATE_INTERVAL_IN_MILLIS)) {
-            reloadTemperature = true;
+        if (PreferenceUtils.isTemperatureOutdated(context.getApplicationContext(), false)) {
+            // Need to update the temperature
+            TemperatureUpdaterService.startForUpdate(context);
+        } else {
+            //Build an intent to start the update service
+            final Intent intent = new Intent(context.getApplicationContext(), STWidgetUpdateService.class);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+            context.startService(intent);
         }
 
-        //Build an intent to start the update service
-        final Intent intent = new Intent(context.getApplicationContext(), STWidgetUpdateService.class);
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
-        intent.putExtra(STWidgetUpdateService.EXTRA_RELOAD_TEMPERATURE, reloadTemperature);
-        context.startService(intent);
+
     }
 
 }

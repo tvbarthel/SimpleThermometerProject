@@ -13,6 +13,11 @@ import fr.tvbarthel.apps.simplethermometer.R;
  */
 public final class PreferenceUtils {
 
+    //automatic update interval (in Millis)
+    public static final long UPDATE_INTERVAL_IN_MILLIS = 3600000;
+    //manual update interval (in Millis)
+    public static final long UPDATE_INTERVAL_IN_MILLIS_MANUAL = 600000;
+
     public static final int PREF_ID_BACKGROUND = 100;
     public static final int PREF_ID_FOREGROUND = 200;
     public static final int PREF_ID_TEXT = 300;
@@ -68,7 +73,7 @@ public final class PreferenceUtils {
      * @return the default {@link android.content.SharedPreferences}.
      */
     public static SharedPreferences getDefaultSharedPreferences(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context);
+        return PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
     }
 
 
@@ -104,10 +109,11 @@ public final class PreferenceUtils {
     /**
      * Save {@code temperatureInCelsius} in {@code sharedPreferences}
      *
-     * @param sharedPreferences    the {@link android.content.SharedPreferences} where the temperature is stored
+     * @param context              the {@link android.content.Context} used to get the {@link android.content.SharedPreferences}
      * @param temperatureInCelsius the temperature value in Celsius
      */
-    public static void storeTemperatureInCelsius(SharedPreferences sharedPreferences, float temperatureInCelsius) {
+    public static void storeTemperatureInCelsius(Context context, float temperatureInCelsius) {
+        final SharedPreferences sharedPreferences = getDefaultSharedPreferences(context);
         final SharedPreferences.Editor editor = sharedPreferences.edit();
         //save the temperature value
         editor.putFloat(PreferenceUtils.PREF_KEY_LAST_TEMPERATURE_IN_CELSIUS, temperatureInCelsius);
@@ -165,6 +171,34 @@ public final class PreferenceUtils {
      */
     public static int getPreferedColor(Context context, PreferenceId preferenceId) {
         return getDefaultSharedPreferences(context).getInt(preferenceId.mKeyColor, context.getResources().getColor(preferenceId.mDefaultColor));
+    }
+
+    /**
+     * Check if the temperature stored in the sharedPreferences is outdated.
+     *
+     * @param context       is used to retrieve the last update time
+     * @param manualRefresh true if the refresh comes from the user, false otherwise.
+     * @return true if the temperature is outdated, false otherwise.
+     */
+    public static boolean isTemperatureOutdated(Context context, Boolean manualRefresh) {
+        final SharedPreferences sharedPreferences = getDefaultSharedPreferences(context);
+        boolean isOutdated = false;
+
+        //Get the update Interval
+        long updateInterval = UPDATE_INTERVAL_IN_MILLIS;
+        if (manualRefresh) updateInterval = UPDATE_INTERVAL_IN_MILLIS_MANUAL;
+
+        //Retrieve the current time and the time of the last update (in Millis)
+        final long now = System.currentTimeMillis();
+        final long lastUpdate = sharedPreferences.getLong(PreferenceUtils.PREF_KEY_LAST_UPDATE_TIME, 0);
+
+        //Check if the temperature is outdated
+        //according to updateInterval
+        if (now - lastUpdate > updateInterval) {
+            isOutdated = true;
+        }
+
+        return isOutdated;
     }
 
     // Non instantiable class.

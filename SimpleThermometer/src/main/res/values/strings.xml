@@ -51,6 +51,7 @@
     <string name="error_message_xml_pull_parser_exception">XmlPullParserException</string>
     <string name="error_message_location_not_found">Location not found</string>
     <string name="error_message_location_provider_not_found">Location provider not allowed</string>
+    <string name="error_message_temperature_up_to_date">Up to date.</string>
 
     <!-- About fragment -->
     <string name="about_title">About</string>
