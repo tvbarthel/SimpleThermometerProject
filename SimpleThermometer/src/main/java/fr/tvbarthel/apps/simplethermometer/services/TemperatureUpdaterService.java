@@ -46,6 +46,7 @@ public class TemperatureUpdaterService extends Service implements LocationListen
     private LocationManager mLocationManager;
     private Looper mServiceLooper;
     private Handler mServiceHandler;
+    private Boolean mIsUpdatingTemperature;
 
 
     public static void startForUpdate(Context context) {
@@ -62,6 +63,7 @@ public class TemperatureUpdaterService extends Service implements LocationListen
         thread.start();
         mServiceLooper = thread.getLooper();
         mServiceHandler = new Handler(mServiceLooper);
+        mIsUpdatingTemperature = false;
     }
 
     @Override
@@ -77,8 +79,9 @@ public class TemperatureUpdaterService extends Service implements LocationListen
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (ACTION_UPDATE.equals(intent.getAction())) {
+        if (ACTION_UPDATE.equals(intent.getAction()) && !mIsUpdatingTemperature) {
             if (ConnectivityUtils.isNetworkConnected(getApplicationContext())) {
+                mIsUpdatingTemperature = true;
                 // First get a new location
                 getNewLocation();
             } else {
@@ -110,7 +113,7 @@ public class TemperatureUpdaterService extends Service implements LocationListen
                     Intent intent = new Intent(TemperatureUpdaterService.this, STWidgetProvider.class);
                     intent.setAction(STWidgetProvider.APPWIDGET_DATA_CHANGED);
                     sendBroadcast(intent);
-
+                    mIsUpdatingTemperature = false;
                     TemperatureUpdaterService.this.stopSelf();
                 } catch (SocketTimeoutException e) {
                     broadcastErrorAndStop(R.string.error_message_server_not_available);

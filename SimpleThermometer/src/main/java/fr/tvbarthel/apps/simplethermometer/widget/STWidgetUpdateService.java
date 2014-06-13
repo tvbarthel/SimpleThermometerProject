@@ -32,7 +32,7 @@ public class STWidgetUpdateService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        mAppWidgetManager = AppWidgetManager.getInstance(this.getApplicationContext());
+        mAppWidgetManager = AppWidgetManager.getInstance(this);
 
         if (intent != null) {
             mAllWidgetIds = intent.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS);
@@ -68,7 +68,7 @@ public class STWidgetUpdateService extends Service {
 
         //Update all the app widgets
         for (int widgetId : mAllWidgetIds) {
-            final RemoteViews remoteViews = new RemoteViews(applicationContext.getPackageName(), R.layout.widget);
+            final RemoteViews remoteViews = new RemoteViews(this.getPackageName(), R.layout.widget);
 
             //Use the stored values to update the app widget
             remoteViews.setTextViewText(R.id.widget_temperature, temperature);
@@ -79,7 +79,7 @@ public class STWidgetUpdateService extends Service {
             //Add a clickIntent on the app widget
             //This Intent will launch the SimpleThermometer Application
             final Intent clickIntent = new Intent(getApplicationContext(), MainActivity.class);
-            final PendingIntent pendingIntent = PendingIntent.getActivity(applicationContext, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             remoteViews.setOnClickPendingIntent(R.id.widget_root_layout, pendingIntent);
 
             //Update the app widget

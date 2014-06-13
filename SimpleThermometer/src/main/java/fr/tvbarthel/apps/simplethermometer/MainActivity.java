@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -52,13 +51,8 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
     private View mRoot;
 
 
-    /*
-        Other
-     */
     //A single Toast used to display textToast
     private Toast mTextToast;
-    // A Reference to the location manager
-    private LocationManager mLocationManager;
 
 	/*
         Activity Overrides
@@ -68,8 +62,6 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         //Retrieve the UI elements references
         mTextViewTemperature = (TextView) findViewById(R.id.activity_main_temperature);
@@ -169,12 +161,10 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
             //Display the temperature with the new unit stored in the SharedPreferences "sharedPreferences"
             displayLastKnownTemperature();
             broadcastChangeToWidgets = true;
-        } else if (sharedPreferenceKey.equals(PreferenceUtils.PREF_KEY_LAST_TEMPERATURE_IN_CELSIUS)) {
-            //Display the temperature with the new value stored in the SharedPreferences "sharedPreferences"
-            //This mainly happens when the App is displayed and an app widget background service
-            //update the temperature value.
+        } else if (sharedPreferenceKey.equals(PreferenceUtils.PREF_KEY_LAST_UPDATE_TIME)) {
+            // A new update have been completed
+            // Display the temperature with the new value stored in the SharedPreferences "sharedPreferences"
             displayLastKnownTemperature();
-            broadcastChangeToWidgets = true;
         }
 
         if (broadcastChangeToWidgets) {

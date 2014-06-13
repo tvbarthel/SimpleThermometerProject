@@ -48,8 +48,8 @@ public class STWidgetProvider extends AppWidgetProvider {
 
         if (needAnUpdate) {
             //Retrieve the Simple Thermometer Widget Ids
-            final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context.getApplicationContext());
-            final ComponentName thisWidget = new ComponentName(context.getApplicationContext(), STWidgetProvider.class);
+            final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            final ComponentName thisWidget = new ComponentName(context, STWidgetProvider.class);
             final int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
 
             //Update the Simple Thermometer Widgets
