@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="fr.tvbarthel.apps.simplethermometer" >
+<manifest
+    package="fr.tvbarthel.apps.simplethermometer"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -10,11 +11,13 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:logo="@android:color/transparent"
         android:label="@string/app_name"
+        android:logo="@android:color/transparent"
         android:theme="@style/AppTheme">
 
-        <receiver android:name=".widget.STWidgetProvider">
+        <receiver
+            android:name=".widget.STWidgetProvider"
+            android:enabled="@bool/isWidgetEnable">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
