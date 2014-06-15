@@ -1,3 +1,5 @@
 Everything you asked for, still free and open-source!
-You can now manage the background opacity, the foreground opacity and the opacity of the text.
-We made the navigation bar translucent for the 4.4 devices.
+
+New feature : you can now manage the background opacity, the foreground opacity and the opacity of the text.
+The navigation bar is now translucent for the 4.4 devices.
+Improvement and correction of the localization.

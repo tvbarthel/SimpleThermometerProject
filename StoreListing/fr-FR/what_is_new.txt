@@ -1,3 +1,5 @@
 Tout ce que vous nous avez demandé, toujours gratuit et open-source !
-Vous pouvez maintenant modifier l'opacité de l'arrière plan, du premier plan et celle du texte.
-Nous avons ajouté de la transparence à la barre de navigation pour tous les terminaux en 4.4
+
+Nouvelle fonctionnalité : vous pouvez maintenant modifier l'opacité de l'arrière plan, du premier plan et celle du texte.
+La barre de navigation est maintenant transparente pour tous les terminaux en 4.4.
+Amélioration et correction de la localisation.
