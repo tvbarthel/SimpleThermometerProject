@@ -1,6 +1,9 @@
 package fr.tvbarthel.apps.simplethermometer;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
@@ -51,8 +54,10 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
     private View mRoot;
 
 
-    //A single Toast used to display textToast
+    // A single Toast used to display textToast
     private Toast mTextToast;
+    // A simple broadcast receiver to catch error from the updater service
+    private BroadcastReceiver mBroadcastReceiver;
 
 	/*
         Activity Overrides
@@ -70,6 +75,16 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
         mEllipseBackground = (GradientDrawable) mTextViewTemperature.getBackground();
         mProgressBar = (ProgressBar) findViewById(R.id.activity_main_progress_bar);
         mRoot = findViewById(R.id.activity_main_root);
+
+        mBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent != null && TemperatureUpdaterService.ACTION_UPDATE_ERROR.equals(intent.getAction())) {
+                    makeTextToast(intent.getStringExtra(TemperatureUpdaterService.EXTRA_UPDATE_ERROR));
+                    displayLastKnownTemperature();
+                }
+            }
+        };
     }
 
     @Override
@@ -87,6 +102,9 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
         displayLastKnownTemperature();
         //refresh the temperature if it's outdated
         refreshTemperatureIfOutdated();
+        // Register a broadcast receiver for the error from the TemperatureUpdaterService
+        final IntentFilter filter = new IntentFilter(TemperatureUpdaterService.ACTION_UPDATE_ERROR);
+        registerReceiver(mBroadcastReceiver, filter);
     }
 
     @Override
@@ -96,6 +114,8 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
         PreferenceUtils.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
         //hide Toast if displayed
         hideToastIfDisplayed();
+        // Unregister the broadcast receiver
+        unregisterReceiver(mBroadcastReceiver);
     }
 
     @Override
