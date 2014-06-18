@@ -88,7 +88,7 @@ public class TemperatureUpdaterService extends Service implements LocationListen
                 broadcastErrorAndStop(R.string.error_message_network_not_connected);
             }
         }
-        return START_STICKY;
+        return START_REDELIVER_INTENT;
     }
 
     private void getNewLocation() {
