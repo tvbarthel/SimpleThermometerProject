@@ -1,5 +1,1 @@
-Tout ce que vous nous avez demandé, toujours gratuit et open-source !
-
-Nouvelle fonctionnalité : vous pouvez maintenant modifier l'opacité de l'arrière plan, du premier plan et celle du texte.
-La barre de navigation est maintenant transparente pour tous les terminaux en 4.4.
-Amélioration et correction de la localisation.
+Correction d'un bug récurrent et ajout d'une petite animation. Touchez la température !
