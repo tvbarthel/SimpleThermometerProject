@@ -78,7 +78,6 @@ public class STWidgetProvider extends AppWidgetProvider {
             context.startService(intent);
         }
 
-
     }
 
 }

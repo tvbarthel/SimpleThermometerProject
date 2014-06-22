@@ -1,5 +1,6 @@
 package fr.tvbarthel.apps.simplethermometer;
 
+import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,10 +14,16 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.facebook.rebound.SimpleSpringListener;
+import com.facebook.rebound.Spring;
+import com.facebook.rebound.SpringConfig;
+import com.facebook.rebound.SpringSystem;
 
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.AboutDialogFragment;
 import fr.tvbarthel.apps.simplethermometer.dialogfragments.ListPickerDialogFragment;
@@ -85,6 +92,10 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
                 }
             }
         };
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            initRebound();
+        }
     }
 
     @Override
@@ -196,9 +207,6 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
 
     }
 
-    /*
-        TemperatureLoader.Listener Override
-     */
     /*
         ChangeColorDialogFragment.Listener Override
      */
@@ -404,6 +412,37 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
      */
     private void displayAbout() {
         new AboutDialogFragment().show(getSupportFragmentManager(), null);
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private void initRebound() {
+        final SpringSystem springSystem = SpringSystem.create();
+        final Spring spring = springSystem.createSpring();
+        spring.setSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(40,3));
+        spring.addListener(new SimpleSpringListener() {
+            @Override
+            public void onSpringUpdate(Spring spring) {
+                float value = (float) spring.getCurrentValue();
+                float scale = 1f - (value * 0.5f);
+                mTextViewTemperature.setScaleX(scale);
+                mTextViewTemperature.setScaleY(scale);
+            }
+        });
+        mTextViewTemperature.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        spring.setEndValue(1);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        spring.setEndValue(0);
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
 }

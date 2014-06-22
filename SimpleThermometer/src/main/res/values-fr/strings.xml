@@ -44,7 +44,7 @@
         \nThomas \"Tbarthel\" Barthélémy
         \nVincent \"Vbarthel\" Barthélémy
         \n\nCode Source\nhttps://github.com/tvbarthel/ChaseWhisplyProject
-        \n\nCette Application utilise\nhttp://openweathermap.org/
+        \n\nCette Application utilise :\n&#8226; http://openweathermap.org\n&#8226; Rebound, Spring Animations for Android. Copyright © 2013, Facebook, Inc. All rights reserved.
     </string>
 
     <string name="shared_preference_color_picker_dialog_fragment_title">Choisissez une Couleur</string>
