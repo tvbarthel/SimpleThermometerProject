@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">簡単な温度計</string>
+
+    <!-- Menu action items -->
+    <string name="action_change_colors">色</string>
+    <string name="action_temperature_unit">測定単位</string>
+    <string name="action_manual_refresh">アップデート</string>
+    <string name="action_about">私達について</string>
+    <string name="action_report_a_problem">問題を連絡する</string>
+    <string name="action_more_apps">他のソフト</string>
+    <string name="action_set_opacity">不透明</string>
+
+    <!-- Color picker -->
+    <string name="change_color_fragment_background">壁神の色</string>
+    <string name="change_color_fragment_text">テキストの色</string>
+    <string name="change_color_fragment_foreground">フロント紙の色</string>
+
+    <!-- Unit picker -->
+    <string name="temperature_unit_celsius">セルシウス度</string>
+    <string name="temperature_unit_kelvin">ケルビン度</string>
+    <string name="temperature_unit_fahrenheit">ファーレンハイト度</string>
+
+    <!-- Opacity Picker -->
+    <string name="opacity_picker_title">不透明</string>
+    <string name="opacity_background">壁神の不透明</string>
+    <string name="opacity_foreground">フロント紙の不透明</string>
+    <string name="opacity_text">テキストの不透明</string>
+
+    <!-- About fragment -->
+    <string name="about_title">私達について</string>
+    <string name="about_description">簡単の温度計"というは場所によって外の温度を示す。
+        \n\nオープンソースのソフトです。
+        \n\n私たちはフランス人の学生です。
+        \nトーマス "Tbarthel" バルテレミ
+        \nヴィンセント "Vbarthel" バルテレミ
+        \nどうぞよろしくお願いします。
+        \n\ソースコード\nhttps://github.com/tvbarthel/ChaseWhisplyProject
+        \n\nソフトは\n&#8226; http://openweathermap.org\n&#8226; Rebound, Spring Animations for Android. Copyright © 2013, Facebook, Inc. All rights reserved.
+    </string>
+
+    <!-- More apps dialog fragment -->
+    <string name="dialog_more_apps_title">他のソフト</string>
+    <string name="dialog_more_apps_simple_weather_forecast_app_name">Simple Weather Forecast</string>
+    <string name="dialog_more_apps_chase_whisply_app_name">Chase Whisply</string>
+    <string name="dialog_more_apps_googly_zoo_app_name">Googly Zoo</string>
+</resources>
