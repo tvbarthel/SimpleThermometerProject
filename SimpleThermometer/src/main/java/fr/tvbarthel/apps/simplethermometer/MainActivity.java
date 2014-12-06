@@ -6,16 +6,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,7 +62,7 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
     //Progress Bar
     private ProgressBar mProgressBar;
     //The root to use as background
-    private View mRoot;
+    private View mRootView;
 
 
     // A single Toast used to display textToast
@@ -75,13 +79,16 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
+        setSupportActionBar(toolbar);
+
         //Retrieve the UI elements references
         mTextViewTemperature = (TextView) findViewById(R.id.activity_main_temperature);
         mLeftLine = findViewById(R.id.activity_main_horizontal_line_left);
         mRightLine = findViewById(R.id.activity_main_horizontal_line_right);
         mEllipseBackground = (GradientDrawable) mTextViewTemperature.getBackground();
         mProgressBar = (ProgressBar) findViewById(R.id.activity_main_progress_bar);
-        mRoot = findViewById(R.id.activity_main_root);
+        mRootView = findViewById(R.id.activity_main_root);
 
         mBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -93,9 +100,11 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
             }
         };
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             initRebound();
         }
+
+        initRootPadding();
     }
 
     @Override
@@ -127,6 +136,52 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
         hideToastIfDisplayed();
         // Unregister the broadcast receiver
         unregisterReceiver(mBroadcastReceiver);
+    }
+
+    private void initRootPadding() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            final Resources resources = getResources();
+            final boolean isPortrait = resources.getBoolean(R.bool.is_portrait);
+            final ActionBar actionBar = getSupportActionBar();
+
+            final ViewTreeObserver vto = mRootView.getViewTreeObserver();
+            if (vto.isAlive()) {
+                vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                    @Override
+                    public boolean onPreDraw() {
+                        mRootView.getViewTreeObserver().removeOnPreDrawListener(this);
+
+                        int paddingBottom = mRootView.getPaddingBottom();
+                        int paddingTop = mRootView.getPaddingTop();
+                        int paddingRight = mRootView.getPaddingRight();
+                        int paddingLeft = mRootView.getPaddingLeft();
+
+                        // Add the status bar height to the top padding.
+                        int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
+                        if (resourceId > 0) {
+                            paddingTop += resources.getDimensionPixelSize(resourceId);
+                        }
+
+                        if (isPortrait) {
+                            // Add the navigation bar height to the bottom padding.
+                            resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+                            if (resourceId > 0) {
+                                paddingBottom += resources.getDimensionPixelSize(resourceId);
+                            }
+                        } else {
+                            // Add the navigation bar width to the right padding.
+                            resourceId = resources.getIdentifier("navigation_bar_width", "dimen", "android");
+                            if (resourceId > 0) {
+                                paddingRight += resources.getDimensionPixelSize(resourceId);
+                            }
+                        }
+
+                        mRootView.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
+                        return true;
+                    }
+                });
+            }
+        }
     }
 
     @Override
@@ -328,10 +383,10 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
                 PreferenceUtils.PreferenceId.BACKGROUND);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            mRoot.setBackgroundDrawable(new ColorDrawable(
+            mRootView.setBackgroundDrawable(new ColorDrawable(
                     ColorUtils.addAlphaToColor(backgroundColor, backgroundAlpha)));
         } else {
-            mRoot.setBackground(new ColorDrawable(
+            mRootView.setBackground(new ColorDrawable(
                     ColorUtils.addAlphaToColor(backgroundColor, backgroundAlpha)));
         }
 
@@ -418,7 +473,7 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
     private void initRebound() {
         final SpringSystem springSystem = SpringSystem.create();
         final Spring spring = springSystem.createSpring();
-        spring.setSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(40,3));
+        spring.setSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(40, 3));
         spring.addListener(new SimpleSpringListener() {
             @Override
             public void onSpringUpdate(Spring spring) {

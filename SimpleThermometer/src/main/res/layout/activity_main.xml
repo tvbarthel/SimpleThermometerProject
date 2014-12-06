@@ -1,52 +1,71 @@
-<RelativeLayout
+<LinearLayout
     android:id="@+id/activity_main_root"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     tools:background="@color/holo_blue"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <View
-        android:id="@+id/activity_main_horizontal_line_left"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/activity_main_line_height"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/activity_main_line_margin"
-        android:layout_toLeftOf="@+id/activity_main_temperature"
-        android:background="@color/holo_blue_deep" />
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/activity_main_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/action_bar_background"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <View
-        android:id="@+id/activity_main_horizontal_line_right"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/activity_main_line_height"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/activity_main_line_margin"
-        android:layout_toRightOf="@+id/activity_main_temperature"
-        android:background="@color/holo_blue_deep" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/activity_main_temperature"
-        android:layout_width="@dimen/activity_main_temperature_background_size"
-        android:layout_height="@dimen/activity_main_temperature_background_size"
-        android:layout_centerInParent="true"
-        android:background="@drawable/bg_ellipse"
-        android:gravity="center"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/holo_blue"
-        android:textSize="@dimen/activity_main_temperature_text_size"
-        tools:text="104.3°F" />
+        <View
+            android:id="@+id/activity_main_horizontal_line_left"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/activity_main_line_height"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_main_line_margin"
+            android:layout_marginRight="@dimen/activity_main_line_margin"
+            android:layout_toLeftOf="@+id/activity_main_temperature"
+            android:layout_toStartOf="@+id/activity_main_temperature"
+            android:background="@color/holo_blue_deep" />
 
-    <ProgressBar
-        android:id="@+id/activity_main_progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="invisible" />
+        <View
+            android:id="@+id/activity_main_horizontal_line_right"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/activity_main_line_height"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_main_line_margin"
+            android:layout_marginRight="@dimen/activity_main_line_margin"
+            android:layout_toEndOf="@+id/activity_main_temperature"
+            android:layout_toRightOf="@+id/activity_main_temperature"
+            android:background="@color/holo_blue_deep" />
 
+        <TextView
+            android:id="@+id/activity_main_temperature"
+            android:layout_width="@dimen/activity_main_temperature_background_size"
+            android:layout_height="@dimen/activity_main_temperature_background_size"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_ellipse"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/holo_blue"
+            android:textSize="@dimen/activity_main_temperature_text_size"
+            tools:text="104.3°F" />
 
-</RelativeLayout>
+        <ProgressBar
+            android:id="@+id/activity_main_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="invisible" />
+
+    </RelativeLayout>
+
+</LinearLayout>
