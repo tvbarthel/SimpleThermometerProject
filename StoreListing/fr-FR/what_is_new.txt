@@ -1,1 +1,3 @@
-Correction d'un bug récurrent et ajout d'une petite animation. Touchez la température !
+[3.1.2] Support pour Android Lollipop et ajout de traductions japonaises.
+
+[3.1.1] Correction d'un bug récurrent et ajout d'une petite animation. Touchez la température !
