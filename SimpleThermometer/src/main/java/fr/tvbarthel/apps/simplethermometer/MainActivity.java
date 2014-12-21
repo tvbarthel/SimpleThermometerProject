@@ -104,7 +104,6 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
             initRebound();
         }
 
-        initRootPadding();
     }
 
     @Override
@@ -138,51 +137,6 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
         unregisterReceiver(mBroadcastReceiver);
     }
 
-    private void initRootPadding() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            final Resources resources = getResources();
-            final boolean isPortrait = resources.getBoolean(R.bool.is_portrait);
-            final ActionBar actionBar = getSupportActionBar();
-
-            final ViewTreeObserver vto = mRootView.getViewTreeObserver();
-            if (vto.isAlive()) {
-                vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-                    @Override
-                    public boolean onPreDraw() {
-                        mRootView.getViewTreeObserver().removeOnPreDrawListener(this);
-
-                        int paddingBottom = mRootView.getPaddingBottom();
-                        int paddingTop = mRootView.getPaddingTop();
-                        int paddingRight = mRootView.getPaddingRight();
-                        int paddingLeft = mRootView.getPaddingLeft();
-
-                        // Add the status bar height to the top padding.
-                        int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
-                        if (resourceId > 0) {
-                            paddingTop += resources.getDimensionPixelSize(resourceId);
-                        }
-
-                        if (isPortrait) {
-                            // Add the navigation bar height to the bottom padding.
-                            resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
-                            if (resourceId > 0) {
-                                paddingBottom += resources.getDimensionPixelSize(resourceId);
-                            }
-                        } else {
-                            // Add the navigation bar width to the right padding.
-                            resourceId = resources.getIdentifier("navigation_bar_width", "dimen", "android");
-                            if (resourceId > 0) {
-                                paddingRight += resources.getDimensionPixelSize(resourceId);
-                            }
-                        }
-
-                        mRootView.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
-                        return true;
-                    }
-                });
-            }
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
